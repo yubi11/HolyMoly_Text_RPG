@@ -30,7 +30,7 @@ public:
     void useItem(int index);
     void visitShop();
 
-    // Getter ¸Þ¼­µåµé
+    // Getter í•¨ìˆ˜
     string getName() const;
     int getLevel() const;
     int getHealth() const;
@@ -40,7 +40,7 @@ public:
     int getGold() const;
     vector<Item>& getInventory();
 
-    // Setter ¸Þ¼­µåµé
+    // Setter í•¨ìˆ˜
     void setHealth(int h);
     void setAttack(int a);
     void setGold(int g);
