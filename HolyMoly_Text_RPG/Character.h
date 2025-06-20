@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "Item.h"
 
 using namespace std;
@@ -18,16 +19,21 @@ private:
     int attack;
     int experience;
     int gold;
-    vector<Item> inventory;
+    //vector<Item> inventory;
+    map<string, pair<Item*, int>> inventory;
+
+    // Item 객체를 사용하는 함수
+    void useItemObject(Item* item);
 
     Character(string name);
 
 public:
     static Character* getInstance(string name = "");
+    static string getInstanceName();
 
     void displayStatus();
     void levelUp();
-    void useItem(int index);
+    void useItem(const string& item, int quantity = 1);
     void visitShop();
 
     // Getter 함수
@@ -38,15 +44,17 @@ public:
     int getAttack() const;
     int getExperience() const;
     int getGold() const;
-    vector<Item>& getInventory();
+    int getItemCount(const string& itemName);
+    //vector<Item>& getInventory();
+    map<string, pair<Item*, int>>& getInventory();
 
     // Setter 함수
     void setHealth(int h);
     void setAttack(int a);
     void setGold(int g);
     void addExperience(int exp);
-    void addItem(const Item& item);
-    void removeItem(int index);
+    void addItem(Item* item, int quantity = 1);
+    void removeItem(const string&);
     void takeDamage(int damage);
 };
 
