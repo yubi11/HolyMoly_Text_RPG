@@ -1,7 +1,13 @@
 #pragma once
 #include <iostream>
+#include <istream>
+#include <regex> // 정규표현식
+
 #include <vector>
 #include <string>
+#include <sstream>
+#include <map>
+
 #include <cmath>
 #include <algorithm>
 
@@ -14,7 +20,7 @@
 #include <chrono>
 #include <conio.h>
 
-#include <memory>s
+#include <memory>
 
 using namespace std;
 
@@ -25,7 +31,7 @@ namespace COMMON
     {
         Intro,  // 0
         Start,  // 1
-        END
+        END = 999
     };
 
     // 목록 - 텍스트 컬러 정보
@@ -47,7 +53,7 @@ namespace COMMON
         LIGHT_MAGENTA,  // 13
         LIGHT_YELLOW,   // 14
         WHITE,          // 15
-        END
+        END = 999
     };
 
     // 커서 숨기기
@@ -91,6 +97,13 @@ namespace COMMON
     inline void FnSetTextDefault()
     {
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), static_cast<int>(EColors::WHITE));
+    }
+
+    // 문자열 입력값으로 정수 판별 확인
+    inline bool FnIsNumber(const std::string& s)
+    {
+        std::regex pattern("^-?\\d+(\\.\\d+)?$"); // 정수 또는 실수
+        return std::regex_match(s, pattern);
     }
 }
 
