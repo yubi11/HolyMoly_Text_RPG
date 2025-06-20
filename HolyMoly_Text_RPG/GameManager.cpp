@@ -77,13 +77,13 @@ void GameManager::battle(Character* player)
 		uniform_int_distribution<int> dist(1, 100);
 		int randNum = dist(gen);	// 아이템 사용 확률
 
-		map<string, int> playerInventory = player->getInventory();
+		map<string, pair<Item*, int>> playerInventory = player->getInventory();
 
 		if (playerInventory.size() > 0 && randNum < eventProbability) 
 		{
 			uniform_int_distribution<int> dist(0, playerInventory.size() - 1);
 			int randIdx = dist(gen);	// 사용할 아이템 인덱스 
-			player->useItem(randIdx);
+			player->useItem(next(playerInventory.begin(), randIdx)->first);
 		}
 
 	}
@@ -126,11 +126,11 @@ void GameManager::visitShop(Character* player)
 // 플레이어 인벤토리 출력
 void GameManager::displayInventory(Character* player) 
 {
-	// player inventory map<string, int>로 변경
-	map<string, int>& inventory = player->getInventory();
+	// player inventory map<string, pair<Item*,int>>로 변경
+	map<string, pair<Item*,int>>& inventory = player->getInventory();
 	for (auto p : inventory) 
 	{
-		cout << p.first << " " << p.second << "개" << endl;
+		cout << p.first << " " << p.second.second << "개" << endl;
 	}
 }
 
@@ -219,7 +219,7 @@ void GameManager::StartGame()
 		Item* item = monster->dropItem();
 		if (item != nullptr)
 		{
-			gamePlayer->addItem(*item);
+			gamePlayer->addItem(item);
 			cout << monster->getName() << "에게 " << item->getName() << "을(를) 얻었습니다." << endl;
 		}
 
