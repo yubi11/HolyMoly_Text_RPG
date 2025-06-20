@@ -16,6 +16,9 @@
     <Filter Include="소스 파일\Contents">
       <UniqueIdentifier>{95f0250f-ba17-45d5-ae7b-02329bc9b966}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\_common">
+      <UniqueIdentifier>{57870696-77a9-4f1b-b85b-5fb1a2a55f4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Shop.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>헤더 파일\_common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
