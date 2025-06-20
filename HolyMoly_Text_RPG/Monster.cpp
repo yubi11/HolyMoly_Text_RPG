@@ -39,11 +39,13 @@ Item* Troll::dropItem() // 체력, 공격 포션
 	else return nullptr;
 }
 
-int main()
+Item* BossMonster::dropItem() // 체력, 공격 포션
 {
-	Monster* mon = new Goblin(5);
-		
-	mon->getAttack();
-	
-	return 0;
+	int randNum = getRandom(99);
+
+	if (randNum < 30)
+	{
+		return getRandom(1) ? new HealthPotion() : new AttackBoost();
+	}
+	else return nullptr;
 }
