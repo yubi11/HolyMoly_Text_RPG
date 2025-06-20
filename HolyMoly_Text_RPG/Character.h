@@ -28,6 +28,10 @@ private:
     Character(string name);
 
 public:
+    // 복사 생성자와 대입 연산자를 삭제하여 복사 방지 => 싱글톤 디자인패턴 사용
+    Character(const Character&) = delete;
+    Character& operator=(const Character&) = delete;
+    //정적 메서드: 유일한 캐릭터 인스턴스 반환 => 싱글톤에 따라 캐릭터 객체는 반드시 하나만 존재함.
     static Character* getInstance(string name = "");
     static string getInstanceName();
 
