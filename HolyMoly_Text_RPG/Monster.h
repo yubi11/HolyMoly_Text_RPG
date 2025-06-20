@@ -11,6 +11,16 @@ protected:
 	string name;
 	int health = 0;
 	int attack = 0;
+
+
+	int getRandom(int n) { // 1부터 n 까지 랜덤
+		static std::random_device rd;
+		static std::mt19937 gen(rd());
+
+		std::uniform_int_distribution<> dis(0, n);
+
+		return dis(gen);
+	}
 	
 public:
 	Monster() {};
@@ -24,22 +34,13 @@ public:
 	virtual ~Monster() {};
 
 	// Getter 함수
-	virtual string getName() const { return name; }			// 몬스터 이름
-	virtual int getHealth() const  { return health; }		// 몬스터 체력 
-	virtual int getAttack() const  { return attack; }		// 몬스터 공격
+	virtual string getName() const;		// 몬스터 이름
+	virtual int getHealth() const;	// 몬스터 체력 
+	virtual int getAttack() const;		// 몬스터 공격
 	
-	virtual void takeDamage(int damage) { health -= damage; };	// 몬스터 피해
+	virtual void takeDamage(int damage);	// 몬스터 피해
 	virtual Item* dropItem() = 0;				// 아이템 드롭
 	
-
-	int getRandom(int n) { // 1부터 n 까지 랜덤
-		static std::random_device rd;
-		static std::mt19937 gen(rd()); 
-
-		std::uniform_int_distribution<> dis(0, n);  
-
-		return dis(gen);
-	}
 };
 
 class Goblin :public Monster {
@@ -67,8 +68,9 @@ public:
 };
 
 class BossMonster :public Monster {
+	int power = 1.5;
 public:
-	BossMonster(int level) : Monster(level) {
+	BossMonster(int level) : Monster(level * power) {
 		name = "BossMonster";
 	}
 	Item* dropItem() override;
