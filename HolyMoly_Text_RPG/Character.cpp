@@ -1,1 +1,133 @@
+#include <iostream>
+#include <map>
+#include <string>
+#include "Item.h"
 #include "Character.h"
+using namespace std;
+
+Character* Character::instance = nullptr;
+
+Character::Character(string n) : name(n), level(1), health(200),
+maxHealth(200), attack(30),
+experience(0), gold(0) {
+}
+
+Character* Character::getInstance(string name) {
+    if (instance == nullptr) {
+        if (name.empty()) {
+            name = "Unknown";
+        }
+        instance = new Character(name);
+    }
+    return instance;
+}
+
+string Character::getInstanceName() {
+    if (instance != nullptr) {
+        return instance->getName();
+    }
+    return "";
+}
+
+void Character::displayStatus() {
+    cout << "\n=== " << name << " 상태 ===" << endl;
+    cout << "레벨: " << level << endl;
+    cout << "체력: " << health << "/" << maxHealth << endl;
+    cout << "공격력: " << attack << endl;
+    cout << "경험치: " << experience << "/100" << endl;
+    cout << "골드: " << gold << endl;
+    cout << "보유 아이템 종류: " << inventory.size() << endl;
+}
+
+void Character::levelUp() {
+    if (experience >= 100 && level < 10) {
+        level++;
+        maxHealth += level * 20;
+        attack += level * 5;
+        health = maxHealth;
+        experience -= 100;
+        cout << "레벨업! 현재 레벨: " << level << endl;
+    }
+}
+
+void Character::useItem(const string& itemName, int quantity = 1) {
+    auto it = inventory.find(itemName);
+    if (it != inventory.end() && it->second.second >= quantity) {
+        for (int i = 0; i < quantity; i++) {
+            it->second.first->use(this);
+        }
+        it->second.second -= quantity;
+        if (it->second.second == 0) {
+            inventory.erase(it);
+        }
+    };
+}
+
+void Character::useItemObject(Item* item) { //혹시 몰라 작성
+    item->use(this);
+}
+
+void Character::addItem(Item* item, int quantity = 1) {
+    if (item == nullptr) return;
+
+    string itemName = item->getName();
+    auto it = inventory.find(itemName);
+
+    if (it != inventory.end()) {
+        // 같은 이름이면 개수만 증가 (같은 효과이므로 문제없음)
+        it->second.second += quantity;
+    }
+    else {
+        // 새로운 아이템 추가
+        inventory[itemName] = make_pair(item, quantity);
+    }
+}
+
+int Character::getItemCount(const string& itemName) {
+    auto it = inventory.find(itemName);
+    return (it != inventory.end()) ? it->second.second : 0;
+}
+
+void Character::removeItem(const string& itemName) {
+    auto it = inventory.find(itemName);
+    if (it != inventory.end()) {
+        inventory.erase(it);
+    }
+}
+
+void Character::takeDamage(int damage) {
+    health -= damage;
+    if (health < 0) health = 0;
+    cout << name << " 체력: " << health << endl;
+}
+
+void Character::visitShop() {
+    // GameManager에서 처리
+}
+
+// Getter 메서드들
+string Character::getName() const { return name; }
+int Character::getLevel() const { return level; }
+int Character::getHealth() const { return health; }
+int Character::getMaxHealth() const { return maxHealth; }
+int Character::getAttack() const { return attack; }
+int Character::getExperience() const { return experience; }
+int Character::getGold() const { return gold; }
+map<string, pair<Item*, int>>& Character::getInventory() { return inventory; }
+
+// Setter 메서드들
+void Character::setHealth(int h) {
+    health = h;
+    if (health > maxHealth) health = maxHealth;
+}
+
+void Character::setAttack(int a) { attack = a; }
+void Character::setGold(int g) { gold = g; }
+
+void Character::addExperience(int exp) {
+    experience += exp;
+    cout << exp << " 경험치를 획득했습니다!" << endl;
+    if (experience >= 100) {
+        levelUp();
+    }
+}
