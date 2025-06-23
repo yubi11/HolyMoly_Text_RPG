@@ -10,6 +10,8 @@ int HealthPotion::getIncreaseAmount() { return increaseAmount; }
 void HealthPotion::use(Character* character) {
     // 캐릭터 체력 회복 로직 구현 예정
 }
+
 void HealthPotion::display() const {
     cout << "[아이템 : " << name << "] 효과 : 체력 +" << increaseAmount
-         << " / 가격 : " << price << " Gold" << endl;
+        << " / 가격 : " << price << " Gold" << endl;
+}

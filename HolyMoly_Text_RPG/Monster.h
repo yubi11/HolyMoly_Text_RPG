@@ -2,7 +2,8 @@
 #include <iostream>
 #include <random>
 
-#include "Item.h"
+#include "HealthPotion.h"
+#include "AttackBoost.h"
 
 using namespace std;
 

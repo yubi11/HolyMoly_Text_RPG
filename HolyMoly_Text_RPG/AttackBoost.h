@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+using namespace std;
 
 class AttackBoost : public Item
 {
