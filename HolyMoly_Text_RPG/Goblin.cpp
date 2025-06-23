@@ -2,7 +2,7 @@
 
 Goblin::Goblin(int level) : Monster(level) {
 	name = "Goblin";
-	RandomUtil::GetRandomInt(5, 10);
+    gold = RandomUtil::GetRandomInt(5, 10);
 }
 
 Item* Goblin::dropItem() 
@@ -16,7 +16,7 @@ int Goblin::dropGold()
 	return gold;
 }
 
-void Orc::displayMonster() {
+void Goblin::displayMonster() {
     vector<string> MonsterAsciiArt = {
     "       ,      ,       ",
     "      /(.-\"\"-.)\\      ",
