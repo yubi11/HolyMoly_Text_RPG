@@ -25,7 +25,6 @@ private:
 	const int experience = 50;			// 경험치 증가율
 	Character* player;				// 플레이어 캐릭터
 	bool isPlayerDead = false;			// 플레이어 사망여부
-	Shop gameShop;				// 상점
 	unique_ptr<Monster> monster;		// 몬스터 포인터
 	vector<string> playLog;				// 플레이 기록
 

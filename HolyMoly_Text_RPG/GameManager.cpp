@@ -161,6 +161,7 @@ void GameManager::visitShop()
 	{
 		// 화면 지우고 상점만 표시
 		system("cls");
+		Shop gameShop;
 		gameShop.OnEnter(player);
 
 	}
