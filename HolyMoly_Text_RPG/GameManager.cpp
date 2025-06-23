@@ -27,6 +27,16 @@ bool GameManager::getIsPlayerDead()
 {
 	return isPlayerDead;
 }
+//get monsterCount
+int GameManager::getMonsterCount() 
+{
+	return monsterCount;
+}
+//get playLog
+vector<string>& GameManager::getPlayLog() 
+{
+	return playLog;
+}
 
 // level 기반으로 랜덤 몬스터 생성
 void GameManager::generateMonster(int level)
@@ -71,6 +81,7 @@ void GameManager::displayBattleResult() {
 		string log = player->getName() + "이(가) 레벨 "
 			+ to_string(level) + " " + monster->getName() + "을(를) 처치했습니다.";
 		addPlayLog(log);
+		monsterCount++;
 	}
 }
 
@@ -209,9 +220,9 @@ void GameManager::displayPlayLog()
 
 // 플레이어 생성
 void GameManager::createPlayer()
-{
+{	
 	string name = "";
-	cout << "이름을 입력하세요: ";
+	/*cout << "이름을 입력하세요: ";*/
 	getline(cin, name);
 	cin.ignore();
 	this->player = Character::getInstance(name);

@@ -23,9 +23,10 @@ private:
 	int level = 1;						// 시작 레벨
 	const int eventProbability = 10;	// 배틀 중 아이템 사용 확률
 	const int experience = 50;			// 경험치 증가율
-	Character* player;				// 플레이어 캐릭터
+	Character* player;					// 플레이어 캐릭터
 	bool isPlayerDead = false;			// 플레이어 사망여부
 	unique_ptr<Monster> monster;		// 몬스터 포인터
+	int monsterCount = 0;				// 잡은 몬스터 수
 	vector<string> playLog;				// 플레이 기록
 
 
@@ -51,6 +52,8 @@ public:
 	Character* getPlayer();
 	Monster* getMonster();
 	bool getIsPlayerDead();
+	int getMonsterCount();
+	vector<string>& getPlayLog();
 };
 
 
