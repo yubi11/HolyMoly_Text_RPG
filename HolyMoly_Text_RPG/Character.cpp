@@ -21,6 +21,12 @@ Character* Character::getInstance(string name) {
     }
     return instance;
 }
+Character::~Character() {
+    for (auto& item : inventory) {
+        delete item.second.first;
+    }
+    inventory.clear();
+}
 
 string Character::getInstanceName() {
     if (instance != nullptr) {
@@ -58,6 +64,7 @@ void Character::useItem(const string& itemName, int quantity = 1) {
         }
         it->second.second -= quantity;
         if (it->second.second == 0) {
+            delete it->second.first;
             inventory.erase(it);
         }
     };
@@ -76,6 +83,7 @@ void Character::addItem(Item* item, int quantity = 1) {
     if (it != inventory.end()) {
         // 같은 이름이면 개수만 증가 (같은 효과이므로 문제없음)
         it->second.second += quantity;
+        delete item; // 같은 아이템이면 새로운 포인터 삭제 (중복 방지)
     }
     else {
         // 새로운 아이템 추가
@@ -88,9 +96,16 @@ int Character::getItemCount(const string& itemName) {
     return (it != inventory.end()) ? it->second.second : 0;
 }
 
-void Character::removeItem(const string& itemName) {
+void Character::removeItem(const string& itemName, int quantity = 1) {
     auto it = inventory.find(itemName);
-    if (it != inventory.end()) {
+    if (it != inventory.end() && it->second.second >= quantity) {
+        it->second.second -= quantity;
+    }
+    else if (it != inventory.end() && it->second.second < quantity) { //보유 아이템 수량보다 많은 수 입력 시 수량 0개.
+        it->second.second = 0;
+    }
+    if (it->second.second == 0) {
+        delete it->second.first;
         inventory.erase(it);
     }
 }

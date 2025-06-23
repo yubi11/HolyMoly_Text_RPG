@@ -26,6 +26,7 @@ private:
     void useItemObject(Item* item);
 
     Character(string name);
+    ~Character();
 
 public:
     // 복사 생성자와 대입 연산자를 삭제하여 복사 방지 => 싱글톤 디자인패턴 사용
@@ -58,7 +59,7 @@ public:
     void setGold(int g);
     void addExperience(int exp);
     void addItem(Item* item, int quantity = 1);
-    void removeItem(const string&);
+    void removeItem(const string&, int quantity = 1);
     void takeDamage(int damage);
 };
 
