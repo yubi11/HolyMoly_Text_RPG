@@ -56,7 +56,7 @@ void Character::levelUp() {
     }
 }
 
-void Character::useItem(const string& itemName, int quantity = 1) {
+void Character::useItem(const string& itemName, int quantity) {
     auto it = inventory.find(itemName);
     if (it != inventory.end() && it->second.second >= quantity) {
         for (int i = 0; i < quantity; i++) {
@@ -74,7 +74,7 @@ void Character::useItemObject(Item* item) { //혹시 몰라 작성
     item->use(this);
 }
 
-void Character::addItem(Item* item, int quantity = 1) {
+void Character::addItem(Item* item, int quantity) {
     if (item == nullptr) return;
 
     string itemName = item->getName();
@@ -96,7 +96,7 @@ int Character::getItemCount(const string& itemName) {
     return (it != inventory.end()) ? it->second.second : 0;
 }
 
-void Character::removeItem(const string& itemName, int quantity = 1) {
+void Character::removeItem(const string& itemName, int quantity) {
     auto it = inventory.find(itemName);
     if (it != inventory.end() && it->second.second >= quantity) {
         it->second.second -= quantity;

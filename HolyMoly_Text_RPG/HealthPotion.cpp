@@ -1,17 +1,20 @@
 #include "HealthPotion.h"
+#include "Character.h"
 #include <iostream>
 using namespace std;
 
-HealthPotion::HealthPotion() : name("Health Potion"), price(10), increaseAmount(50) {}
+HealthPotion::HealthPotion() : name("Health Potion"), price(10), value(50) {}
 
-string HealthPotion::getName() { return name; }
-int HealthPotion::getPrice() { return price; }
-int HealthPotion::getIncreaseAmount() { return increaseAmount; }
+string HealthPotion::getName() const { return name; }
+int HealthPotion::getPrice() const { return price; }
+int HealthPotion::getItemValue() const { return value; }
 void HealthPotion::use(Character* character) {
-    // 캐릭터 체력 회복 로직 구현 예정
+    int current = character->getHealth();
+    character->setHealth(current + value);
+    cout << character->getName() << "이(가) " << name << "을(를) 사용하여 " << value << " 체력을 회복했습니다." << endl;
 }
 
 void HealthPotion::display() const {
-    cout << "[아이템 : " << name << "] 효과 : 체력 +" << increaseAmount
+    cout << "[아이템 : " << name << "] 효과 : 체력 + " << value
         << " / 가격 : " << price << " Gold" << endl;
 }

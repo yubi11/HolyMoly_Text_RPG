@@ -2,16 +2,14 @@
 #include "Item.h"
 using namespace std;
 
-class HealthPotion : public Item
+class rottenMeat : public Item
 {
 private:
     string name;
     int price;
     int value;
-
 public:
-    HealthPotion();
-    
+    rottenMeat();
     string getName() const override;
     int getPrice() const override;
     int getItemValue() const override;

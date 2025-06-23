@@ -165,7 +165,7 @@ void Shop::DisplayItems(Character* player)
 			break;
 		}
 
-		cout << " +" << itemPtr->getIncreaseAmount() << ")\t: " << itemPtr->getPrice() << " 골드" << endl;
+		cout << " +" << itemPtr->getItemValue() << ")\t: " << itemPtr->getPrice() << " 골드" << endl;
 	}
 
 	//==========================================

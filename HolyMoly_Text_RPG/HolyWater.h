@@ -1,8 +1,9 @@
 #pragma once
+#pragma once
 #include "Item.h"
 using namespace std;
 
-class HealthPotion : public Item
+class HolyWater : public Item
 {
 private:
     string name;
@@ -10,8 +11,8 @@ private:
     int value;
 
 public:
-    HealthPotion();
-    
+    HolyWater();
+
     string getName() const override;
     int getPrice() const override;
     int getItemValue() const override;

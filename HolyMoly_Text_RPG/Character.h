@@ -11,7 +11,7 @@ using namespace std;
 
 class Character {
 private:
-    static Character* instance;
+    static Character* instance; // 싱글톤을 위한 캐릭터 객채 인스턴스
     string name;
     int level;
     int health;
@@ -20,7 +20,7 @@ private:
     int experience;
     int gold;
     //vector<Item> inventory;
-    map<string, pair<Item*, int>> inventory;
+    map<string, pair<Item*, int>> inventory; //아이템의 이름(string)을 키 값으로 받고 <아이템 객체의 포인터, 수량(int)>를 갖는 맵을 인벤토리로 사용.
 
     // Item 객체를 사용하는 함수
     void useItemObject(Item* item);

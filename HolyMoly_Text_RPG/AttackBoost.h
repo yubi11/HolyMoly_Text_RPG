@@ -7,13 +7,13 @@ class AttackBoost : public Item
 private:
     string name;
     int price;
-    int increaseAmount;
+    int value;
 
 public:
     AttackBoost();
-    string getName() override;
-    int getPrice() override;
-    int getIncreaseAmount() override;
+    string getName() const override;
+    int getPrice() const override;
+    int getItemValue() const override;
     void use(Character* character) override;
     void display() const override;
 };
