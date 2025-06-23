@@ -12,4 +12,5 @@ void AttackBoost::use(Character* character) {
 }
 void AttackBoost::display() const {
     cout << "[아이템: " << name << "] 효과: 공격력 +" << increaseAmount
-         << " / 가격: " << price << " Gold" << endl;
+        << " / 가격: " << price << " Gold" << endl;
+}
