@@ -4,8 +4,10 @@
 
 class Orc :public Monster {
 public:
-	Orc(int level) : Monster(level) {
-		name = "Orc";
-	}
+	Orc(int level);
+
 	Item* dropItem() override;
+	int dropGold() override;
+
+	void displayMonster() override;
 };

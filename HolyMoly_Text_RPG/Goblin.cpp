@@ -1,12 +1,48 @@
-#include "Goblin.h"
+癤�#include "Goblin.h"
 
-Item* Goblin::dropItem() // 체력 포션만 갖고 있음
+Goblin::Goblin(int level) : Monster(level) {
+	name = "Goblin";
+	RandomUtil::GetRandomInt(5, 10);
+}
+
+Item* Goblin::dropItem() 
 {
-	int randNum = getRandom(99);
+	return pickItem(ItemType::HealthPotion);
+}
 
-	if (randNum < 30)
-	{
-		return new HealthPotion();
-	}
-	else return nullptr;
+
+int Goblin::dropGold()
+{
+	return gold;
+}
+
+void Orc::displayMonster() {
+    vector<string> MonsterAsciiArt = {
+    "       ,      ,       ",
+    "      /(.-\"\"-.)\\      ",
+    "   |\\  \\/      \\/  /|  ",
+    "   | \\ / =.  .= \\ / |   ",
+    "  \\( \\   o\\/o   / )/  ",
+    "   \\_, '-/  \\-' ,_/   ",
+    "     /   \\__/   \\     ",
+    "     \\ \\__/\\__/ /     ",
+    "   ___\\ \\|--|/ /___   ",
+    " /`    \\      /    `\\ ",
+    " /       '----'       \\ "
+    };
+
+
+    int consoleWidth = 90;
+
+    FnSetTextColor(EColors::RED);
+    for (auto& s : MonsterAsciiArt)
+    {
+        int s_len = s.length();
+        int padding = (consoleWidth - s_len) / 2;
+        cout << setw(padding + s_len) << right << s << endl;
+        FnSleep(100);
+    }
+
+    cout << endl;
+    FnSetTextDefault();
 }

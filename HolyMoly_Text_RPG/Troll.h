@@ -4,8 +4,11 @@
 
 class Troll :public Monster {
 public:
-	Troll(int level) : Monster(level) {
-		name = "Troll";
-	}
+	Troll(int level);
+
 	Item* dropItem() override;
+	int dropGold() override;
+
+	void displayMonster() override;
+
 };

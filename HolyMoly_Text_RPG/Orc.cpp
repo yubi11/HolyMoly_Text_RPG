@@ -1,11 +1,17 @@
 #include "Orc.h"
 
-Item* Orc::dropItem() // 공격 포션만 갖고 있음
+Orc::Orc(int level) : Monster(level) {
+	name = "Orc";
+	gold = RandomUtil::GetRandomInt(7, 15);
+}
+
+Item* Orc::dropItem()
 {
-	int randNum = getRandom(99);
-	if (randNum < 30)
-	{
-		return new AttackBoost();
-	}
-	else return nullptr;
+	return pickItem(ItemType::AttackBoost);
+}
+
+
+int Orc::dropGold()
+{
+	return gold;
 }

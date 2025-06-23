@@ -2,10 +2,12 @@
 
 #include "Monster.h"
 
-class Goblin :public Monster {
+class Goblin :public Monster { 
 public:
-	Goblin(int level) : Monster(level) {
-		name = "Goblin";
-	}
+	Goblin(int level);
+
 	Item* dropItem() override;
+	int dropGold() override;
+
+	void displayMonster() override;
 };
