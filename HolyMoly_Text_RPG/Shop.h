@@ -478,7 +478,7 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 	}
 	else
 	{// EItemRegular, EItemSpecial 이외의 enum 타입에 대한 처리
-		static_assert(dependent_false<TEnum>, "Unsupported enum type.");
+		static_assert(dependent_false<TEnum>::value, "Unsupported enum type.");
 	}
 }
 
@@ -531,6 +531,6 @@ inline void Shop::RegisterItem(Character* player, TEnum _itemType, int _quantity
 	}
 	else
 	{// EItemRegular, EItemSpecial 이외의 enum 타입에 대한 처리
-		static_assert(dependent_false<TEnum>, "Unsupported enum type");
+		static_assert(dependent_false<TEnum>::value, "Unsupported enum type");
 	}
 }//END-inline void Shop::RegisterItem
