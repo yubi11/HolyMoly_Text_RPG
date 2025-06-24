@@ -7,7 +7,7 @@ HolyWater::HolyWater() : name("Holy Water"), price(50), value(80) {}
 
 string HolyWater::getName() const { return name; }
 int HolyWater::getPrice() const { return price; }
-//int HolyWater::getItemValue() const { return value; }
+int HolyWater::getItemValue() const { return value; }
 void HolyWater::use(Character* character) {
     int currentHealth = character->getHealth();
     int currentAttack = character->getAttack();
