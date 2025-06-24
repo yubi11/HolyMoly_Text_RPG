@@ -1,5 +1,4 @@
-#include "StartGame.cpp"
-#include "GameManager.h"
+#include "StartGame.h"
 
 int main() 
 {

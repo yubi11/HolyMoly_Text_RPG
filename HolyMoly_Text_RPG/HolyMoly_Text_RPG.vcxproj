@@ -172,6 +172,7 @@
     <ClInclude Include="RandomUtil.h" />
     <ClInclude Include="rottenMeat.h" />
     <ClInclude Include="Shop.h" />
+    <ClInclude Include="StartGame.h" />
     <ClInclude Include="Troll.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

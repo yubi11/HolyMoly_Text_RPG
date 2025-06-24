@@ -1,5 +1,4 @@
-#include "GameManager.h"
-#include "ConsoleUI.h"
+#include "StartGame.h"
 
 
 void StartGame(GameManager& gm)
