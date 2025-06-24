@@ -90,13 +90,12 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>소스 파일\Item</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="ChaosOrb.h">
       <Filter>헤더 파일\Item</Filter>
     </ClCompile>
     <ClCompile Include="ChaosOrb.cpp">
       <Filter>소스 파일\Item</Filter>
-=======
+	</ClCompile>
     <ClCompile Include="DisplayBattleResult.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
@@ -120,7 +119,6 @@
     </ClCompile>
     <ClCompile Include="Title.cpp">
       <Filter>소스 파일\UI</Filter>
->>>>>>> 8954a61bb64685b5ab9e799674d34e4074328e35
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
