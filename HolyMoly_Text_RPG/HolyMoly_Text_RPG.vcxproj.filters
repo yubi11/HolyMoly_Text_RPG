@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\UI">
       <UniqueIdentifier>{630d0365-f51c-40ab-bb1a-ec74dc3cfb50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Util">
+      <UniqueIdentifier>{b3cd876a-c18b-4372-9f5f-fe693e46d7af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>소스 파일\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="RandomUtil.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="StartGame.cpp">
       <Filter>소스 파일</Filter>
@@ -95,7 +95,7 @@
     </ClCompile>
     <ClCompile Include="ChaosOrb.cpp">
       <Filter>소스 파일\Item</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="DisplayBattleResult.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
@@ -119,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="Title.cpp">
       <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomUtil.cpp">
+      <Filter>소스 파일\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

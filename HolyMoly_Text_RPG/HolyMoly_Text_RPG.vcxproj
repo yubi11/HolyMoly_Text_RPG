@@ -144,6 +144,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Orc.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="PressEnter.cpp" />
     <ClCompile Include="RandomUtil.cpp" />
     <ClCompile Include="rottenMeat.cpp" />

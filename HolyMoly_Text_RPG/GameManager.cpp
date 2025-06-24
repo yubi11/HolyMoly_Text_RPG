@@ -1,16 +1,7 @@
 #include "GameManager.h"
 #include <iostream>
 
-// string format 가운데 정렬
-string GameManager::fillSides(const string& s, int width, char fillChar = ' ') 
-{
-	int totalFill = width - s.size();
-	if (totalFill <= 0) return s;
 
-	int left = totalFill / 2;
-	int right = totalFill - left;
-	return string(left, fillChar) + s + string(right, fillChar);
-}
 //get level
 int GameManager::getLevel()
 {
@@ -103,9 +94,9 @@ void GameManager::battle()
 	string playerName = player->getName();
 	string monsterName = monster->getName();
 	int consoleWidth = 90;
-	cout << "========레벨 " << level << "========" << endl;
-	cout << fillSides("레벨 " + to_string(level), consoleWidth, '=') << endl;
-	cout << fillSides("야생의 " + monsterName + "이(가) 나타났습니다!", consoleWidth, ' ') << endl << endl;
+
+	cout << RandomUtil::fillSides("레벨 " + to_string(level), consoleWidth, '=') << endl;
+	cout << RandomUtil::fillSides("야생의 " + monsterName + "이(가) 나타났습니다!", consoleWidth, ' ') << endl << endl;
 
 	while (1)
 	{
@@ -250,12 +241,12 @@ string GameManager::getPlayerName()
 	return name;
 }
 // 플레이어 직업 받아오기
-int GameManager::getPlayerJob(vector<string>& job)
+int GameManager::getPlayerJob()
 {
 	string str;
 	getline(cin, str);
 
-	while (!FnIsNumber(str) || stoi(str) > job.size())
+	while (!FnIsNumber(str))
 	{
 		cout << "알맞은 번호를 입력하세요: ";
 		getline(cin, str);

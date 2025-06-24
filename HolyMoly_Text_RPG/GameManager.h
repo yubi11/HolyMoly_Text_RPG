@@ -46,7 +46,7 @@ public:
 	void displayInventory();
 	void displayPlayLog();
 	string getPlayerName();
-	int getPlayerJob(vector<string>& job);
+	int getPlayerJob();
 
 	//Getter
 	int getLevel();
@@ -59,9 +59,6 @@ public:
 
 	//Setter
 	void setLevel(int level);
-
-	// string 가운데 정렬, format
-	string fillSides(const string& s, int width, char fillChar = ' ');
 
 };
 

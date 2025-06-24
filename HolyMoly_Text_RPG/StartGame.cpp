@@ -18,22 +18,34 @@ void StartGame(GameManager& gm)
 	vector<string> job =
 	{
 		"1. 전사",
-		"2. 탱커",
+		"2. 팔라딘",
 		"3. 상인"
 	};
 	ConsoleUI::getPlayerJob(job);
-	int playerJob = gm.getPlayerJob(job);
+	int playerJob = gm.getPlayerJob();
 
 	// 직업, 이름 출력
+	string playerDetail;
+	if (playerJob > job.size())
+	{
+		playerDetail = "가지지 못한 자";
+	}
+	else
+	{
+		playerDetail = job[playerJob - 1].substr(job[playerJob - 1].find(" ") + 1);
+	}
+	playerDetail += ", " + playerName;
 	FnSetTextColor(EColors::YELLOW);
-	cout << setfill(' ') << setw(ConsoleUI::consoleWidth) << right << job[playerJob - 1].substr(job[playerJob - 1].find(" ") + 1) + ", " + playerName << endl;
+	cout << setfill(' ') << setw(ConsoleUI::consoleWidth) << right << playerDetail << endl;
 	FnSetTextDefault();
 
+	// 플레이어 인스턴스 받아오기
 	gm.createPlayer(playerName, playerJob);
 
 	Character* gamePlayer = gm.getPlayer();
 	int level = gamePlayer->getLevel();
 
+	// 배틀
 	while (level < 10)
 	{
 
@@ -41,6 +53,10 @@ void StartGame(GameManager& gm)
 		gm.generateMonster(level);
 		Monster* monster = gm.getMonster();
 
+		// 배틀 시작 전 씬 플레이
+		ConsoleUI::playScene();
+
+		// 배틀 시작
 		monster->displayMonster();
 		gm.battle();
 		gm.addBattleLog();
