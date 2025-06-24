@@ -25,7 +25,7 @@ void StartGame(GameManager& gm)
 
 	// 직업, 이름 출력
 	string playerDetail;
-	if (playerJob > job.size())
+	if (playerJob > job.size() || playerJob <= 0)
 	{
 		playerDetail = "가지지 못한 자";
 	}
