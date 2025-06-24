@@ -1,7 +1,7 @@
 #pragma once
 #include "common.h"
 
-// í…œí”Œë¦¿ í•¨ìˆ˜ ì •ì˜ë¥¼ ìœ„í•´ í—¤ë” íŒŒì¼ì— í¬í•¨
+// ÅÛÇÃ¸´ ÇÔ¼ö Á¤ÀÇ¸¦ À§ÇØ Çì´õ ÆÄÀÏ¿¡ Æ÷ÇÔ
 //-----------------------------------------
 #include "Character.h"
 #include "Item.h"
@@ -41,137 +41,137 @@ public:
 	//Shop();
 	Shop(Character* player, bool _isSpecial = false);
 
-	// ìƒì  ì§„ì…
+	// »óÁ¡ ÁøÀÔ
 	void OnEnter(Character* player);
 
-	// ìƒì  ë‚˜ê°€ê¸°
+	// »óÁ¡ ³ª°¡±â
 	bool OnExit(Character* player);
 
-	// ì¶œë ¥ - íŒë§¤ì¤‘ì¸ ì•„ì´í…œ ëª©ë¡
+	// Ãâ·Â - ÆÇ¸ÅÁßÀÎ ¾ÆÀÌÅÛ ¸ñ·Ï
 	void DisplayItems(Character* player);
 
-	// êµ¬ë§¤
+	// ±¸¸Å
 	void BuyItem(Character* player);
 
-	// íŒë§¤
+	// ÆÇ¸Å
 	void SellItem(Character* player);
 
 private:
 	/*
-		ì¤‘ë³µ ë‚´ìš©ì„ í•¨ìˆ˜ë¡œ êµ¬í˜„
+		Áßº¹ ³»¿ëÀ» ÇÔ¼ö·Î ±¸Çö
 	*/
-	// ì¶œë ¥ - í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬
+	// Ãâ·Â - ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸®
 	template <typename TEnum>
 	void DisplayPlayerInventory(Character* player, bool _isSell, bool _isSuccessDeal = false, TEnum _item = static_cast<TEnum>(-1), string _key = "");
 
-	// ì¶œë ¥ - ì•„ìŠ¤í‚¤ ì•„íŠ¸
+	// Ãâ·Â - ¾Æ½ºÅ° ¾ÆÆ®
 	void PrintAsciiArt(int _type);
 
-	// ì¶œë ¥ - í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡
+	// Ãâ·Â - ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×
 	void PrintPlayerGold(Character* player, bool _isEnoughGold);
 
-	// ì¶œë ¥ - Yes/No
+	// Ãâ·Â - Yes/No
 	void PrintYesNoMenu();
 
-	// ì¶œë ¥ - ì¸ë²¤í† ë¦¬ ë¹ˆ ê²½ìš°, ë¬¸êµ¬
+	// Ãâ·Â - ÀÎº¥Åä¸® ºó °æ¿ì, ¹®±¸
 	void PrintEmptyInventoryMessage();
 
-	// ì¶œë ¥ - êµ¬ë§¤ ë¶ˆê°€í•œ ê²½ìš°
+	// Ãâ·Â - ±¸¸Å ºÒ°¡ÇÑ °æ¿ì
 	void PrintPurchaseNotPossible(Character* player, bool _isAdditional);
 
-	// ì¶œë ¥ - íŒë§¤ ë¶ˆê°€í•œ ê²½ìš°
+	// Ãâ·Â - ÆÇ¸Å ºÒ°¡ÇÑ °æ¿ì
 	void PrintSaleNotPossible(Character* player, bool _isAdditional);
 
-	// êµ¬ë§¤ ê°€ëŠ¥ì„± í™•ì¸ (í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡ì´ ìƒí’ˆ ê°€ê²© ì¤‘ ìµœì†Œ ê°€ê²©ë³´ë‹¤ ì ì€ì§€ í™•ì¸)
+	// ±¸¸Å °¡´É¼º È®ÀÎ (ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×ÀÌ »óÇ° °¡°İ Áß ÃÖ¼Ò °¡°İº¸´Ù ÀûÀºÁö È®ÀÎ)
 	bool IsEnoughGoldBuyLowestPrice(Character* player);
 
-	// Yes/No í™•ì¸í•˜ì—¬ Yesë©´ true ë°˜í™˜
+	// Yes/No È®ÀÎÇÏ¿© Yes¸é true ¹İÈ¯
 	bool IsYes(Character* player);
 
-	// ë©”ì¸ë©”ë‰´
+	// ¸ŞÀÎ¸Ş´º
 	void MainMenu(Character* player);
 
-	// êµ¬ë§¤ ì‹œ í”Œë ˆì´ì–´ì—ê²Œ ê±´ë‚´ ì¤„ ì•„ì´í…œ ìƒì„±
+	// ±¸¸Å ½Ã ÇÃ·¹ÀÌ¾î¿¡°Ô °Ç³» ÁÙ ¾ÆÀÌÅÛ »ı¼º
 	template <typename TEnum>
 	void RegisterItem(Character* player, TEnum _itemType, int _quantity = 1);
 
-	// íŒë§¤ ì‹œ ì•„ì´í…œ ì¤„ì´ê¸°
+	// ÆÇ¸Å ½Ã ¾ÆÀÌÅÛ ÁÙÀÌ±â
 	void ReduceItem(Character* player, string _strKey, int _quantity = 1);
 
-	// ì…ë ¥ê°’ ìœ íš¨ì„± ê²€ì‚¬
+	// ÀÔ·Â°ª À¯È¿¼º °Ë»ç
 	string CheckInputValidation(int _min, int _max, Character* player, bool _isPurcahseMode = false);
 
-	// ë¡œê·¸ ìƒì„±
+	// ·Î±× »ı¼º
 	void CreateLog();
 
-	// ë¡œê·¸ ì¶œë ¥
+	// ·Î±× Ãâ·Â
 	void PrintLog();
 
-	// ë¡œê·¸ ì—…ë°ì´íŠ¸
+	// ·Î±× ¾÷µ¥ÀÌÆ®
 	void UpdateLogMessage(bool _isPurchase, string _key, int _quantity = 1);
 
 private:
-	// íŒë§¤ ì¤‘ì¸ ì•„ì´í…œ ëª©ë¡
+	// ÆÇ¸Å ÁßÀÎ ¾ÆÀÌÅÛ ¸ñ·Ï
 	map<EItemRegular, unique_ptr<Item>>mCatalog_Reugular;
 	map<EItemSpecial, unique_ptr<Item>>mCatalog_Special;
 	//vector<> availableItems;
 	//vector<Item*> availableItems;
 	//map<EItem, unique_ptr<Item>>availableItems;
 
-	// ìµœì´ˆ ì§„ì… ì—¬ë¶€ í™•ì¸
+	// ÃÖÃÊ ÁøÀÔ ¿©ºÎ È®ÀÎ
 	bool mIsFirstEntry;
 
-	// íŠ¹ìˆ˜ ìƒì  ì—¬ë¶€
+	// Æ¯¼ö »óÁ¡ ¿©ºÎ
 	const bool mIsSpecialShop;
 
-	// í• ì¸ìœ¨
+	// ÇÒÀÎÀ²
 	const float mSaleRatio;
 
 	/*
-		unordered_map ì„ ì‚¬ìš©í•˜ë ¤ë‹¤ê°€
-		ì•„ì´í…œ ë³„ë¡œ ì •ë ¬ë˜ì•¼ ì‹œê°ì ìœ¼ë¡œ ê¹”ë”í•œ ë¡œê·¸ê°€ ë  ê²ƒ ê°™ì•„ì„œ map ì‚¬ìš©
-		(ì•„ì´í…œ ì´ë¦„ì„ í‚¤ë¡œ ì‚¬ìš©, ê±°ë˜ ìˆ˜ëŸ‰ì„ ê°’ìœ¼ë¡œ ì‚¬ìš©)
+		unordered_map À» »ç¿ëÇÏ·Á´Ù°¡
+		¾ÆÀÌÅÛ º°·Î Á¤·ÄµÇ¾ß ½Ã°¢ÀûÀ¸·Î ±ò²ûÇÑ ·Î±×°¡ µÉ °Í °°¾Æ¼­ map »ç¿ë
+		(¾ÆÀÌÅÛ ÀÌ¸§À» Å°·Î »ç¿ë, °Å·¡ ¼ö·®À» °ªÀ¸·Î »ç¿ë)
 	*/
-	// êµ¬ë§¤ ë¡œê·¸
+	// ±¸¸Å ·Î±×
 	map<string, int> mPurchaseLog;
 
-	// íŒë§¤ ë¡œê·¸
+	// ÆÇ¸Å ·Î±×
 	map<string, int> mSalesLog;
 };
 
 
 /*
-	ì´í•˜ í…œí”Œë¦¿ í•¨ìˆ˜ ì •ì˜ (í…œí”Œë¦¿ì€ cppì— ì •ì˜í•  ìˆ˜ ì—†ìŒ)
+	ÀÌÇÏ ÅÛÇÃ¸´ ÇÔ¼ö Á¤ÀÇ (ÅÛÇÃ¸´Àº cpp¿¡ Á¤ÀÇÇÒ ¼ö ¾øÀ½)
 */
-// ì¶œë ¥ - í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬
+// Ãâ·Â - ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸®
 template<typename TEnum>
 inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _isSuccessDeal, TEnum _item, string _key)
 {
-	// TEnumì´ enum íƒ€ì…ì¸ì§€ í™•ì¸
+	// TEnumÀÌ enum Å¸ÀÔÀÎÁö È®ÀÎ
 	static_assert(std::is_enum<TEnum>::value, "TEnum must be an enum type.");
 
-	// ì •ë ¬ ê¸°ì¤€ê°’
-	const int SORT_NANE = 36;	// ì´ë¦„ ì •ë ¬ ê¸°ì¤€ê°’
-	const int SORT_NUMB = 2;	// ìˆ«ì ì •ë ¬ ê¸°ì¤€ê°’
+	// Á¤·Ä ±âÁØ°ª
+	const int SORT_NANE = 36;	// ÀÌ¸§ Á¤·Ä ±âÁØ°ª
+	const int SORT_NUMB = 2;	// ¼ıÀÚ Á¤·Ä ±âÁØ°ª
 
 	//==========================================
-	// ì¼ë°˜ ìƒì ê³¼ íŠ¹ìˆ˜ ìƒì  êµ¬ë¶„
+	// ÀÏ¹İ »óÁ¡°ú Æ¯¼ö »óÁ¡ ±¸ºĞ
 	//==========================================
 	if constexpr (std::is_same<TEnum, EItemRegular>::value)
-	{// EItemRegular ì „ìš© ë¡œì§
+	{// EItemRegular Àü¿ë ·ÎÁ÷
 		//==========================================
-		// ì¼ë°˜ ìƒì 
+		// ÀÏ¹İ »óÁ¡
 		//==========================================
 		//==========================================
-		// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡ ì¶œë ¥ ì „ì²˜ë¦¬
+		// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï Ãâ·Â ÀüÃ³¸®
 		//==========================================
 		FnSetTextColor(EColors::LIGHT_BLUE);
 		cout << "======================================================================================\n";
-		string str = "ì¸ë²¤í† ë¦¬ ëª©ë¡:\n";
+		string str = "ÀÎº¥Åä¸® ¸ñ·Ï:\n";
 		PrintBySpellingWithColor(str, EColors::LIGHT_BLUE, ETypingSpeed::FAST);
 
 		//==========================================
-		// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡
+		// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï
 		//==========================================
 		const map<string, pair<Item*, int>> playerInventory = player->getInventory();
 
@@ -184,16 +184,16 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 			Item* itemType = entry.second.first;
 			const int quantity = entry.second.second;
 
-			const string itemDefaultName = itemType->getName();	// ìƒí’ˆ íƒ€ì… ì´ë¦„
-			const int originalPrice = itemType->getPrice();		// ìƒí’ˆ ì›ê°€
-			const int salePrice = originalPrice * mSaleRatio;	// ë§¤ì…ê°€
+			const string itemDefaultName = itemType->getName();	// »óÇ° Å¸ÀÔ ÀÌ¸§
+			const int originalPrice = itemType->getPrice();		// »óÇ° ¿ø°¡
+			const int salePrice = originalPrice * mSaleRatio;	// ¸ÅÀÔ°¡
 
-			// ì¶œë ¥
+			// Ãâ·Â
 			if (_isSell)
-			{// íŒë§¤
+			{// ÆÇ¸Å
 				if (!_isSuccessDeal)
-				{// íŒë§¤ ì „
-					// íŒë§¤ ë²ˆí˜¸ì¸ ì¸ë±ìŠ¤ë§Œ ê°•ì¡°
+				{// ÆÇ¸Å Àü
+					// ÆÇ¸Å ¹øÈ£ÀÎ ÀÎµ¦½º¸¸ °­Á¶
 					FnSetTextColor(EColors::LIGHT_YELLOW);
 					cout << "[" << idx_ItemList++ << "] ";
 
@@ -201,14 +201,14 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+					cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+					cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 				}
 				else
-				{// íŒë§¤ í›„
+				{// ÆÇ¸Å ÈÄ
 					if (name_key == _key)
-					{// íŒë§¤í•œ ì•„ì´í…œ ê°•ì¡°
+					{// ÆÇ¸ÅÇÑ ¾ÆÀÌÅÛ °­Á¶
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 
@@ -218,50 +218,50 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
 
-						// ë‚¨ì€ ìˆ˜ëŸ‰ ê°•ì¡°
+						// ³²Àº ¼ö·® °­Á¶
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 
 						isFind = true;
 					}
 					else
-					{// íŒë§¤ í’ˆëª©ì´ ì•„ë‹Œ ë‚˜ë¨¸ì§€ ì¸ë²¤í† ë¦¬
-						// ê°•ì¡° ë‚´ìš© ì—†ìŒ
+					{// ÆÇ¸Å Ç°¸ñÀÌ ¾Æ´Ñ ³ª¸ÓÁö ÀÎº¥Åä¸®
+						// °­Á¶ ³»¿ë ¾øÀ½
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 					}
 				}
 			}
 			else
-			{// êµ¬ë§¤
+			{// ±¸¸Å
 				if (!_isSuccessDeal)
-				{// êµ¬ë§¤ ì „
-					// ê°•ì¡° ë‚´ìš© ì—†ìŒ
+				{// ±¸¸Å Àü
+					// °­Á¶ ³»¿ë ¾øÀ½
 					FnSetTextColor(EColors::YELLOW);
 					cout << "[" << idx_ItemList++ << "] ";
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+					cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+					cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 				}
 				else
-				{// êµ¬ë§¤ í›„
+				{// ±¸¸Å ÈÄ
 					string name_SelectedItem = mCatalog_Reugular[_item]->getName();
 
 					if (name_key == name_SelectedItem)
-					{// êµ¬ë§¤í•œ ì•„ì´í…œ ê°•ì¡°
+					{// ±¸¸ÅÇÑ ¾ÆÀÌÅÛ °­Á¶
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 
@@ -271,48 +271,48 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
 
-						// ìˆ˜ëŸ‰ ê°•ì¡°
+						// ¼ö·® °­Á¶
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 					}
 					else
-					{// êµ¬ë§¤í•œ í’ˆëª©ì´ ì•„ë‹Œ ë‚˜ë¨¸ì§€ ì¸ë²¤í† ë¦¬
-						// ê°•ì¡° ë‚´ìš© ì—†ìŒ
+					{// ±¸¸ÅÇÑ Ç°¸ñÀÌ ¾Æ´Ñ ³ª¸ÓÁö ÀÎº¥Åä¸®
+						// °­Á¶ ³»¿ë ¾øÀ½
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 					}
 				}
 			}
 			cout << endl;
 		}
 		//==========================================
-		// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡ ì¶œë ¥ í›„ì²˜ë¦¬
+		// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï Ãâ·Â ÈÄÃ³¸®
 		//==========================================
 		FnSetTextColor(EColors::LIGHT_BLUE);
 		cout << "======================================================================================\n";
 		if (_isSell && _isSuccessDeal && !isFind)
-		{// íŒë§¤ í›„, íŒë§¤í•œ ì•„ì´í…œì´ ì¸ë²¤í† ë¦¬ì— ì—†ëŠ” ê²½ìš°
-			const string strAsk_More = "ë°©ê¸ˆ íŒë§¤í•˜ì‹  ì•„ì´í…œì€ ë” ì´ìƒ ì¸ë²¤í† ë¦¬ì— ì—†ìŠµë‹ˆë‹¤.\n";
+		{// ÆÇ¸Å ÈÄ, ÆÇ¸ÅÇÑ ¾ÆÀÌÅÛÀÌ ÀÎº¥Åä¸®¿¡ ¾ø´Â °æ¿ì
+			const string strAsk_More = "¹æ±İ ÆÇ¸ÅÇÏ½Å ¾ÆÀÌÅÛÀº ´õ ÀÌ»ó ÀÎº¥Åä¸®¿¡ ¾ø½À´Ï´Ù.\n";
 			PrintBySpellingWithColor(strAsk_More, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 		}
 		FnSetTextDefault();
 	}
 	else if constexpr (std::is_same<TEnum, EItemSpecial>::value)
-	{// EItemSpecial ì „ìš© ë¡œì§
+	{// EItemSpecial Àü¿ë ·ÎÁ÷
 		//==========================================
-		// íŠ¹ìˆ˜ ìƒì 
+		// Æ¯¼ö »óÁ¡
 		//==========================================
-		// ì»¬ëŸ¬ ì„ê¸°
+		// ÄÃ·¯ ¼¯±â
 		vector<int> colors = {
 			static_cast<int>(EColors::GREEN),
 			static_cast<int>(EColors::RED),
@@ -321,19 +321,19 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 			static_cast<int>(EColors::YELLOW)
 		};
 		//==========================================
-		// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡ ì¶œë ¥ ì „ì²˜ë¦¬
+		// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï Ãâ·Â ÀüÃ³¸®
 		//==========================================
 		string strLine = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		for (size_t i = 0; i < strLine.size(); ++i)
-		{// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸ ë¼ì¸
+		{// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ® ¶óÀÎ
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colors[(i + 3) % colors.size()]);
 			cout << strLine[i];
 		}
-		string str = "ì¸ë²¤í† å·±l ëª©ë¡:\n";
+		string str = "ÀÎº¥ÅäĞùl ¸ñ·Ï:\n";
 		PrintBySpellingWithColor(str, EColors::LIGHT_BLUE, ETypingSpeed::FAST);
 
 		//==========================================
-		// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡
+		// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï
 		//==========================================
 		const map<string, pair<Item*, int>> playerInventory = player->getInventory();
 
@@ -346,16 +346,16 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 			Item* itemType = entry.second.first;
 			const int quantity = entry.second.second;
 
-			const string itemDefaultName = itemType->getName();	// ìƒí’ˆ íƒ€ì… ì´ë¦„
-			const int originalPrice = itemType->getPrice();		// ìƒí’ˆ ì›ê°€
-			const int salePrice = originalPrice * mSaleRatio;	// ë§¤ì…ê°€
+			const string itemDefaultName = itemType->getName();	// »óÇ° Å¸ÀÔ ÀÌ¸§
+			const int originalPrice = itemType->getPrice();		// »óÇ° ¿ø°¡
+			const int salePrice = originalPrice * mSaleRatio;	// ¸ÅÀÔ°¡
 
-			// ì¶œë ¥
+			// Ãâ·Â
 			if (_isSell)
-			{// íŒë§¤
+			{// ÆÇ¸Å
 				if (!_isSuccessDeal)
-				{// íŒë§¤ ì „
-					// íŒë§¤ ë²ˆí˜¸ì¸ ì¸ë±ìŠ¤ë§Œ ê°•ì¡°
+				{// ÆÇ¸Å Àü
+					// ÆÇ¸Å ¹øÈ£ÀÎ ÀÎµ¦½º¸¸ °­Á¶
 					FnSetTextColor(EColors::LIGHT_YELLOW);
 					cout << "[" << idx_ItemList++ << "] ";
 
@@ -363,14 +363,14 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+					cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+					cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 				}
 				else
-				{// íŒë§¤ í›„
+				{// ÆÇ¸Å ÈÄ
 					if (name_key == _key)
-					{// íŒë§¤í•œ ì•„ì´í…œ ê°•ì¡°
+					{// ÆÇ¸ÅÇÑ ¾ÆÀÌÅÛ °­Á¶
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 
@@ -380,50 +380,50 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
 
-						// ë‚¨ì€ ìˆ˜ëŸ‰ ê°•ì¡°
+						// ³²Àº ¼ö·® °­Á¶
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 
 						isFind = true;
 					}
 					else
-					{// íŒë§¤ í’ˆëª©ì´ ì•„ë‹Œ ë‚˜ë¨¸ì§€ ì¸ë²¤í† ë¦¬
-						// ê°•ì¡° ë‚´ìš© ì—†ìŒ
+					{// ÆÇ¸Å Ç°¸ñÀÌ ¾Æ´Ñ ³ª¸ÓÁö ÀÎº¥Åä¸®
+						// °­Á¶ ³»¿ë ¾øÀ½
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 					}
 				}
 			}
 			else
-			{// êµ¬ë§¤
+			{// ±¸¸Å
 				if (!_isSuccessDeal)
-				{// êµ¬ë§¤ ì „
-					// ê°•ì¡° ë‚´ìš© ì—†ìŒ
+				{// ±¸¸Å Àü
+					// °­Á¶ ³»¿ë ¾øÀ½
 					FnSetTextColor(EColors::YELLOW);
 					cout << "[" << idx_ItemList++ << "] ";
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+					cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+					cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 				}
 				else
-				{// êµ¬ë§¤ í›„
+				{// ±¸¸Å ÈÄ
 					string name_SelectedItem = mCatalog_Special[_item]->getName();
 
 					if (name_key == name_SelectedItem)
-					{// êµ¬ë§¤í•œ ì•„ì´í…œ ê°•ì¡°
+					{// ±¸¸ÅÇÑ ¾ÆÀÌÅÛ °­Á¶
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 
@@ -433,59 +433,59 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
 
-						// ìˆ˜ëŸ‰ ê°•ì¡°
+						// ¼ö·® °­Á¶
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 					}
 					else
-					{// êµ¬ë§¤í•œ í’ˆëª©ì´ ì•„ë‹Œ ë‚˜ë¨¸ì§€ ì¸ë²¤í† ë¦¬
-						// ê°•ì¡° ë‚´ìš© ì—†ìŒ
+					{// ±¸¸ÅÇÑ Ç°¸ñÀÌ ¾Æ´Ñ ³ª¸ÓÁö ÀÎº¥Åä¸®
+						// °­Á¶ ³»¿ë ¾øÀ½
 						FnSetTextColor(EColors::YELLOW);
 						cout << "[" << idx_ItemList++ << "] ";
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | ìˆ˜ëŸ‰: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | ì›ê°€: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | ë§¤ì…ê°€: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | ¼ö·®: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | ¿ø°¡: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
+						cout << " | ¸ÅÀÔ°¡: " << right << setw(SORT_NUMB) << salePrice << "(G)";
 					}
 				}
 			}
 			cout << endl;
 		}
 		//==========================================
-		// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡ ì¶œë ¥ í›„ì²˜ë¦¬
+		// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï Ãâ·Â ÈÄÃ³¸®
 		//==========================================
 		for (size_t i = 0; i < strLine.size(); ++i)
-		{// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸ ë¼ì¸
+		{// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ® ¶óÀÎ
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colors[(i + 3) % colors.size()]);
 			cout << strLine[i];
 		}
 		if (_isSell && _isSuccessDeal && !isFind)
-		{// íŒë§¤ í›„, íŒë§¤í•œ ì•„ì´í…œì´ ì¸ë²¤í† ë¦¬ì— ì—†ëŠ” ê²½ìš°
-			const string strAsk_More = "ë°©ê¸ˆ íŒâ–¡Ğ™ãˆ›ì‹  ã…‡râ—‹lí…œì€ ã¦â”¤ â—‹lãƒ6 ì¸ë²¤í† å·±lÃ¸Å‚l ì—†ìŠµLIâŠ‚ãƒˆ.\n";
+		{// ÆÇ¸Å ÈÄ, ÆÇ¸ÅÇÑ ¾ÆÀÌÅÛÀÌ ÀÎº¥Åä¸®¿¡ ¾ø´Â °æ¿ì
+			const string strAsk_More = "¹æ±İ ÆÇ¡à¬«©Ì½Å ¤·r¡ÛlÅÛÀº ªÆ¦© ¡Ûl«Ğ6 ÀÎº¥ÅäĞùl©ª©©l ¾ø½ÀLI¡ø«È.\n";
 			PrintBySpellingWithColor(strAsk_More, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 		}
 		FnSetTextDefault();
 	}
 	else
-	{// EItemRegular, EItemSpecial ì´ì™¸ì˜ enum íƒ€ì…ì— ëŒ€í•œ ì²˜ë¦¬
+	{// EItemRegular, EItemSpecial ÀÌ¿ÜÀÇ enum Å¸ÀÔ¿¡ ´ëÇÑ Ã³¸®
 		static_assert(false, "Unsupported enum type.");
 	}
 }
 
-// êµ¬ë§¤ ì‹œ í”Œë ˆì´ì–´ì—ê²Œ ê±´ë‚´ ì¤„ ì•„ì´í…œ ìƒì„±
+// ±¸¸Å ½Ã ÇÃ·¹ÀÌ¾î¿¡°Ô °Ç³» ÁÙ ¾ÆÀÌÅÛ »ı¼º
 template<typename TEnum>
 inline void Shop::RegisterItem(Character* player, TEnum _itemType, int _quantity)
 {
 	static_assert(std::is_enum<TEnum>::value, "itemType must be an enum");
 
 	if constexpr (std::is_same<TEnum, EItemRegular>::value)
-	{// EItemRegularì— ëŒ€í•œ ì²˜ë¦¬, ì¼ë°˜ ìƒì  ì•„ì´í…œ
+	{// EItemRegular¿¡ ´ëÇÑ Ã³¸®, ÀÏ¹İ »óÁ¡ ¾ÆÀÌÅÛ
 		switch (_itemType)
 		{
 		case EItemRegular::HealthPotion:
@@ -510,7 +510,7 @@ inline void Shop::RegisterItem(Character* player, TEnum _itemType, int _quantity
 		}
 	}
 	else if constexpr (std::is_same<TEnum, EItemSpecial>::value)
-	{// EItemSpecialì— ëŒ€í•œ ì²˜ë¦¬, íŠ¹ìˆ˜ ìƒì  ì•„ì´í…œ
+	{// EItemSpecial¿¡ ´ëÇÑ Ã³¸®, Æ¯¼ö »óÁ¡ ¾ÆÀÌÅÛ
 		switch (_itemType)
 		{
 		case EItemSpecial::HolyWater:
@@ -526,7 +526,7 @@ inline void Shop::RegisterItem(Character* player, TEnum _itemType, int _quantity
 		}
 	}
 	else
-	{// EItemRegular, EItemSpecial ì´ì™¸ì˜ enum íƒ€ì…ì— ëŒ€í•œ ì²˜ë¦¬
+	{// EItemRegular, EItemSpecial ÀÌ¿ÜÀÇ enum Å¸ÀÔ¿¡ ´ëÇÑ Ã³¸®
 		static_assert(false, "Unsupported enum type");
 	}
 }//END-inline void Shop::RegisterItem
