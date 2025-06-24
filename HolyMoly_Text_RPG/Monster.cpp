@@ -13,10 +13,8 @@ Monster:: Monster(int level)
 string Monster:: getName() const { return name; }		               // 몬스터 이름
 int Monster:: getHealth() const { return health; }		               // 몬스터 체력 
 int Monster:: getAttack() const { return attack; }			           // 몬스터 공격
-string Monster:: getSkill(vector<string> skills = {})                  // 몬스터 스킬
-{ 
-    if (skills.empty()) skills = this->skills; // 스킬 목록 없으면 기본 스킬로 세팅
-
+string Monster:: getSkill()                                            // 몬스터 스킬
+{
     int randSNum = RandomUtil::GetRandomInt(0, skills.size() - 1);
     SetAttackRandom();
     return skills[randSNum];
@@ -46,7 +44,7 @@ Item* Monster::pickItem()
     //for (const auto& item : itemPool)
     //    totalWeight += item.weight;
 
-    int randWeight = RandomUtil::GetRandomInt(1, 100);
+    int randWeight = RandomUtil::GetRandomInt(0, 100);
     int sum = 0;
 
     for (const auto& item : itemPool)

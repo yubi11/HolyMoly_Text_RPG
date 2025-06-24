@@ -60,7 +60,7 @@ public:
 	string getName() const;					// 몬스터 이름
 	int getHealth() const;					// 몬스터 체력 
 	int getAttack() const;					// 몬스터 공격
-	string getSkill(vector<string> skills = {});					// 몬스터 스킬
+	virtual string getSkill();				// 몬스터 스킬
 
 	// Setter 함수
 	void SetAttackRandom();
