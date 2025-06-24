@@ -13,6 +13,7 @@ void StartGame(GameManager& gm)
 	// 플레이어 이름 받기
 	ConsoleUI::getPlayerName();
 	string playerName = gm.getPlayerName();
+
 	// 플레이어 직업 받기
 	vector<string> job =
 	{
@@ -22,6 +23,11 @@ void StartGame(GameManager& gm)
 	};
 	ConsoleUI::getPlayerJob(job);
 	int playerJob = gm.getPlayerJob(job);
+
+	// 직업, 이름 출력
+	FnSetTextColor(EColors::YELLOW);
+	cout << setfill(' ') << setw(ConsoleUI::consoleWidth) << right << job[playerJob - 1].substr(job[playerJob - 1].find(" ") + 1) + ", " + playerName << endl;
+	FnSetTextDefault();
 
 	gm.createPlayer(playerName, playerJob);
 

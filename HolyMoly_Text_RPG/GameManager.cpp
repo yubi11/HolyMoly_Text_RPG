@@ -261,8 +261,6 @@ int GameManager::getPlayerJob(vector<string>& job)
 		getline(cin, str);
 	}
 
-	string myJob = job[stoi(str) - 1].substr(job[stoi(str) - 1].find(" ") + 1);
-
 	return stoi(str);
 }
 // 플레이어 생성
