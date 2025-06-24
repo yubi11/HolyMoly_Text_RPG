@@ -183,8 +183,6 @@ void GameManager::visitShop()
 			isTrue = true;
 		}
 		Shop gameShop(player, isTrue);
-		gameShop.OnEnter(player);
-
 	}
 	else if (answer == "N")
 	{
