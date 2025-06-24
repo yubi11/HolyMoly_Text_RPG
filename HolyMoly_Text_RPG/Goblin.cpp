@@ -1,13 +1,24 @@
 ﻿#include "Goblin.h"
 
-Goblin::Goblin(int level) : Monster(level) {
+Goblin::Goblin(int level) : Monster(level)
+{
 	name = "Goblin";
     gold = RandomUtil::GetRandomInt(5, 10);
+    InitItemPool();
+}
+
+void Goblin::InitItemPool()
+{
+    itemPool = {
+        { ItemType::HealthPotion, 40 },
+        { ItemType::AttackBoost, 40 },
+        { ItemType::ExpBook, 20 }
+    };
 }
 
 Item* Goblin::dropItem() 
 {
-	return pickItem(ItemType::HealthPotion);
+	return pickItem();
 }
 
 

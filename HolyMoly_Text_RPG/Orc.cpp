@@ -7,7 +7,7 @@ Orc::Orc(int level) : Monster(level) {
 
 Item* Orc::dropItem()
 {
-	return pickItem(ItemType::AttackBoost);
+	return pickItem();
 }
 
 

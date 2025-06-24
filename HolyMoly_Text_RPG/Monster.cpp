@@ -7,6 +7,7 @@ Monster:: Monster(int level)
 
     health = level * randHNum;
     attack = level * randANum;
+
 }
 
 string Monster :: getName() const { return name; }			// 몬스터 이름
@@ -15,46 +16,59 @@ int Monster:: getAttack() const { return attack; }			// 몬스터 공격
 
 void Monster::takeDamage(int damage) { health -= damage; }	// 몬스터 피해
 
-// 아이템 랜덤 추출
-Item* Monster::pickItem() {
-    return pickItem(ItemType::HealthPotion, ItemType::AttackBoost);
-}
-
-Item* Monster::pickItem(ItemType itemOne) {
-    return pickItem(itemOne, itemOne);
-}
-
-Item* Monster::pickItem(ItemType beginItem, ItemType endItem)
+void Monster::InitItemPool()
 {
-    int randNum = RandomUtil::GetRandomInt(0, 99);
+    itemPool = {
+        { ItemType::HealthPotion, 20 },
+        { ItemType::GoldBar, 40 },
+        { ItemType::ExpBook, 40 }
+    };
+}
 
-    if (randNum < 30) // 30% 확률로 드랍
+// 아이템 랜덤 추출
+Item* Monster::pickItem()
+{
+    int dropChance = RandomUtil::GetRandomInt(0, 99);
+    if (dropChance >= 30) // 30% 확률로만 드랍
+        return nullptr;
+
+    int totalWeight = 0;
+    for (const auto& item : itemPool)
+        totalWeight += item.weight;
+
+    int randWeight = RandomUtil::GetRandomInt(1, totalWeight);
+    int sum = 0;
+
+    for (const auto& item : itemPool)
     {
-        ItemType itemType;
-
-        if (beginItem == endItem)
+        sum += item.weight;
+        if (randWeight <= sum)
         {
-            itemType = beginItem;
-        }
-        else
-        {
-            int min = static_cast<int>(beginItem);
-            int max = static_cast<int>(endItem);
+            switch (item.type)
+            {
+            case ItemType::HealthPotion:
+                return new HealthPotion();
 
-            int randItemNum = RandomUtil::GetRandomInt(min, max);
-            itemType = static_cast<ItemType>(randItemNum);
-        }
+            case ItemType::AttackBoost:
+                return new AttackBoost();
 
-        switch (itemType)
-        {
-        case ItemType::HealthPotion:
-            return new HealthPotion();
+            case ItemType::ExpBook:
+                return new ExpBook();
 
-        case ItemType::AttackBoost:
-            return new AttackBoost();
+            case ItemType::GoldBar:
+                return new GoldBar();
 
-        default:
-            return nullptr;
+            case ItemType::HolyWater:
+                return new HolyWater();
+
+            case ItemType::rottenMeat:
+                return new rottenMeat();
+
+            default:
+                return nullptr;
+            }
         }
     }
+
+    return nullptr;
 }

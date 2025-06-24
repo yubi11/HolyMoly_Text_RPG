@@ -10,4 +10,6 @@ public:
 	int dropGold() override;
 
 	void displayMonster() override;
+
+	void InitItemPool() override;
 };
