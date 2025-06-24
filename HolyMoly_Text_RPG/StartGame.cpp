@@ -116,6 +116,7 @@ void StartGame(GameManager& gm)
 	// 게임 종료 ui 출력
 	if (gm.getIsPlayerDead()) 
 	{
+		ConsoleUI::pressEnter();
 		ConsoleUI::gameOver();
 	}
 	else 

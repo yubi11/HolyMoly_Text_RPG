@@ -181,7 +181,7 @@ void GameManager::visitShop()
 		// 수정: Shop shop(player, bool) 10%확률로 true
 		int randomInt = RandomUtil::GetRandomInt(1, 100);
 		bool isTrue = false;
-		if (randomInt <= 10) 
+		if (randomInt <= 20 )
 		{
 			isTrue = true;
 		}

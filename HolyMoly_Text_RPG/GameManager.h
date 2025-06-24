@@ -22,7 +22,7 @@ class GameManager
 {
 private:
 	int level = 1;						// 시작 레벨
-	const int eventProbability = 10;	// 배틀 중 아이템 사용 확률
+	const int eventProbability = 25;	// 배틀 중 아이템 사용 확률
 	const int experience = 50;			// 경험치 증가율
 	Character* player;					// 플레이어 캐릭터
 	bool isPlayerDead = false;			// 플레이어 사망여부
