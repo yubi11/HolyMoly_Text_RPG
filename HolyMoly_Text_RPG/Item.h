@@ -8,9 +8,9 @@ class Item
 {
 public:
 	virtual ~Item() {}
-	virtual string getName() const = 0;             	// ì•„ì´í…œ ì´ë¦„
-	virtual int getPrice() const = 0;               	// ì•„ì´í…œ ê°€ê²©
-	virtual int getItemValue() const = 0;       	// íš¨ê³¼ ìˆ˜ì¹˜ (íšŒë³µëŸ‰, ê³µê²©ë ¥ ë“±)
-	virtual void use(Character* character) = 0; // ìºë¦­í„°ì—ê²Œ ì•„ì´í…œ ì‚¬ìš©
-	virtual void display() const = 0;			// ì•„ì´í…œ ì •ë³´ ì½˜ì†”ì— ì¶œë ¥
+	virtual string getName() const = 0;             	// ¾ÆÀÌÅÛ ÀÌ¸§
+	virtual int getPrice() const = 0;               	// ¾ÆÀÌÅÛ °¡°İ
+	virtual int getItemValue() const = 0;       	// È¿°ú ¼öÄ¡ (È¸º¹·®, °ø°İ·Â µî)
+	virtual void use(Character* character) = 0; // Ä³¸¯ÅÍ¿¡°Ô ¾ÆÀÌÅÛ »ç¿ë
+	virtual void display() const = 0;			// ¾ÆÀÌÅÛ Á¤º¸ ÄÜ¼Ö¿¡ Ãâ·Â
 };

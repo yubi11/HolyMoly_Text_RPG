@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-HolyWater::HolyWater() : name("Holy Water"), price(50), value(80) {}
+HolyWater::HolyWater() : name("Holy Water"), price(100), value(80) {}
 
 string HolyWater::getName() const { return name; }
 int HolyWater::getPrice() const { return price; }
@@ -12,8 +12,8 @@ void HolyWater::use(Character* character) {
     int currentHealth = character->getHealth();
     int currentAttack = character->getAttack();
     character->setHealth(currentHealth + value);
-    character->setAttack(currentAttack + value);
-    cout << character->getName() << "이(가) " << name << "을(를) 사용하여 축복을 받았습니다.(체력, 공격력 " << value <<" 상승)" << endl;
+    character->setAttack(currentAttack + (value/4));
+    cout << character->getName() << "이(가) " << name << "을(를) 사용하여 축복을 받았습니다.(체력: " << value <<", 공격력: " << value/4 << "상승" << endl;
 }
 
 void HolyWater::display() const {

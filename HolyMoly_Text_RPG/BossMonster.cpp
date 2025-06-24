@@ -1,4 +1,4 @@
-ï»¿#include "BossMonster.h"
+#include "BossMonster.h"
 
 BossMonster::BossMonster(int level) : Monster(level) {
 	name = "BossMonster";
@@ -7,7 +7,7 @@ BossMonster::BossMonster(int level) : Monster(level) {
 
 Item* BossMonster::dropItem() 
 {
-	return pickItem(); // ì „ì²´ ëœë¤
+	return pickItem(); // ÀüÃ¼ ·£´ı
 }
 
 int BossMonster::dropGold()

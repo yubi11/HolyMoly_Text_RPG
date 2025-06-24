@@ -1,4 +1,4 @@
-ï»¿#include "Monster.h"
+#include "Monster.h"
 
 Monster:: Monster(int level) 
 {
@@ -9,19 +9,19 @@ Monster:: Monster(int level)
     attack = level * randANum;
 }
 
-string Monster :: getName() const { return name; }			// ëª¬ìŠ¤í„° ì´ë¦„
-int Monster:: getHealth() const { return health; }		    // ëª¬ìŠ¤í„° ì²´ë ¥ 
-int Monster:: getAttack() const { return attack; }			// ëª¬ìŠ¤í„° ê³µê²©
+string Monster :: getName() const { return name; }			// ¸ó½ºÅÍ ÀÌ¸§
+int Monster:: getHealth() const { return health; }		    // ¸ó½ºÅÍ Ã¼·Â 
+int Monster:: getAttack() const { return attack; }			// ¸ó½ºÅÍ °ø°Ý
 
-void Monster::takeDamage(int damage) { health -= damage; }	// ëª¬ìŠ¤í„° í”¼í•´
+void Monster::takeDamage(int damage) { health -= damage; }	// ¸ó½ºÅÍ ÇÇÇØ
 
 void Monster::InitItemPool(){}
 
-// ì•„ì´í…œ ëžœë¤ ì¶”ì¶œ
+// ¾ÆÀÌÅÛ ·£´ý ÃßÃâ
 Item* Monster::pickItem()
 {
     int dropChance = RandomUtil::GetRandomInt(0, 99);
-    if (dropChance >= 30) // 30% í™•ë¥ ë¡œë§Œ ë“œëž
+    if (dropChance >= 30) // 30% È®·ü·Î¸¸ µå¶ø
         return nullptr;
 
     //int totalWeight = 0;

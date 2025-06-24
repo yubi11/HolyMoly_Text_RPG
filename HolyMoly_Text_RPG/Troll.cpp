@@ -1,13 +1,13 @@
-ï»¿#include "Troll.h"
+#include "Troll.h"
 
 Troll::Troll (int level) : Monster(level) {
 	name = "Troll";
 	gold = RandomUtil::GetRandomInt(5, 15);
 }
 
-Item* Troll::dropItem()  // ì²´ë ¥, ê³µê²© í¬ì…˜
+Item* Troll::dropItem()  // Ã¼·Â, °ø°İ Æ÷¼Ç
 {
-	return pickItem(); // ì „ì²´ ëœë¤
+	return pickItem(); // ÀüÃ¼ ·£´ı
 }
 
 int Troll::dropGold()

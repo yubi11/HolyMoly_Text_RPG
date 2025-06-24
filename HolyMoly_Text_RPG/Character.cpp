@@ -7,36 +7,36 @@ using namespace std;
 
 Character* Character::instance = nullptr;
 
-Character::Character(string n, int jobNum) : name(n), level(1), health(200),
-maxHealth(200), attack(30),
+Character::Character(string n, int jobNum) : name(n), level(1), health(150),
+maxHealth(150), attack(20),
 experience(0), gold(0) {
 
     switch (jobNum) {
     case 1:
         job = "전사";
         cout << "기본 공격력이 높은 전사입니다. (직업: " << job << ")" << endl;
-        attack = 45;
+        attack = 30;
         break;
     case 2:
         job = "팔라딘";
         cout << "튼튼한 방패로 기본 체력이 높습니다. (직업: " << job << ")" << endl;
-        maxHealth = 300;
-        health = 300;
+        maxHealth = 250;
+        health = 250;
         break;
     case 3:
         job = "상인";
         cout << "기본 능력이 낮지만 소지 골드가 많습니다. (직업: " << job << ")" << endl;
-        attack = 25;
-        maxHealth = 150;
-        health = 150;
-        gold = 200;
+        attack = 15;
+        maxHealth = 100;
+        health = 100;
+        gold = 100;
         break;
     default:
         job = "가지지 못한 자";
         cout << "잘못된 입력으로 여신의 축복을 받지 못했습니다. (직업: " << job << ")" << endl;
-        health = 150;
-        maxHealth = 150;
-        attack = 20;
+        health = 80;
+        maxHealth = 80;
+        attack = 10;
         break;
     }
         
@@ -143,7 +143,7 @@ void Character::removeItem(const string& itemName, int quantity) {
 void Character::takeDamage(int damage) {
     health -= damage;
     if (health < 0) health = 0;
-    cout << name << " 체력: " << health << endl;
+    //cout << name << " 체력: " << health << endl;
 }
 
 void Character::visitShop() {

@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -37,7 +37,7 @@ protected:
 		int weight;
 	};
 
-	// ê¸°ë³¸ ë“œë ì•„ì´í…œ êµ¬ì„± (ìì‹ì—ì„œ InitItemPool() í˜¸ì¶œ ì‹œ ë®ì–´ì”Œì›Œì§)
+	// ±âº» µå¶ø ¾ÆÀÌÅÛ ±¸¼º (ÀÚ½Ä¿¡¼­ InitItemPool() È£Ãâ ½Ã µ¤¾î¾º¿öÁü)
 	vector<WeightedItem> itemPool = {
 		{ ItemType::HolyWater, 1 },       // 1%
 		{ ItemType::GoldBar, 5 },         // 5%
@@ -53,17 +53,17 @@ public:
 	Monster(int level);
 	virtual ~Monster() {};
 
-	// Getter í•¨ìˆ˜
-	string getName() const;					// ëª¬ìŠ¤í„° ì´ë¦„
-	int getHealth() const;					// ëª¬ìŠ¤í„° ì²´ë ¥ 
-	int getAttack() const;					// ëª¬ìŠ¤í„° ê³µê²©
+	// Getter ÇÔ¼ö
+	string getName() const;					// ¸ó½ºÅÍ ÀÌ¸§
+	int getHealth() const;					// ¸ó½ºÅÍ Ã¼·Â 
+	int getAttack() const;					// ¸ó½ºÅÍ °ø°İ
 
-	virtual void takeDamage(int damage);	// ëª¬ìŠ¤í„° í”¼í•´
+	virtual void takeDamage(int damage);	// ¸ó½ºÅÍ ÇÇÇØ
 
-	Item* pickItem();						// ì•„ì´í…œ ëœë¤ ì¶”ì¶œ
-	virtual void InitItemPool();			// ì•„ì´í…œ ëª©ë¡
-	virtual Item* dropItem() = 0;			// ì•„ì´í…œ ë“œë¡­
-	virtual int dropGold() = 0;				// ê³¨ë“œ ë“œë¡­
+	Item* pickItem();						// ¾ÆÀÌÅÛ ·£´ı ÃßÃâ
+	virtual void InitItemPool();			// ¾ÆÀÌÅÛ ¸ñ·Ï
+	virtual Item* dropItem() = 0;			// ¾ÆÀÌÅÛ µå·Ó
+	virtual int dropGold() = 0;				// °ñµå µå·Ó
 
-	virtual void displayMonster() = 0;		// ëª¬ìŠ¤í„° ì•„ìŠ¤í‚¤ ì•„íŠ¸
+	virtual void displayMonster() = 0;		// ¸ó½ºÅÍ ¾Æ½ºÅ° ¾ÆÆ®
 };

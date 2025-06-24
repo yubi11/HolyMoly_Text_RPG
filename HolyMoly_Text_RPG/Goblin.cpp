@@ -1,4 +1,4 @@
-﻿#include "Goblin.h"
+#include "Goblin.h"
 
 Goblin::Goblin(int level) : Monster(level)
 {
