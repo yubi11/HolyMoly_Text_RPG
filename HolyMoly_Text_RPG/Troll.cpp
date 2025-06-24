@@ -3,6 +3,7 @@
 Troll::Troll (int level) : Monster(level) {
 	name = "Troll";
 	gold = RandomUtil::GetRandomInt(5, 15);
+    skills = { "몸통 박치기" , "물어 뜯기" };
 }
 
 Item* Troll::dropItem()  // 체력, 공격 포션

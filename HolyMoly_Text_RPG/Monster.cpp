@@ -2,18 +2,36 @@
 
 Monster:: Monster(int level) 
 {
-    int randHNum = 20 + RandomUtil::GetRandomInt(0, 10);
-    int randANum = 5 + RandomUtil::GetRandomInt(0, 5);
+    this->level = level;
+    int randHNum = 20 + RandomUtil::GetRandomInt(0, 20);    // 몬스터 체력 랜덤 
+    int randANum = 5 + RandomUtil::GetRandomInt(0, 5);      // 몬스터 공격력 랜덤
 
-    health = level * randHNum;
+    health = level * randHNum;  //캐릭터 레벨에 맞게 설정
     attack = level * randANum;
 }
 
-string Monster :: getName() const { return name; }			// 몬스터 이름
-int Monster:: getHealth() const { return health; }		    // 몬스터 체력 
-int Monster:: getAttack() const { return attack; }			// 몬스터 공격
+string Monster:: getName() const { return name; }		               // 몬스터 이름
+int Monster:: getHealth() const { return health; }		               // 몬스터 체력 
+int Monster:: getAttack() const { return attack; }			           // 몬스터 공격
+string Monster:: getSkill(vector<string> skills = {})                  // 몬스터 스킬
+{ 
+    if (skills.empty()) skills = this->skills; // 스킬 목록 없으면 기본 스킬로 세팅
 
-void Monster::takeDamage(int damage) { health -= damage; }	// 몬스터 피해
+    int randSNum = RandomUtil::GetRandomInt(0, skills.size());
+    SetAttackRandom();
+    return skills[randSNum];
+}
+
+void Monster::SetAttackRandom() {
+    int randANum = 5 + RandomUtil::GetRandomInt(0, 5); 
+    attack = level * randANum;
+}
+
+void Monster::takeDamage(int damage) // 몬스터 피해
+{
+    health -= damage;
+    if (health <= 0) health = 0;
+}	
 
 void Monster::InitItemPool(){}
 

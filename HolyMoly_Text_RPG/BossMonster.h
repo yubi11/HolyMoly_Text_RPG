@@ -3,7 +3,7 @@
 #include "Monster.h"
 
 class BossMonster :public Monster {
-	int power = 1.5;
+	int power = 2;
 public:
 	BossMonster(int level);
 

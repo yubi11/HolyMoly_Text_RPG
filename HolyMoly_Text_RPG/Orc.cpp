@@ -3,6 +3,7 @@
 Orc::Orc(int level) : Monster(level) {
 	name = "Orc Mage";
 	gold = RandomUtil::GetRandomInt(7, 15);
+    skills = { "¸¶·Â ÅºÈ¯" , "È¥µ· Æø¹ß" };
 }
 
 Item* Orc::dropItem()

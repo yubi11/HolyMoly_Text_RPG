@@ -3,6 +3,7 @@
 BossMonster::BossMonster(int level) : Monster(level) {
 	name = "BossMonster";
 	gold = RandomUtil::GetRandomInt(25, 50);
+    skills = { "파이어 브레스" , "꼬리 휘두르기", "폭풍의 날개"};
 }
 
 Item* BossMonster::dropItem() 

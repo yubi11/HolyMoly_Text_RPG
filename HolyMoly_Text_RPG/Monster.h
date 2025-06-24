@@ -18,10 +18,13 @@ using namespace std;
 
 class Monster {
 protected:
-	string name;
+	string name = "";
 	int health = 0;
 	int attack = 0;
 	int gold = 0;
+	int level = 1;
+
+	vector<string> skills = { "몸통 박치기" };
 
 	enum class ItemType {
 		HealthPotion = 0,
@@ -57,8 +60,12 @@ public:
 	string getName() const;					// 몬스터 이름
 	int getHealth() const;					// 몬스터 체력 
 	int getAttack() const;					// 몬스터 공격
+	string getSkill(vector<string> skills = {});					// 몬스터 스킬
 
-	virtual void takeDamage(int damage);	// 몬스터 피해
+	// Setter 함수
+	void SetAttackRandom();
+
+	virtual void takeDamage(int damage = 0);	// 몬스터 피해
 
 	Item* pickItem();						// 아이템 랜덤 추출
 	virtual void InitItemPool();			// 아이템 목록
