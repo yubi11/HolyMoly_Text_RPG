@@ -21,6 +21,7 @@ void ChaosOrb::use(Character* character) {
     character->setGold(Gold);
     character->setLevel(Level);
     cout << character->getName() << "이(가) " << name << "을(를) 사용하여 혼돈의 힘으로 인해 모든 능력치가 변화했습니다." << endl;
+    character->displayStatus();
 }
 void ChaosOrb::display() const {
     cout << "[아이템: " << name << "] 효과: 모든 능력치 무작위 변화"
