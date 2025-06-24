@@ -17,7 +17,7 @@ string Monster:: getSkill(vector<string> skills = {})                  // 몬스터
 { 
     if (skills.empty()) skills = this->skills; // 스킬 목록 없으면 기본 스킬로 세팅
 
-    int randSNum = RandomUtil::GetRandomInt(0, skills.size());
+    int randSNum = RandomUtil::GetRandomInt(0, skills.size() - 1);
     SetAttackRandom();
     return skills[randSNum];
 }
