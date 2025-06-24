@@ -74,6 +74,7 @@ void Character::displayStatus() {
     cout << "경험치: " << experience << "/100" << endl;
     cout << "골드: " << gold << endl;
     cout << "보유 아이템 종류: " << inventory.size() << endl;
+    cout << endl;
 }
 
 void Character::levelUp() {
