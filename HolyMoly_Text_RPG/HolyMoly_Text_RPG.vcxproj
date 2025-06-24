@@ -126,6 +126,8 @@
     <ClCompile Include="AttackBoost.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BossMonster.cpp" />
+    <ClCompile Include="ChaosOrb.cpp" />
+    <ClCompile Include="ChaosOrb.h" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="HolyWater.cpp" />
     <ClCompile Include="ExpBook.cpp" />

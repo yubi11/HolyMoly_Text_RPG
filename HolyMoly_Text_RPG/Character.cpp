@@ -7,17 +7,47 @@ using namespace std;
 
 Character* Character::instance = nullptr;
 
-Character::Character(string n) : name(n), level(1), health(200),
+Character::Character(string n, int jobNum) : name(n), level(1), health(200),
 maxHealth(200), attack(30),
 experience(0), gold(0) {
+
+    switch (jobNum) {
+    case 1:
+        job = "전사";
+        cout << "기본 공격력이 높은 전사입니다. (직업: " << job << ")" << endl;
+        attack = 45;
+        break;
+    case 2:
+        job = "팔라딘";
+        cout << "튼튼한 방패로 기본 체력이 높습니다. (직업: " << job << ")" << endl;
+        maxHealth = 300;
+        health = 300;
+        break;
+    case 3:
+        job = "상인";
+        cout << "기본 능력이 낮지만 소지 골드가 많습니다. (직업: " << job << ")" << endl;
+        attack = 25;
+        maxHealth = 150;
+        health = 150;
+        gold = 200;
+        break;
+    default:
+        job = "가지지 못한 자";
+        cout << "잘못된 입력으로 여신의 축복을 받지 못했습니다. (직업: " << job << ")" << endl;
+        health = 150;
+        maxHealth = 150;
+        attack = 20;
+        break;
+    }
+        
 }
 
-Character* Character::getInstance(string name) {
+Character* Character::getInstance(string name, int jobNum) {
     if (instance == nullptr) {
         if (name.empty()) {
             name = "Unknown";
         }
-        instance = new Character(name);
+        instance = new Character(name, jobNum);
     }
     return instance;
 }
@@ -138,6 +168,8 @@ void Character::setHealth(int h) {
 
 void Character::setAttack(int a) { attack = a; }
 void Character::setGold(int g) { gold = g; }
+void Character::setLevel(int l) { level = l; }
+void Character::setMaxHealth(int mh) { maxHealth = mh; }
 
 void Character::addExperience(int exp) {
     experience += exp;

@@ -13,6 +13,7 @@ class Character {
 private:
     static Character* instance; // 싱글톤을 위한 캐릭터 객채 인스턴스
     string name;
+    string job;
     int level;
     int health;
     int maxHealth;
@@ -25,7 +26,7 @@ private:
     // Item 객체를 사용하는 함수
     void useItemObject(Item* item);
 
-    Character(string name);
+    Character(string name, int jobNum);
     ~Character();
 
 public:
@@ -33,7 +34,7 @@ public:
     Character(const Character&) = delete;
     Character& operator=(const Character&) = delete;
     //정적 메서드: 유일한 캐릭터 인스턴스 반환 => 싱글톤에 따라 캐릭터 객체는 반드시 하나만 존재함.
-    static Character* getInstance(string name = "");
+    static Character* getInstance(string name = "", int jobNum = 1);
     static string getInstanceName();
 
     void displayStatus();
@@ -55,8 +56,10 @@ public:
 
     // Setter 함수
     void setHealth(int h);
+    void setMaxHealth(int mh);
     void setAttack(int a);
     void setGold(int g);
+    void setLevel(int l);
     void addExperience(int exp);
     void addItem(Item* item, int quantity = 1);
     void removeItem(const string&, int quantity = 1);

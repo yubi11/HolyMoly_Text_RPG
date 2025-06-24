@@ -87,6 +87,12 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>소스 파일\Item</Filter>
     </ClCompile>
+    <ClCompile Include="ChaosOrb.h">
+      <Filter>헤더 파일\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaosOrb.cpp">
+      <Filter>소스 파일\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
