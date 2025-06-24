@@ -59,8 +59,6 @@ void ConsoleUI::getPlayerName()
 		{
 			_getch();
 		}
-	}
-	cout << endl;
-	
+	}	
 }
 
