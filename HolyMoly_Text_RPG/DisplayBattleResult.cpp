@@ -27,7 +27,7 @@ void ConsoleUI::displayBattleResult(bool isPlayerDead, string p_name, string m_n
 	FnSetTextDefault();
 	cout << endl << endl;
 
-	ConsoleUI::pressEnter();
+	//ConsoleUI::pressEnter();
 
 	////test¿ë
 	//if (isPlayerDead) return;

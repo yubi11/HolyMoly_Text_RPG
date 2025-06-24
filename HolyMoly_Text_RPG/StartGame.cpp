@@ -47,7 +47,6 @@ void StartGame(GameManager& gm)
 	// 배틀
 	while (level < 10)
 	{
-
 		// 새로운 몬스터
 		gm.generateMonster(level);
 		Monster* monster = gm.getMonster();
@@ -83,12 +82,11 @@ void StartGame(GameManager& gm)
 		{
 			Item* item = monster->dropItem();
 			if (item != nullptr)
-			{
-				gamePlayer->addItem(item);
+			{							
 				cout << monster->getName() << "에게 " << item->getName() << "을(를) 얻었습니다." << endl;
+				gamePlayer->addItem(item);
 			}
-		}
-		
+		}		
 
 		// 상점 방문
 		gm.visitShop();

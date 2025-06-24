@@ -7,7 +7,6 @@ Monster:: Monster(int level)
 
     health = level * randHNum;
     attack = level * randANum;
-
 }
 
 string Monster :: getName() const { return name; }			// 몬스터 이름
@@ -16,14 +15,7 @@ int Monster:: getAttack() const { return attack; }			// 몬스터 공격
 
 void Monster::takeDamage(int damage) { health -= damage; }	// 몬스터 피해
 
-void Monster::InitItemPool()
-{
-    itemPool = {
-        { ItemType::HealthPotion, 20 },
-        { ItemType::GoldBar, 40 },
-        { ItemType::ExpBook, 40 }
-    };
-}
+void Monster::InitItemPool(){}
 
 // 아이템 랜덤 추출
 Item* Monster::pickItem()
@@ -32,11 +24,11 @@ Item* Monster::pickItem()
     if (dropChance >= 30) // 30% 확률로만 드랍
         return nullptr;
 
-    int totalWeight = 0;
-    for (const auto& item : itemPool)
-        totalWeight += item.weight;
+    //int totalWeight = 0;
+    //for (const auto& item : itemPool)
+    //    totalWeight += item.weight;
 
-    int randWeight = RandomUtil::GetRandomInt(1, totalWeight);
+    int randWeight = RandomUtil::GetRandomInt(1, 100);
     int sum = 0;
 
     for (const auto& item : itemPool)
