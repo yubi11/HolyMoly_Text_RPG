@@ -1,4 +1,4 @@
-#include "Shop.h"
+ï»¿#include "Shop.h"
 
 enum class EMenu
 {
@@ -20,10 +20,10 @@ Shop::Shop(Character* player, bool _isSpecial)
 	:mIsFirstEntry(true), mSaleRatio(0.6f), mIsSpecialShop(_isSpecial)
 {
 	//==========================================
-	// ÆÇ¸Å ÁßÀÎ ¾ÆÀÌÅÛ ¸ñ·Ï ¼¼ÆÃ
+	// íŒë§¤ ì¤‘ì¸ ì•„ì´í…œ ëª©ë¡ ì„¸íŒ…
 	//==========================================
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
+	{// ì¼ë°˜ ìƒì 
 		int size = static_cast<int>(EItemRegular::END);
 		for (int i = 0; i < size; i++)
 		{
@@ -53,7 +53,7 @@ Shop::Shop(Character* player, bool _isSpecial)
 		}
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
+	{// íŠ¹ìˆ˜ ìƒì 
 		int size = static_cast<int>(EItemSpecial::END);
 		for (int i = 0; i < size; i++)
 		{
@@ -63,8 +63,8 @@ Shop::Shop(Character* player, bool _isSpecial)
 			case EItemSpecial::HolyWater:
 				mCatalog_Special[key] = std::make_unique<HolyWater>();
 				break;
-			case EItemSpecial::Bomb:
-				mCatalog_Special[key] = std::make_unique<Bomb>();
+			case EItemSpecial::ChaosOrb:
+				mCatalog_Special[key] = std::make_unique<ChaosOrb>();
 				break;
 			case EItemSpecial::END:
 				break;
@@ -74,37 +74,56 @@ Shop::Shop(Character* player, bool _isSpecial)
 		}
 	}
 
-	// ·Î±× ¸Ş½ÃÁö ÃÊ±âÈ­
+	// ë¡œê·¸ ë©”ì‹œì§€ ì´ˆê¸°í™”
 	CreateLog();
 
-	// »óÁ¡ ½ÃÀÛ
+	// ìƒì  ì‹œì‘
 	OnEnter(player);
 }
 
 void Shop::OnEnter(Character* player)
 {
 	//==========================================
-	// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ® Only ÃÖÃÊÁøÀÔ
+	// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸ Only ìµœì´ˆì§„ì…
 	//==========================================
-	// ¾Æ½ºÅ°¾ÆÆ®
+	// ì•„ìŠ¤í‚¤ì•„íŠ¸
 	vector<string> vecAsciiArt_Welcome;
 
 	if (!mIsSpecialShop)
 	{
-		// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ®
+		// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸
 		vecAsciiArt_Welcome = {
 				"  _    _        _                                           ",
 				" | |  | |      | |                                          ",
 				" | |  | |  ___ | |  ___   ___   _ __ ___    ___             ",
 				" | |/\\| | / _ \\| | / __| / _ \\ | '_ ` _ \\  / _ \\       ",
 				" \\  /\\  /|  __/| || (__ | (_) || | | | | ||  __/          ",
-				"  \\/  \\/  \\___||_| \\___| \\___/ |_| |_| |_| \\___|      "
+				"  \\/  \\/  \\___||_| \\___| \\___/ |_| |_| |_| \\___|      ",
+				"                                                            ",
+				"  _gggggggggggmmgggggggggggggggggggmqggggggggggggggggggggp,				",
+				"  @@@@@@@@@P      \"@ | [@@ | @@P       4@]      '@@@@@@@@@|				",
+				"  @@@@@@@@@    \"\"4@@|  '\"\"   @g   @@@   @]  !B'  [@@@@@@@@|				",
+				"  @@@@@@@@@Bm-__   @|  ,__,  @g   @@@   @]   ____@@@@@@@@@|				",
+				"  @@@@@@@@@_      ,@|  [@@|  @@L       o@]  |@@@@@@@@@@@@@|				",
+				"  0@@@@@@@@@@B@BB@@@BBBB@@@@@@@@@@@@B@@@@B@@BB@@@@@@@@@@@@'				",
+				"  \\@@@@@@@@@/ @@@@@@@@@D Q@@@@@@@@@ \"@@@@@@@@@F @@@@@@@@@@ 				",
+				"    *@@@@@F ,_ \"B@@@@P' _ '4@@@@B\" _, <@@@@@P ,_ \"B@@@@P'  				",
+				"       ___+@@@@g______@@@@@______g@@@@a______@@@@g___      				",
+				"       @@@@@@P==========@@@@@@BBBBBBBBBBBBBBBBBBB@@@@      				",
+				"       @@@@@@           [@@@@@|                  @@@@             		",
+				"       @@@@@@           [@@@@@|                  @@@@      				",
+				"       @@@@@@           [@@@@@1__________________@@@@      				",
+				"       @@@@@@           [@@@@@@@@@@@@@@@@@@@@@@@@@@@@      				",
+				"       @@@@@@___________[@@@@@@@@@@@@@@@@@@@@@@@@@@@@      				",
+				"       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      				",
+				"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,				",
+				"   \"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"      "
 		};
 		PrintByLineWithColor(vecAsciiArt_Welcome, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 		cout << endl;
 
-		// Ãâ·Â - È¯¿µÀÎ»ç
-		const string str_Welcome = "»óÁ¡¿¡ ¿À½Å °ÍÀ» È¯¿µÇÕ´Ï´Ù!\n¾ÆÀÌÅÛÀ» ±¸¸ÅÇÏ°Å³ª ÆÇ¸ÅÇØ º¸¼¼¿ä!\n\n\n";
+		// ì¶œë ¥ - í™˜ì˜ì¸ì‚¬
+		const string str_Welcome = "ìƒì ì— ì˜¤ì‹  ê²ƒì„ í™˜ì˜í•©ë‹ˆë‹¤!\nì•„ì´í…œì„ êµ¬ë§¤í•˜ê±°ë‚˜ íŒë§¤í•´ ë³´ì„¸ìš”!\n\n\n";
 		PrintBySpellingWithColor(str_Welcome, EColors::YELLOW, ETypingSpeed::FAST);
 	}
 	else
@@ -128,7 +147,7 @@ void Shop::OnEnter(Character* player)
 		"                   '._/_)_(\\__.'   (__,(__,_]                   ",
 		"                  @---()_.'---@                                 "
 		};
-		// ÄÃ·¯ ¼¯±â
+		// ì»¬ëŸ¬ ì„ê¸°
 		vector<int> colors = {
 			static_cast<int>(EColors::GREEN),
 			static_cast<int>(EColors::RED),
@@ -136,7 +155,7 @@ void Shop::OnEnter(Character* player)
 			static_cast<int>(EColors::LIGHT_BLUE),
 			static_cast<int>(EColors::YELLOW)
 		};
-		// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ®
+		// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸
 		for (size_t i = 0; i < vecAsciiArt_Welcome.size(); ++i)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colors[i % colors.size()]);
@@ -144,13 +163,13 @@ void Shop::OnEnter(Character* player)
 		}
 		cout << endl;
 
-		// Ãâ·Â - È¯¿µÀÎ»ç
-		const string str_Welcome = "»óÁ¡©ª©©l ¿À½Å °ÍÀ» È¯¿µÇÕLI¡ø«È!\n¤·r¡ÛlÅÛÀ» ±¸¡à¬«©ÌªÄ¤Ã¤¤r ÆÇ¡à¬«ª¡¨¤ º¸«Ñ¤Ä¿ä!\n\n\n";
+		// ì¶œë ¥ - í™˜ì˜ì¸ì‚¬
+		const string str_Welcome = "ìƒì Ã¸Å‚l ì˜¤ì‹  ê²ƒì„ í™˜ì˜í•©LIâŠ‚ãƒˆ!\nã…‡râ—‹lí…œì„ êµ¬â–¡Ğ™ãˆ›ã¤ã…“ã„´r íŒâ–¡Ğ™ãÄ¦ ë³´ãƒ‘ã…”ìš”!\n\n\n";
 		PrintBySpellingWithColor(str_Welcome, EColors::YELLOW, ETypingSpeed::FAST);
 	}
 
 	//==========================================
-	// ¸ŞÀÎ ¸Ş´º
+	// ë©”ì¸ ë©”ë‰´
 	//==========================================
 	MainMenu(player);
 }//END-void Shop::OnEnter
@@ -159,29 +178,29 @@ bool Shop::OnExit(Character* player)
 {
 	bool returnValue = false;
 	//==========================================
-	// Ãâ·Â - °Å·¡ ·Î±×
+	// ì¶œë ¥ - ê±°ë˜ ë¡œê·¸
 	//==========================================
-	system("cls"); // È­¸é Áö¿ì±â
+	system("cls"); // í™”ë©´ ì§€ìš°ê¸°
 	PrintLog();
 
 	//==========================================
-	// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ®(Caution)
+	// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸(Caution)
 	//==========================================
 	PrintAsciiArt(static_cast<int>(EMenu::Exit));
 
-	// Ãâ·Â - »óÁ¡ ³ª°¡±â ¼±ÅÃÁö
+	// ì¶œë ¥ - ìƒì  ë‚˜ê°€ê¸° ì„ íƒì§€
 	string str = "";
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		str = "ÀÌ°÷À» ¹ş¾î³ª¸é ¹Ù·Î ÀüÅõ°¡ ½ÃÀÛµË´Ï´Ù.\nÁ¤¸» ³ª°¡½Ã°Ú½À´Ï±î?\n";
+	{// ì¼ë°˜ ìƒì 
+		str = "ì´ê³³ì„ ë²—ì–´ë‚˜ë©´ ë°”ë¡œ ì „íˆ¬ê°€ ì‹œì‘ë©ë‹ˆë‹¤.\nì •ë§ ë‚˜ê°€ì‹œê² ìŠµë‹ˆê¹Œ?\n";
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		str = "¡Ûl°÷À» ¹ş©ª©©¤¤r¸é ¤²¥Ã·Î ÀüÅõ¤¡r ªó©¥ÀÛµËLI¡ø«È\nÁ¤¸» ¤¤r¤¡rªó©¥°Ú½ÀLI±î?\n";
+	{// íŠ¹ìˆ˜ ìƒì 
+		str = "â—‹lê³³ì„ ë²—Ã¸Å‚ã„´rë©´ ã…‚Î“ë¡œ ì „íˆ¬ã„±r ã‚“Ä±ì‘ë©LIâŠ‚ãƒˆ\nì •ë§ ã„´rã„±rã‚“Ä±ê² ìŠµLIê¹Œ?\n";
 	}
 	PrintBySpellingWithColor(str, EColors::RED, ETypingSpeed::FAST);
 
-	// ¼±ÅÃ - »óÁ¡ ³ª°¡±â
+	// ì„ íƒ - ìƒì  ë‚˜ê°€ê¸°
 	if (IsYes(player))
 	{
 		returnValue = true;
@@ -193,7 +212,7 @@ bool Shop::OnExit(Character* player)
 
 void Shop::DisplayItems(Character* player)
 {
-	// Æ¯¼ö »óÁ¡ - ¾Æ½ºÅ°¾ÆÆ® ¶óÀÎ Ãâ·Â¿ë
+	// íŠ¹ìˆ˜ ìƒì  - ì•„ìŠ¤í‚¤ì•„íŠ¸ ë¼ì¸ ì¶œë ¥ìš©
 	vector<int> colors = {
 		static_cast<int>(EColors::GREEN),
 		static_cast<int>(EColors::RED),
@@ -201,57 +220,57 @@ void Shop::DisplayItems(Character* player)
 		static_cast<int>(EColors::LIGHT_BLUE),
 		static_cast<int>(EColors::YELLOW)
 	};
-	string strLine = "¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß¡ß\n";
+	string strLine = "â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†\n";
 
 	//==========================================
-	// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï Ãâ·Â ÀüÃ³¸®
+	// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡ ì¶œë ¥ ì „ì²˜ë¦¬
 	//==========================================
-	const string str_Catalog = "ÆÇ¸Å ÁßÀÎ ¾ÆÀÌÅÛ ¸ñ·Ï:\n";
-	const string str_Catalog2 = "ÆÇ¡à¬« ÁßÀÎ ¤·r¡ÛlÅÛ ¸ñ·Ï:\n";
+	const string str_Catalog = "íŒë§¤ ì¤‘ì¸ ì•„ì´í…œ ëª©ë¡:\n";
+	const string str_Catalog2 = "íŒâ–¡Ğ™ ì¤‘ì¸ ã…‡râ—‹lí…œ ëª©ë¡:\n";
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		// Ãâ·Â - ¶óÀÎ
+	{// ì¼ë°˜ ìƒì 
+		// ì¶œë ¥ - ë¼ì¸
 		FnSetTextColor(EColors::LIGHT_GREEN);
 		cout << "======================================================================================\n";
-		// Ãâ·Â - ¹®±¸
+		// ì¶œë ¥ - ë¬¸êµ¬
 		PrintBySpellingWithColor(str_Catalog, EColors::LIGHT_GREEN, ETypingSpeed::FAST);
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		// Ãâ·Â - ¶óÀÎ
+	{// íŠ¹ìˆ˜ ìƒì 
+		// ì¶œë ¥ - ë¼ì¸
 		for (size_t i = 0; i < strLine.size(); ++i)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colors[(i + 3) % colors.size()]);
 			cout << strLine[i];
 		}
-		// Ãâ·Â - ¹®±¸
+		// ì¶œë ¥ - ë¬¸êµ¬
 		PrintBySpellingWithColor(str_Catalog2, EColors::LIGHT_GREEN, ETypingSpeed::FAST);
 	}
 
 	//==========================================
-	// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï
+	// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡
 	//==========================================
 	string str_effect;
 	string strPrint;
 	int idx = 1;
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
+	{// ì¼ë°˜ ìƒì 
 		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Reugular)
 		{
-			const EItemRegular& key = pair.first;			// ¾ÆÀÌÅÛ Å° (EItemRegular Å¸ÀÔ)
-			const unique_ptr<Item>& itemPtr = pair.second;	// ¾ÆÀÌÅÛ Æ÷ÀÎÅÍ
+			const EItemRegular& key = pair.first;			// ì•„ì´í…œ í‚¤ (EItemRegular íƒ€ì…)
+			const unique_ptr<Item>& itemPtr = pair.second;	// ì•„ì´í…œ í¬ì¸í„°
 
-			const int price = itemPtr->getPrice();			// ¾ÆÀÌÅÛ °¡°İ
-			const int playerGold = player->getGold();		// ÇÃ·¹ÀÌ¾î ¼ÒÁö °ñµå
+			const int price = itemPtr->getPrice();			// ì•„ì´í…œ ê°€ê²©
+			const int playerGold = player->getGold();		// í”Œë ˆì´ì–´ ì†Œì§€ ê³¨ë“œ
 
 			if (price > playerGold)
-			{// ºñÈ°¼ºÈ­ : ÇöÀç ¼ÒÁö ÁßÀÎ °ñµå·Î´Â ±¸¸ÅÇÒ ¼ö ¾ø´Â °æ¿ì
+			{// ë¹„í™œì„±í™” : í˜„ì¬ ì†Œì§€ ì¤‘ì¸ ê³¨ë“œë¡œëŠ” êµ¬ë§¤í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				FnSetTextColor(EColors::DARK_GRAY);
 				cout << "[" << idx++ << "] ";
 			}
 			else
-			{// È°¼ºÈ­ : °ñµå°¡ ÃæºĞÇØ¼­ ±¸¸ÅÇÒ ¼ö ÀÖ´Â °æ¿ì
-				// ÀÎµ¦½º¸¸ °­Á¶, »ç¿ëÀÚ°¡ ¹øÈ£ ÀÔ·ÂÀ» ÇÒ ¶§, °­Á¶µÈ ÀÎµ¦½º·Î ½Ã°¢Àû ¿µÇâÀ» ÁÖ¾î ¼±ÅÃÀÌ Æí¸®ÇÏµµ·Ï ÇÔ
+			{// í™œì„±í™” : ê³¨ë“œê°€ ì¶©ë¶„í•´ì„œ êµ¬ë§¤í•  ìˆ˜ ìˆëŠ” ê²½ìš°
+				// ì¸ë±ìŠ¤ë§Œ ê°•ì¡°, ì‚¬ìš©ìê°€ ë²ˆí˜¸ ì…ë ¥ì„ í•  ë•Œ, ê°•ì¡°ëœ ì¸ë±ìŠ¤ë¡œ ì‹œê°ì  ì˜í–¥ì„ ì£¼ì–´ ì„ íƒì´ í¸ë¦¬í•˜ë„ë¡ í•¨
 				FnSetTextColor(EColors::LIGHT_YELLOW);
 				cout << "[" << idx++ << "] ";
 
@@ -269,31 +288,31 @@ void Shop::DisplayItems(Character* player)
 			default: break;
 			}
 
-			// Ãâ·Â - ¾ÆÀÌÅÛ ÀÌ¸§ + È¿°ú + °¡°İ
+			// ì¶œë ¥ - ì•„ì´í…œ ì´ë¦„ + íš¨ê³¼ + ê°€ê²©
 			strPrint = itemPtr->getName() + " (" + str_effect + " +" + to_string(itemPtr->getItemValue()) + ")";
-			cout << left << setw(38) << strPrint			// ÀÌ¸§ + È¿°ú (38Ä­)
-				<< ": " << right << setw(3) << price		// °¡°İ (3Ä­)
+			cout << left << setw(38) << strPrint			// ì´ë¦„ + íš¨ê³¼ (38ì¹¸)
+				<< ": " << right << setw(3) << price		// ê°€ê²© (3ì¹¸)
 				<< "(G)" << endl;
 		}
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
+	{// íŠ¹ìˆ˜ ìƒì 
 		for (const pair<const EItemSpecial, unique_ptr<Item>>& pair : mCatalog_Special)
 		{
-			const EItemSpecial& key = pair.first;			// ¾ÆÀÌÅÛ Å° (EItemSpecial Å¸ÀÔ)
-			const unique_ptr<Item>& itemPtr = pair.second;  // ¾ÆÀÌÅÛ Æ÷ÀÎÅÍ
+			const EItemSpecial& key = pair.first;			// ì•„ì´í…œ í‚¤ (EItemSpecial íƒ€ì…)
+			const unique_ptr<Item>& itemPtr = pair.second;  // ì•„ì´í…œ í¬ì¸í„°
 
-			const int price = itemPtr->getPrice();			// ¾ÆÀÌÅÛ °¡°İ
-			const int playerGold = player->getGold();		// ÇÃ·¹ÀÌ¾î ¼ÒÁö °ñµå
+			const int price = itemPtr->getPrice();			// ì•„ì´í…œ ê°€ê²©
+			const int playerGold = player->getGold();		// í”Œë ˆì´ì–´ ì†Œì§€ ê³¨ë“œ
 
 			if (price > playerGold)
-			{// ºñÈ°¼ºÈ­ : ÇöÀç ¼ÒÁö ÁßÀÎ °ñµå·Î´Â ±¸¸ÅÇÒ ¼ö ¾ø´Â °æ¿ì
+			{// ë¹„í™œì„±í™” : í˜„ì¬ ì†Œì§€ ì¤‘ì¸ ê³¨ë“œë¡œëŠ” êµ¬ë§¤í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 				FnSetTextColor(EColors::DARK_GRAY);
 				cout << "[" << idx++ << "] ";
 			}
 			else
-			{// È°¼ºÈ­ : °ñµå°¡ ÃæºĞÇØ¼­ ±¸¸ÅÇÒ ¼ö ÀÖ´Â °æ¿ì
-				// ÀÎµ¦½º¸¸ °­Á¶, »ç¿ëÀÚ°¡ ¹øÈ£ ÀÔ·ÂÀ» ÇÒ ¶§, °­Á¶µÈ ÀÎµ¦½º·Î ½Ã°¢Àû ¿µÇâÀ» ÁÖ¾î ¼±ÅÃÀÌ Æí¸®ÇÏµµ·Ï ÇÔ
+			{// í™œì„±í™” : ê³¨ë“œê°€ ì¶©ë¶„í•´ì„œ êµ¬ë§¤í•  ìˆ˜ ìˆëŠ” ê²½ìš°
+				// ì¸ë±ìŠ¤ë§Œ ê°•ì¡°, ì‚¬ìš©ìê°€ ë²ˆí˜¸ ì…ë ¥ì„ í•  ë•Œ, ê°•ì¡°ëœ ì¸ë±ìŠ¤ë¡œ ì‹œê°ì  ì˜í–¥ì„ ì£¼ì–´ ì„ íƒì´ í¸ë¦¬í•˜ë„ë¡ í•¨
 				FnSetTextColor(EColors::LIGHT_YELLOW);
 				cout << "[" << idx++ << "] ";
 
@@ -303,30 +322,38 @@ void Shop::DisplayItems(Character* player)
 			switch (key)
 			{
 			case EItemSpecial::HolyWater:	str_effect = "HP"; break;
-			case EItemSpecial::Bomb:		str_effect = "ATK"; break;
+			case EItemSpecial::ChaosOrb:	str_effect = "\"?\""; break;
 			case EItemSpecial::END: break;
 			default: break;
 			}
 
-			// Ãâ·Â - ¾ÆÀÌÅÛ ÀÌ¸§ + È¿°ú + °¡°İ
-			strPrint = itemPtr->getName() + " (" + str_effect + " +" + to_string(itemPtr->getItemValue()) + ")";
-			cout << left << setw(38) << strPrint			// ÀÌ¸§ + È¿°ú (38Ä­)
-				<< ": " << right << setw(3) << price		// °¡°İ (3Ä­)
+			// ì¶œë ¥ - ì•„ì´í…œ ì´ë¦„ + íš¨ê³¼ + ê°€ê²©
+			if (EItemSpecial::HolyWater == key)
+			{
+				strPrint = itemPtr->getName() + " (" + str_effect + " +" + to_string(itemPtr->getItemValue()) + ")";
+			}
+			else if (EItemSpecial::ChaosOrb == key)
+			{
+				strPrint = itemPtr->getName() + "  (" + str_effect + ")";
+			}
+
+			cout << left << setw(38) << strPrint			// ì´ë¦„ + íš¨ê³¼ (38ì¹¸)
+				<< ": " << right << setw(3) << price		// ê°€ê²© (3ì¹¸)
 				<< "(G)" << endl;
 		}
 	}
 	//==========================================
-	// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï Ãâ·Â ÈÄÃ³¸®
+	// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡ ì¶œë ¥ í›„ì²˜ë¦¬
 	//==========================================
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		// Ãâ·Â - ¶óÀÎ
+	{// ì¼ë°˜ ìƒì 
+		// ì¶œë ¥ - ë¼ì¸
 		FnSetTextColor(EColors::LIGHT_GREEN);
 		cout << "======================================================================================\n";
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		// Ãâ·Â - ¶óÀÎ
+	{// íŠ¹ìˆ˜ ìƒì 
+		// ì¶œë ¥ - ë¼ì¸
 		for (size_t i = 0; i < strLine.size(); ++i)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colors[(i + 3) % colors.size()]);
@@ -343,225 +370,281 @@ void Shop::BuyItem(Character* player)
 	while (isContinue)
 	{
 		//==========================================
-		// Ãâ·Â - °Å·¡ ·Î±×
+		// ì¶œë ¥ - ê±°ë˜ ë¡œê·¸
 		//==========================================
-		system("cls"); // È­¸é Áö¿ì±â
+		system("cls"); // í™”ë©´ ì§€ìš°ê¸°
 		PrintLog();
 
 		//==========================================
-		// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ®(Purcahse)
+		// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸(Purcahse)
 		//==========================================
 		PrintAsciiArt(static_cast<int>(EMenu::Buy));
 
-		// Ãâ·Â - »óÁ¡ ³ª°¡±â ¼±ÅÃÁö	
+		// ì¶œë ¥ - ìƒì  ë‚˜ê°€ê¸° ì„ íƒì§€	
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] ÀÌÀüÀ¸·Î µ¹¾Æ°¡±â\n";
+		{// ì¼ë°˜ ìƒì 
+			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] ì´ì „ìœ¼ë¡œ ëŒì•„ê°€ê¸°\n";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] ¡ÛlÀüÀ¸·Î µ¹¤·r¤¡r«Öl\n";
+		{// íŠ¹ìˆ˜ ìƒì 
+			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] â—‹lì „ìœ¼ë¡œ ëŒã…‡rã„±rãƒ–l\n";
 		}
 
-		// Ãâ·Â - ¾ÆÀÌÅÛ ¸ñ·Ï
+		// ì¶œë ¥ - ì•„ì´í…œ ëª©ë¡
 		DisplayItems(player);
 
 		//==========================================
-		// ±¸¸Å °¡´É¼º È®ÀÎ
+		// êµ¬ë§¤ ê°€ëŠ¥ì„± í™•ì¸
 		//==========================================
 		/*
-			ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×ÀÌ
-			»óÇ° °¡°İ Áß ÃÖ¼Ò °¡°İº¸´Ù ÀûÀ¸¸é
-			¾ÆÀÌÅÛÀ» ¼±ÅÃÇÒ ¼ö ¾ø°í
-			ÀÌÀü ¸Ş´º·Î µ¹¾Æ°¡´Â ¼±ÅÃÁö¸¸ Á¦½ÃÇÑ´Ù.
+			í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡ì´
+			ìƒí’ˆ ê°€ê²© ì¤‘ ìµœì†Œ ê°€ê²©ë³´ë‹¤ ì ìœ¼ë©´
+			ì•„ì´í…œì„ ì„ íƒí•  ìˆ˜ ì—†ê³ 
+			ì´ì „ ë©”ë‰´ë¡œ ëŒì•„ê°€ëŠ” ì„ íƒì§€ë§Œ ì œì‹œí•œë‹¤.
 		*/
 		//==========================================
-		// ±¸¸Å ºÒ°¡ (°ñµå < ÃÖÀú°¡)
+		// êµ¬ë§¤ ë¶ˆê°€ (ê³¨ë“œ < ìµœì €ê°€)
 		//==========================================
 		if (!IsEnoughGoldBuyLowestPrice(player))
 		{
 			PrintPurchaseNotPossible(player, false);
 
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
 
 		//==========================================
-		// ±¸¸Å °¡´É (°ñµå >= ÃÖÀú°¡)
+		// êµ¬ë§¤ ê°€ëŠ¥ (ê³¨ë“œ >= ìµœì €ê°€)
 		//==========================================
-		// Ãâ·Â - ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸® À¯¹«¿¡ µû¶ó ºĞ±â
+		// ì¶œë ¥ - í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬ ìœ ë¬´ì— ë”°ë¼ ë¶„ê¸°
 		if (!player->getInventory().empty())
-		{// ÀÎº¥Åä¸®°¡ ºñ¾î ÀÖÁö ¾ÊÀº °æ¿ì
+		{// ì¸ë²¤í† ë¦¬ê°€ ë¹„ì–´ ìˆì§€ ì•Šì€ ê²½ìš°
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
+			{// ì¼ë°˜ ìƒì 
 				DisplayPlayerInventory<EItemRegular>(player, false);
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
+			{// íŠ¹ìˆ˜ ìƒì 
 				DisplayPlayerInventory<EItemSpecial>(player, false);
 			}
 		}
 		else
-		{// ÀÎº¥Åä¸®°¡ ºñ¾î ÀÖ´Â °æ¿ì
+		{// ì¸ë²¤í† ë¦¬ê°€ ë¹„ì–´ ìˆëŠ” ê²½ìš°
 			PrintEmptyInventoryMessage();
 		}
 
-		// Ãâ·Â - ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×
+		// ì¶œë ¥ - í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡
 		PrintPlayerGold(player, true);
 
-		// ¼±ÅÃ - ±¸¸ÅÇÒ ¾ÆÀÌÅÛ
+		// ì„ íƒ - êµ¬ë§¤í•  ì•„ì´í…œ
 		string strAsk_SelectItem = "";
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strAsk_SelectItem += "\"ÆÇ¸Å ÁßÀÎ ¾ÆÀÌÅÛ ¸ñ·Ï\"¿¡¼­, ±¸¸ÅÇÏ·Á´Â ¾ÆÀÌÅÛ ¹øÈ£¸¦ ÇÏ³ª¸¸ ¼±ÅÃÇÏ¼¼¿ä.\n";
-			strAsk_SelectItem += "ÀÌÀü ¸Ş´º·Î µ¹¾Æ°¡·Á¸é ¼ıÀÚ 0¹øÀ» ¼±ÅÃÇÏ¼¼¿ä.\n";
+		{// ì¼ë°˜ ìƒì 
+			strAsk_SelectItem += "\"íŒë§¤ ì¤‘ì¸ ì•„ì´í…œ ëª©ë¡\"ì—ì„œ, êµ¬ë§¤í•˜ë ¤ëŠ” ì•„ì´í…œ ë²ˆí˜¸ë¥¼ í•˜ë‚˜ë§Œ ì„ íƒí•˜ì„¸ìš”.\n";
+			strAsk_SelectItem += "ì´ì „ ë©”ë‰´ë¡œ ëŒì•„ê°€ë ¤ë©´ ìˆ«ì 0ë²ˆì„ ì„ íƒí•˜ì„¸ìš”.\n";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			strAsk_SelectItem += "\"ÆÇ¡à¬« ÁßÀÎ ¤·r¡ÛlÅÛ ¸ñ·Ï\"©ª©©ln¤Ã, ±¸¡à¬«©Ì·Á´Â ¤·r¡ÛlÅÛ ¹øÈ£¸¦ ©Ì¤¤rÏ¢ª¶ ¼±ÅÃ©Ì«Ñ¤Ä¿ä.\n";
-			strAsk_SelectItem += "¡ÛlÀü ¸Ş´º·Î µ¹¤·r¤¡r·Á¸é ¼ı¤¸¥Ã 0¹øÀ» ¼±ÅÃ©Ì«Ñ¤Ä¿ä.\n";
+		{// íŠ¹ìˆ˜ ìƒì 
+			strAsk_SelectItem += "\"íŒâ–¡Ğ™ ì¤‘ì¸ ã…‡râ—‹lí…œ ëª©ë¡\"Ã¸Å‚lnã…“, êµ¬â–¡Ğ™ãˆ›ë ¤ëŠ” ã…‡râ—‹lí…œ ë²ˆí˜¸ë¥¼ ãˆ›ã„´rå£ã– ì„ íƒãˆ›ãƒ‘ã…”ìš”.\n";
+			strAsk_SelectItem += "â—‹lì „ ë©”ë‰´ë¡œ ëŒã…‡rã„±rë ¤ë©´ ìˆ«ã…ˆÎ“ 0ë²ˆì„ ì„ íƒãˆ›ãƒ‘ã…”ìš”.\n";
 		}
 		PrintBySpellingWithColor(strAsk_SelectItem, EColors::YELLOW, ETypingSpeed::FAST);
 
 		//==========================================
-		// ÀÔ·Â(1) - ¾ÆÀÌÅÛ ¹øÈ£
+		// ì…ë ¥(1) - ì•„ì´í…œ ë²ˆí˜¸
 		//==========================================
 		int selection = -1;
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			selection = stoi(CheckInputValidation(0, mCatalog_Special.size(), player, true));
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			selection = stoi(CheckInputValidation(0, mCatalog_Special.size(), player, true));
 		}
 
-		// ÀÌÀüÀ¸·Î µ¹¾Æ°¡±â¸¦ ¼±ÅÃÇÑ °æ¿ì
+		// ì´ì „ìœ¼ë¡œ ëŒì•„ê°€ê¸°ë¥¼ ì„ íƒí•œ ê²½ìš°
 		const int EXIT = 0;
 		if (EXIT == selection)
 		{
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
 
 		//==========================================
-		// ±¸¸Å °¡´É¼º È®ÀÎ (°ñµå < ¼±ÅÃ ¾ÆÀÌÅÛ °¡°İ)
+		// êµ¬ë§¤ ê°€ëŠ¥ì„± í™•ì¸ (ê³¨ë“œ < ì„ íƒ ì•„ì´í…œ ê°€ê²©)
 		//==========================================
-		const int key_digit = selection - 1; // È­¸é»ó ¼±ÅÃ¹øÈ£´Â 1¹øºÎÅÍÀÌ¹Ç·Î -1 Ã³¸®ÇÔ.
+		const int key_digit = selection - 1; // í™”ë©´ìƒ ì„ íƒë²ˆí˜¸ëŠ” 1ë²ˆë¶€í„°ì´ë¯€ë¡œ -1 ì²˜ë¦¬í•¨.
 		int price = 0;
 
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			price = mCatalog_Reugular[static_cast<EItemRegular>(key_digit)]->getPrice();
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			price = mCatalog_Special[static_cast<EItemSpecial>(key_digit)]->getPrice();
 		}
 
 		if (price > player->getGold())
-		{// ±¸¸Å ºÒ°¡
+		{// êµ¬ë§¤ ë¶ˆê°€
 			PrintPurchaseNotPossible(player, false);
 
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
 
 		//==========================================
-		// ±¸¸Å °¡´É (°ñµå >= ¼±ÅÃ ¾ÆÀÌÅÛ °¡°İ)
+		// êµ¬ë§¤ ê°€ëŠ¥ (ê³¨ë“œ >= ì„ íƒ ì•„ì´í…œ ê°€ê²©)
 		//==========================================
-		// ±¸¸Å °¡´ÉÇÑ ÃÖ´ë ¼ö·® Ã£±â (ÇöÀç °ñµå·® / ¾ÆÀÌÅÛ °¡°İ = ±¸¸Å °¡´ÉÇÑ ÃÖ´ë ¼ö·®)
+		// êµ¬ë§¤ ê°€ëŠ¥í•œ ìµœëŒ€ ìˆ˜ëŸ‰ ì°¾ê¸° (í˜„ì¬ ê³¨ë“œëŸ‰ / ì•„ì´í…œ ê°€ê²© = êµ¬ë§¤ ê°€ëŠ¥í•œ ìµœëŒ€ ìˆ˜ëŸ‰)
 		int quantity_possibleMAX = player->getGold() / price;
 
 		//==========================================
-		// ÀÔ·Â(2) - ¼ö·®
+		// ì…ë ¥(2) - ìˆ˜ëŸ‰
 		//==========================================
-		int digit_Quantity = 0; // ±¸¸ÅÇÒ ¾ÆÀÌÅÛ ¼ö·®
+		int digit_Quantity = 0; // êµ¬ë§¤í•  ì•„ì´í…œ ìˆ˜ëŸ‰
 		const int ONE = 1;
 
-		// ¹®Àå Á¶¸³ - ±¸¸ÅÇÒ ¼ö·® ÀÔ·Â ¾È³»
+		// ë¬¸ì¥ ì¡°ë¦½ - êµ¬ë§¤í•  ìˆ˜ëŸ‰ ì…ë ¥ ì•ˆë‚´
 		string strAsk_HowMany = "";
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strAsk_HowMany += "¼±ÅÃÇÑ ¾ÆÀÌÅÛÀº ¼ÒÁö ÁßÀÎ °ñµå·Î ÃÖ´ë ";
+		{// ì¼ë°˜ ìƒì 
+			strAsk_HowMany += "ì„ íƒí•œ ì•„ì´í…œì€ ì†Œì§€ ì¤‘ì¸ ê³¨ë“œë¡œ ìµœëŒ€ ";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			strAsk_HowMany += "¼±ÅÃ¤¾¨© ¤·r¡ÛlÅÛÀº ¼Ò«ºl ÁßÀÎ °ñµå·Î ÃÖ¤§¬¯ ";
+		{// íŠ¹ìˆ˜ ìƒì 
+			strAsk_HowMany += "ì„ íƒã…Å ã…‡râ—‹lí…œì€ ì†Œã‚ºl ì¤‘ì¸ ê³¨ë“œë¡œ ìµœã„·Ğ ";
 		}
 		PrintBySpellingWithColor(strAsk_HowMany, EColors::YELLOW, ETypingSpeed::FAST);
 
-		// ¹®Àå Á¶¸³ - ±¸¸ÅÇÒ ¼ö·® ÀÔ·Â ¾È³» (ÃÖ´ë ¼ö·®)
+		// ë¬¸ì¥ ì¡°ë¦½ - êµ¬ë§¤í•  ìˆ˜ëŸ‰ ì…ë ¥ ì•ˆë‚´ (ìµœëŒ€ ìˆ˜ëŸ‰)
 		strAsk_HowMany.clear();
 		strAsk_HowMany += to_string(quantity_possibleMAX);
 		PrintBySpellingWithColor(strAsk_HowMany, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
 
 		strAsk_HowMany.clear();
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 
 			if (quantity_possibleMAX == ONE)
 			{
-				strAsk_HowMany += "°³±îÁö ±¸¸Å °¡´ÉÇÕ´Ï´Ù.\n±¸¸ÅÇÒ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä.\n";
+				strAsk_HowMany += "ê°œê¹Œì§€ êµ¬ë§¤ ê°€ëŠ¥í•©ë‹ˆë‹¤.\nêµ¬ë§¤í•  ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš”.\n";
 			}
 			else
 			{
-				strAsk_HowMany += "°³±îÁö ±¸¸Å °¡´ÉÇÕ´Ï´Ù.\n±¸¸ÅÇÒ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä. (1 ~ ";
+				strAsk_HowMany += "ê°œê¹Œì§€ êµ¬ë§¤ ê°€ëŠ¥í•©ë‹ˆë‹¤.\nêµ¬ë§¤í•  ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš”. (1 ~ ";
 			}
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			if (quantity_possibleMAX == ONE)
 			{
-				strAsk_HowMany += "°³±î«ºl ±¸¡à¬« ¤¡r´ÉÇÕLI¡ø«È.\n±¸¡à¬«ÇÒ ¼ö·®À» ÀÔ·Â©Ì«Ñ¤Ä¿ä.\n";
+				strAsk_HowMany += "ê°œê¹Œã‚ºl êµ¬â–¡Ğ™ ã„±rëŠ¥í•©LIâŠ‚ãƒˆ.\nêµ¬â–¡Ğ™í•  ìˆ˜ëŸ‰ì„ ì…ë ¥ãˆ›ãƒ‘ã…”ìš”.\n";
 			}
 			else
 			{
-				strAsk_HowMany += "°³±î«ºl ±¸¡à¬« ¤¡r´ÉÇÕLI¡ø«È.\n±¸¡à¬«ÇÒ ¼ö·®À» ÀÔ·Â©Ì«Ñ¤Ä¿ä. (1 ~ ";
+				strAsk_HowMany += "ê°œê¹Œã‚ºl êµ¬â–¡Ğ™ ã„±rëŠ¥í•©LIâŠ‚ãƒˆ.\nêµ¬â–¡Ğ™í•  ìˆ˜ëŸ‰ì„ ì…ë ¥ãˆ›ãƒ‘ã…”ìš”. (1 ~ ";
 			}
 		}
 
 		if (quantity_possibleMAX != ONE)
-		{// ¼ö·®ÀÌ 1°³ ÀÌ»óÀÎ °æ¿ì
+		{// ìˆ˜ëŸ‰ì´ 1ê°œ ì´ìƒì¸ ê²½ìš°
 			strAsk_HowMany += to_string(quantity_possibleMAX);
 			strAsk_HowMany += ")\n";
 		}
 		PrintBySpellingWithColor(strAsk_HowMany, EColors::YELLOW, ETypingSpeed::FAST);
 
-		// ÀÔ·Â
-		const string chkedStr_HowMany = CheckInputValidation(1, quantity_possibleMAX, player); // ¼ö·®Àº 1°³ ÀÌ»ó, °ñµå·Î °¡´ÉÇÑ ÃÖ´ëÄ¡ ÀÌÇÏ·Î ÀÔ·Â¹Ş´Â´Ù.
+		// ì…ë ¥
+		const string chkedStr_HowMany = CheckInputValidation(1, quantity_possibleMAX, player); // ìˆ˜ëŸ‰ì€ 1ê°œ ì´ìƒ, ê³¨ë“œë¡œ ê°€ëŠ¥í•œ ìµœëŒ€ì¹˜ ì´í•˜ë¡œ ì…ë ¥ë°›ëŠ”ë‹¤.
 		digit_Quantity = stoi(chkedStr_HowMany);
 
 		//==========================================
-		// ±¸¸Å ·ÎÁ÷ ÁøÇà
+		// êµ¬ë§¤ ë¡œì§ ì§„í–‰
 		//==========================================
-		// ¸ÅÀÔ°¡ °è»ê : 1°³ ´ÜÀ§ ±¸¸Å°¡¿¡ ÆÇ¸ÅÇÒ ¾ÆÀÌÅÛ ¼ö·®ÀÌ °öÇØÁø´Ù.
+		// ë§¤ì…ê°€ ê³„ì‚° : 1ê°œ ë‹¨ìœ„ êµ¬ë§¤ê°€ì— íŒë§¤í•  ì•„ì´í…œ ìˆ˜ëŸ‰ì´ ê³±í•´ì§„ë‹¤.
 		price *= digit_Quantity;
 
-		// Ãâ·Â - ±¸¸Å °á°ú
+		// ì¶œë ¥ - êµ¬ë§¤ ê²°ê³¼
 		string strBuyResult = "";
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strBuyResult = "±¸¸Å °á°ú : ";
+		{// ì¼ë°˜ ìƒì 
+			strBuyResult = "êµ¬ë§¤ ê²°ê³¼ : ";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			if (EItemSpecial::HolyWater == static_cast<EItemSpecial>(key_digit))
 			{
 				vector<string> vecAsciiArt_HolySpirit;
 				vecAsciiArt_HolySpirit = {
-					""
+
+					"                             .                              ",
+					"                            .@!                             ",
+					"                        @,  |@|   r                         ",
+					"                  _     '@  |@|  E'     ,                   ",
+					"          'Sg_.    \"g_[1 | @' !P   _j\"    ._aB'           ",
+					"              <Ta_   'Q_  '        _x\"   __Z >             ",
+					"                 '4k__   .y@P=4Bg_   __gf                   ",
+					"                     `  5`   _   \@  \"                     ",
+					"             :@@@@@@b  !g .@\" \"B. [j  w@@@@@@-            ",
+					"                       'B |@   @' (\"                       ",
+					"              __agd4@g. TgJP   <1g\".g@B@gg__               ",
+					"           _OP'      `@  J/     \\b  g        \"q_          ",
+					"          @\"          faj        \\@ + W          '@       ",
+					"         [/             @         @             'l          ",
+					"       _g\"              @         @              '@,       ",
+					"     _W\"                8,       ,@                \"@_    ",
+					"    gL__       __@>Vm_   @.     .@   _jPT@__       ___Q  ",
+					"       \"\"==BB=\"\"     \"9g__@     Ql_ > 0\"     \" += 8B = \"\"\"     ",
+					"                          ]f   4[                           ",
+					"                        ,@\"     \"B                        ",
+					"                     _gP           Vg_                      ",
+					"                     %g_           _JP                      ",
+					"                       \"0qg__ - __agF\"                    "
+
 				};
 				PrintByLineWithColor(vecAsciiArt_HolySpirit, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
 				cout << endl;
 			}
-			strBuyResult = "±¸¡à¬« °á°ú : ";
+			else if (EItemSpecial::ChaosOrb == static_cast<EItemSpecial>(key_digit))
+			{
+				vector<string> vecAsciiArt_HolySpirit;
+				vecAsciiArt_HolySpirit = {
+					"                              ___gWgg___                             ",
+					"                      .__ggg@@@@@@@@@@@@@@@c___                      ",
+					"               ___yW@@@@M\"   ___,,   '@@@@@@@@@@@@gp_,               ",
+					"       .._~g@@@@@@@@@@@W.   3@@@@g   'BB@@@@@@@@@@@@@@@@@@g_,.       ",
+					"            \"=9P@@@@@@@@g@@@@@@@@@@g_c    ,8@@@@@@@@@@[F>            ",
+					"       |@@g__     \"=D@@@@@@@@@@@@@@@@@@@@@@@@@@@@P~     ,_g@@g       ",
+					"       |@@@@@@WWg___    \"+NB@@@@@@@@@@@@@@BP\"     __<@@@@@@@@g       ",
+					"       |@@@@@@@@@@@@@@y___    \"\"f@@@B@p\"     __@@@@@@@@@@@@@@g       ",
+					"       |@@@@@@@@BPB]@@@@@@@Wg__       __g@@@@@@@@ABB@@@@@@@@@g       ",
+					"       |@@@@@@        %@@@@@@@@@@   [@@@@@@@@@\"       ^$@@@@@g       ",
+					"       |@@@@@B   _@g.   Z@@@@@@@@   [@@@@@@WP   ,g@_   [@@@@@g       ",
+					"       |@@@@@@@@sg@@@   [@@@@@@@@   [@@@@@@@   j@@@@   [@@@@@g       ",
+					"       |@@@@@@@@@@@W\"   [@@@@@@@@   [@@@@@@@@@@@@@F   _@@@@@@g       ",
+					"       |@@@@@@@@@G^    _@@@@@@@@@   [@@@@@@@@@@@2    @@@@@@@@g       ",
+					"       |@@@@@@@@@W   ;@@@@@@@@@@@   [@@@@@@@@@@@   ;@@@@@@@@@g       ",
+					"       |@@@@@@@@@g___W@@@@@@@@@@@   [@@@@@@@@@@@ __9$@@@@@@@@g       ",
+					"       |@@@@@@@@@@   @@@@@@@@@@@@   [@@@@@@@@@@@   |@@@@@@@@@g       ",
+					"       'B@@@@@@@@@   @@@@@@@@@@@@   [@@@@@@@@@@@   |@@@@@@@@@g       ",
+					"          ` v@@@@@@@@@@@@@@@@@@@@   [@@@@@@@@@@@@@@@@@@@B=\"          ",
+					"                '\"4@@@@@@@@@@@@@@   [@@@@@@@@@@@@8B=                 ",
+					"                      '\"4@@@@@@@@   [@@@@@@@Z*\"                      ",
+					"                             \"0@@   [@@>\"                            "
+
+				};
+				PrintByLineWithColor(vecAsciiArt_HolySpirit, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
+				cout << endl;
+			}
+
+			strBuyResult = "êµ¬â–¡Ğ™ ê²°ê³¼ : ";
 		}
 
 		PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
@@ -569,11 +652,11 @@ void Shop::BuyItem(Character* player)
 		strBuyResult += "\"";
 
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			strBuyResult += mCatalog_Reugular[static_cast<EItemRegular>(key_digit)]->getName();
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			strBuyResult += mCatalog_Special[static_cast<EItemSpecial>(key_digit)]->getName();
 		}
 
@@ -583,12 +666,12 @@ void Shop::BuyItem(Character* player)
 		strBuyResult += to_string(digit_Quantity);
 
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strBuyResult += "°³ ±¸¸Å, ";
+		{// ì¼ë°˜ ìƒì 
+			strBuyResult += "ê°œ êµ¬ë§¤, ";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			strBuyResult = "°³ ±¸¡à¬«, ";
+		{// íŠ¹ìˆ˜ ìƒì 
+			strBuyResult = "ê°œ êµ¬â–¡Ğ™, ";
 		}
 
 		PrintBySpellingWithColor(strBuyResult, EColors::YELLOW, ETypingSpeed::FAST);
@@ -598,68 +681,68 @@ void Shop::BuyItem(Character* player)
 		strBuyResult += "(G)\n";
 		PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 
-		// ÇÃ·¹ÀÌ¾î ¼ÒÁö °ñµå Â÷°¨
+		// í”Œë ˆì´ì–´ ì†Œì§€ ê³¨ë“œ ì°¨ê°
 		player->setGold(player->getGold() - price);
 
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			// ·Î±× ¾÷µ¥ÀÌÆ®
+		{// ì¼ë°˜ ìƒì 
+			// ë¡œê·¸ ì—…ë°ì´íŠ¸
 			UpdateLogMessage(true, mCatalog_Reugular[static_cast<EItemRegular>(key_digit)]->getName(), digit_Quantity);
 
-			// ÇÃ·¹ÀÌ¾î¿¡°Ô ¾ÆÀÌÅÛ ÁÖ±â
+			// í”Œë ˆì´ì–´ì—ê²Œ ì•„ì´í…œ ì£¼ê¸°
 			RegisterItem(player, static_cast<EItemRegular>(key_digit), digit_Quantity);
 
-			// Ãâ·Â - ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸®
+			// ì¶œë ¥ - í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬
 			DisplayPlayerInventory(player, false, true, static_cast<EItemRegular>(key_digit));
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			// ·Î±× ¾÷µ¥ÀÌÆ®
+		{// íŠ¹ìˆ˜ ìƒì 
+			// ë¡œê·¸ ì—…ë°ì´íŠ¸
 			UpdateLogMessage(true, mCatalog_Special[static_cast<EItemSpecial>(key_digit)]->getName(), digit_Quantity);
 
-			// ÇÃ·¹ÀÌ¾î¿¡°Ô ¾ÆÀÌÅÛ ÁÖ±â
+			// í”Œë ˆì´ì–´ì—ê²Œ ì•„ì´í…œ ì£¼ê¸°
 			RegisterItem(player, static_cast<EItemSpecial>(key_digit), digit_Quantity);
 
-			// Ãâ·Â - ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸®
+			// ì¶œë ¥ - í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬
 			DisplayPlayerInventory(player, false, true, static_cast<EItemSpecial>(key_digit));
 		}
 
 		//==========================================
-		// Ãß°¡ ±¸¸Å ºÒ°¡ (°ñµå < ÃÖÀú°¡)
+		// ì¶”ê°€ êµ¬ë§¤ ë¶ˆê°€ (ê³¨ë“œ < ìµœì €ê°€)
 		//==========================================
 		if (!IsEnoughGoldBuyLowestPrice(player))
-		{// ±¸¸Å ºÒ°¡
+		{// êµ¬ë§¤ ë¶ˆê°€
 			PrintPurchaseNotPossible(player, true);
 
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
 
 		//==========================================
-		// Ãß°¡ ±¸¸Å °¡´É (°ñµå >= ÃÖÀú°¡)
+		// ì¶”ê°€ êµ¬ë§¤ ê°€ëŠ¥ (ê³¨ë“œ >= ìµœì €ê°€)
 		//==========================================
-		// Ãâ·Â - ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×
+		// ì¶œë ¥ - í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡
 		PrintPlayerGold(player, true);
 
-		// ¼±ÅÃ - Yes/No
+		// ì„ íƒ - Yes/No
 		string strAsk_More = "";
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strAsk_More = "´õ ±¸¸ÅÇÏ½Ã°Ú½À´Ï±î?\n";
+		{// ì¼ë°˜ ìƒì 
+			strAsk_More = "ë” êµ¬ë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			strAsk_More = "ªÆ¦© ±¸¡à¬«©Ìªó©¥°Ú½ÀLI±î?\n";
+		{// íŠ¹ìˆ˜ ìƒì 
+			strAsk_More = "ã¦â”¤ êµ¬â–¡Ğ™ãˆ›ã‚“Ä±ê² ìŠµLIê¹Œ?\n";
 		}
 		PrintBySpellingWithColor(strAsk_More, EColors::YELLOW, ETypingSpeed::FAST);
 
-		// ÀÔ·Â - Yes/No
+		// ì…ë ¥ - Yes/No
 		if (!IsYes(player))
 		{
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
@@ -672,69 +755,69 @@ void Shop::SellItem(Character* player)
 	while (isContinue)
 	{
 		//==========================================
-		// Ãâ·Â - °Å·¡ ·Î±×
+		// ì¶œë ¥ - ê±°ë˜ ë¡œê·¸
 		//==========================================
-		system("cls"); // È­¸é Áö¿ì±â
+		system("cls"); // í™”ë©´ ì§€ìš°ê¸°
 		PrintLog();
 
 		//==========================================
-		// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ®(Sales)
+		// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸(Sales)
 		//==========================================
 		PrintAsciiArt(static_cast<int>(EMenu::Sell));
 
-		// Ãâ·Â - »óÁ¡ ³ª°¡±â ¼±ÅÃÁö
+		// ì¶œë ¥ - ìƒì  ë‚˜ê°€ê¸° ì„ íƒì§€
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] ÀÌÀüÀ¸·Î µ¹¾Æ°¡±â\n";
+		{// ì¼ë°˜ ìƒì 
+			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] ì´ì „ìœ¼ë¡œ ëŒì•„ê°€ê¸°\n";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] ¡ÛlÀüÀ¸·Î µ¹¤·r¤¡r«Öl\n";
+		{// íŠ¹ìˆ˜ ìƒì 
+			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] â—‹lì „ìœ¼ë¡œ ëŒã…‡rã„±rãƒ–l\n";
 		}
 
 		//==========================================
-		// ÆÇ¸Å ºÒ°¡ (ÀÎº¥Åä¸®°¡ ºñ¾îÀÖ´Â °æ¿ì)
+		// íŒë§¤ ë¶ˆê°€ (ì¸ë²¤í† ë¦¬ê°€ ë¹„ì–´ìˆëŠ” ê²½ìš°)
 		//==========================================
 		if (player->getInventory().empty())
 		{
 			PrintSaleNotPossible(player, false);
 
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
 
 		//==========================================
-		// ÆÇ¸Å °¡´É (ÀÎº¥Åä¸®°¡ Ã¤¿öÁø °æ¿ì)
+		// íŒë§¤ ê°€ëŠ¥ (ì¸ë²¤í† ë¦¬ê°€ ì±„ì›Œì§„ ê²½ìš°)
 		//==========================================
-		// Ãâ·Â - ÀÎº¥Åä¸®, ¼ÒÁö °ñµå·®
+		// ì¶œë ¥ - ì¸ë²¤í† ë¦¬, ì†Œì§€ ê³¨ë“œëŸ‰
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			DisplayPlayerInventory<EItemRegular>(player, true);
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			DisplayPlayerInventory<EItemSpecial>(player, true);
 		}
 
-		// Ãâ·Â - ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×
+		// ì¶œë ¥ - í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡
 		PrintPlayerGold(player, true);
 
-		// ¼±ÅÃ - ÆÇ¸ÅÇÒ ¾ÆÀÌÅÛ
+		// ì„ íƒ - íŒë§¤í•  ì•„ì´í…œ
 		string strAsk_SelectItem = "";
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strAsk_SelectItem = "\"ÀÎº¥Åä¸® ¸ñ·Ï\"¿¡¼­, ÆÇ¸ÅÇÏ·Á´Â ¾ÆÀÌÅÛ ¹øÈ£¸¦ ÇÏ³ª¸¸ ¼±ÅÃÇÏ¼¼¿ä.\nÀÌÀü ¸Ş´º·Î µ¹¾Æ°¡·Á¸é ¼ıÀÚ 0¹øÀ» ¼±ÅÃÇÏ¼¼¿ä.\n";
+		{// ì¼ë°˜ ìƒì 
+			strAsk_SelectItem = "\"ì¸ë²¤í† ë¦¬ ëª©ë¡\"ì—ì„œ, íŒë§¤í•˜ë ¤ëŠ” ì•„ì´í…œ ë²ˆí˜¸ë¥¼ í•˜ë‚˜ë§Œ ì„ íƒí•˜ì„¸ìš”.\nì´ì „ ë©”ë‰´ë¡œ ëŒì•„ê°€ë ¤ë©´ ìˆ«ì 0ë²ˆì„ ì„ íƒí•˜ì„¸ìš”.\n";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			strAsk_SelectItem = "\"ÀÎº¥ÅäĞùl ¸ñ·Ï\"©ª©©ln¤Ã, ÆÇ¡à¬«©Ì·Á´Â ¤·r¡ÛlÅÛ ¹øÈ£¸¦ ©Ì¤¤rÏ¢ª¶ ¼±ÅÃ©Ì«Ñ¤Ä¿ä.\n¡ÛlÀü ¸Ş´º·Î µ¹¤·r¤¡r·Á¸é ¼ı¤¸¥Ã 0¹øÀ» ¼±ÅÃ©Ì«Ñ¤Ä¿ä.\n";
+		{// íŠ¹ìˆ˜ ìƒì 
+			strAsk_SelectItem = "\"ì¸ë²¤í† å·±l ëª©ë¡\"Ã¸Å‚lnã…“, íŒâ–¡Ğ™ãˆ›ë ¤ëŠ” ã…‡râ—‹lí…œ ë²ˆí˜¸ë¥¼ ãˆ›ã„´rå£ã– ì„ íƒãˆ›ãƒ‘ã…”ìš”.\nâ—‹lì „ ë©”ë‰´ë¡œ ëŒã…‡rã„±rë ¤ë©´ ìˆ«ã…ˆÎ“ 0ë²ˆì„ ì„ íƒãˆ›ãƒ‘ã…”ìš”.\n";
 		}
 		PrintBySpellingWithColor(strAsk_SelectItem, EColors::YELLOW, ETypingSpeed::FAST);
 
 		//==========================================
-		// ¸ÅÇÎ - Å°°ª & ÀÔ·Â°ª 
+		// ë§¤í•‘ - í‚¤ê°’ & ì…ë ¥ê°’ 
 		//==========================================
 		map<string, pair<Item*, int>> playerInventory = player->getInventory();
 		vector<string> vecChkIdx;
@@ -745,76 +828,76 @@ void Shop::SellItem(Character* player)
 		}
 
 		//==========================================
-		// ÀÔ·Â(1) - ¾ÆÀÌÅÛ ¹øÈ£
+		// ì…ë ¥(1) - ì•„ì´í…œ ë²ˆí˜¸
 		//==========================================
 		const string chkedStr_SelectItem = CheckInputValidation(0, playerInventory.size(), player);
 		const int digit_SelectItemIdx = stoi(chkedStr_SelectItem);
 
-		// "ÀÌÀüÀ¸·Î µ¹¾Æ°¡±â" ¼±ÅÃ ½Ã
+		// "ì´ì „ìœ¼ë¡œ ëŒì•„ê°€ê¸°" ì„ íƒ ì‹œ
 		const int Exit = 0;
 		if (Exit == digit_SelectItemIdx)
 		{
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
 
 		//==========================================
-		// ¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ Á¤º¸ ÃßÃâ
+		// ì„ íƒí•œ ì•„ì´í…œì˜ ì •ë³´ ì¶”ì¶œ
 		//==========================================
-		// ÀÔ·Â°ª°ú ½ÇÁ¦ ÀÎº¥Åä¸® ÀÎµ¦½º¸¦ ¸ÅÇÎÇÏ±â À§ÇÑ Å°
-		const string strKey = vecChkIdx[digit_SelectItemIdx - 1];			// key-name. È­¸é»ó ¼±ÅÃ¹øÈ£´Â 1¹øºÎÅÍÀÌ¹Ç·Î -1 Ã³¸®ÇÔ.
-		const int quantity = playerInventory.find(strKey)->second.second;	// ¼ö·®
-		Item* item = playerInventory.find(strKey)->second.first;			// ¾ÆÀÌÅÛ Å¸ÀÔ
-		const string strItemDefaultName = item->getName();					// ¾ÆÀÌÅÛ ±âº» ÀÌ¸§
-		int salePrice = (item->getPrice()) * mSaleRatio;					// ¸ÅÀÔ°¡
-		int digit_Quantity = 0;												// ½ÇÁ¦ ÆÇ¸ÅÇÒ ¾ÆÀÌÅÛ ¼ö·®
+		// ì…ë ¥ê°’ê³¼ ì‹¤ì œ ì¸ë²¤í† ë¦¬ ì¸ë±ìŠ¤ë¥¼ ë§¤í•‘í•˜ê¸° ìœ„í•œ í‚¤
+		const string strKey = vecChkIdx[digit_SelectItemIdx - 1];			// key-name. í™”ë©´ìƒ ì„ íƒë²ˆí˜¸ëŠ” 1ë²ˆë¶€í„°ì´ë¯€ë¡œ -1 ì²˜ë¦¬í•¨.
+		const int quantity = playerInventory.find(strKey)->second.second;	// ìˆ˜ëŸ‰
+		Item* item = playerInventory.find(strKey)->second.first;			// ì•„ì´í…œ íƒ€ì…
+		const string strItemDefaultName = item->getName();					// ì•„ì´í…œ ê¸°ë³¸ ì´ë¦„
+		int salePrice = (item->getPrice()) * mSaleRatio;					// ë§¤ì…ê°€
+		int digit_Quantity = 0;												// ì‹¤ì œ íŒë§¤í•  ì•„ì´í…œ ìˆ˜ëŸ‰
 
 		const int ONLY_ONE = 1;
 		if (ONLY_ONE == quantity)
 		{
 			//==========================================
-			// ¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ ¼ö·®ÀÌ 1°³»ÓÀÎ °æ¿ì
+			// ì„ íƒí•œ ì•„ì´í…œì˜ ìˆ˜ëŸ‰ì´ 1ê°œë¿ì¸ ê²½ìš°
 			//==========================================
-			// ¼±ÅÃ - ÆÇ¸ÅÇÒ ¾ÆÀÌÅÛ
+			// ì„ íƒ - íŒë§¤í•  ì•„ì´í…œ
 			string strAsk_SellReally = "";
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				strAsk_SellReally = "¼±ÅÃÇÑ ¾ÆÀÌÅÛÀº ÇöÀç 1°³»ÓÀÎ ¾ÆÀÌÅÛÀÔ´Ï´Ù. Á¤¸»·Î ÆÇ¸ÅÇÏ½Ã°Ú½À´Ï±î?\n";
+			{// ì¼ë°˜ ìƒì 
+				strAsk_SellReally = "ì„ íƒí•œ ì•„ì´í…œì€ í˜„ì¬ 1ê°œë¿ì¸ ì•„ì´í…œì…ë‹ˆë‹¤. ì •ë§ë¡œ íŒë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n";
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				strAsk_SellReally = "¼±ÅÃ¤¾¨© ¤·r¡ÛlÅÛÀº ÇöÀç 1°³»ÓÀÎ ¤·r¡ÛlÅÛÀÔLI¡ø«È. Á¤¸»·Î ÆÇ¡à¬«©Ìªó©¥°Ú½ÀLI±î?\n";
+			{// íŠ¹ìˆ˜ ìƒì 
+				strAsk_SellReally = "ì„ íƒã…Å ã…‡râ—‹lí…œì€ í˜„ì¬ 1ê°œë¿ì¸ ã…‡râ—‹lí…œì…LIâŠ‚ãƒˆ. ì •ë§ë¡œ íŒâ–¡Ğ™ãˆ›ã‚“Ä±ê² ìŠµLIê¹Œ?\n";
 			}
 			PrintBySpellingWithColor(strAsk_SellReally, EColors::LIGHT_RED, ETypingSpeed::FAST);
 
 			if (!IsYes(player))
 			{
 				//==========================================
-				// È¸±Í - ¸ŞÀÎ ¸Ş´º
+				// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 				//==========================================
 				//isContinue = false;
 				continue;
 			}
 
-			const int ONLY_ONE = 1;	// ÆÇ¸ÅÇÒ ¾ÆÀÌÅÛ ¼ö·®Àº 1°³·Î °íÁ¤
+			const int ONLY_ONE = 1;	// íŒë§¤í•  ì•„ì´í…œ ìˆ˜ëŸ‰ì€ 1ê°œë¡œ ê³ ì •
 			digit_Quantity = ONLY_ONE;
 		}
 		else
 		{
 			//==========================================
-			// ÀÔ·Â(2) - ¼ö·®
+			// ì…ë ¥(2) - ìˆ˜ëŸ‰
 			//==========================================
-			// ¹®Àå Á¶¸³°ú Ãâ·Â
+			// ë¬¸ì¥ ì¡°ë¦½ê³¼ ì¶œë ¥
 			string strAsk_HowMany = "";
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				strAsk_HowMany += "¼±ÅÃÇÑ ¾ÆÀÌÅÛÀº ÇöÀç ";
+			{// ì¼ë°˜ ìƒì 
+				strAsk_HowMany += "ì„ íƒí•œ ì•„ì´í…œì€ í˜„ì¬ ";
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				strAsk_HowMany += "¼±ÅÃ¤¾¨© ¤·r¡ÛlÅÛÀº ÇöÀç ";
+			{// íŠ¹ìˆ˜ ìƒì 
+				strAsk_HowMany += "ì„ íƒã…Å ã…‡râ—‹lí…œì€ í˜„ì¬ ";
 			}
 			PrintBySpellingWithColor(strAsk_HowMany, EColors::YELLOW, ETypingSpeed::FAST);
 			strAsk_HowMany.clear();
@@ -822,33 +905,33 @@ void Shop::SellItem(Character* player)
 			PrintBySpellingWithColor(strAsk_HowMany, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
 			strAsk_HowMany.clear();
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				strAsk_HowMany += "°³ ÀÖ½À´Ï´Ù.\nÆÇ¸ÅÇÒ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä. (1 ~ ";
+			{// ì¼ë°˜ ìƒì 
+				strAsk_HowMany += "ê°œ ìˆìŠµë‹ˆë‹¤.\níŒë§¤í•  ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš”. (1 ~ ";
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				strAsk_HowMany += "°³ ÀÖ½ÀLI¡ø«È.\nÆÇ¡à¬«ÇÒ ¼ö·®À» ÀÔ·Â©Ì«Ñ¤Ä¿ä. (1 ~ ";
+			{// íŠ¹ìˆ˜ ìƒì 
+				strAsk_HowMany += "ê°œ ìˆìŠµLIâŠ‚ãƒˆ.\níŒâ–¡Ğ™í•  ìˆ˜ëŸ‰ì„ ì…ë ¥ãˆ›ãƒ‘ã…”ìš”. (1 ~ ";
 			}
 			strAsk_HowMany += to_string(quantity);
 			strAsk_HowMany += ")\n";
 			PrintBySpellingWithColor(strAsk_HowMany, EColors::YELLOW, ETypingSpeed::FAST);
 
-			// ÀÔ·Â
-			const string chkedStr_HowMany = CheckInputValidation(1, quantity, player);	// ¼ö·®Àº 1°³ ÀÌ»ó, ¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ ¼ö·® ÀÌÇÏ·Î ÀÔ·Â¹Ş´Â´Ù.
+			// ì…ë ¥
+			const string chkedStr_HowMany = CheckInputValidation(1, quantity, player);	// ìˆ˜ëŸ‰ì€ 1ê°œ ì´ìƒ, ì„ íƒí•œ ì•„ì´í…œì˜ ìˆ˜ëŸ‰ ì´í•˜ë¡œ ì…ë ¥ë°›ëŠ”ë‹¤.
 			digit_Quantity = stoi(chkedStr_HowMany);
 		}
 
 		//==========================================
-		// ÆÇ¸Å ·ÎÁ÷ ÁøÇà
+		// íŒë§¤ ë¡œì§ ì§„í–‰
 		//==========================================
-		// ¸ÅÀÔ°¡ °è»ê : 1°³ ´ÜÀ§ ¸ÅÀÔ°¡¿¡ ÆÇ¸ÅÇÒ ¾ÆÀÌÅÛ ¼ö·®ÀÌ °öÇØÁø´Ù.
+		// ë§¤ì…ê°€ ê³„ì‚° : 1ê°œ ë‹¨ìœ„ ë§¤ì…ê°€ì— íŒë§¤í•  ì•„ì´í…œ ìˆ˜ëŸ‰ì´ ê³±í•´ì§„ë‹¤.
 		salePrice *= digit_Quantity;
 
-		// Ãâ·Â - ÆÇ¸Å ¼º°ø ¹®±¸
+		// ì¶œë ¥ - íŒë§¤ ì„±ê³µ ë¬¸êµ¬
 		string strBuyResult = "";
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strBuyResult = "ÆÇ¸Å °á°ú: ";
+		{// ì¼ë°˜ ìƒì 
+			strBuyResult = "íŒë§¤ ê²°ê³¼: ";
 			PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
 			strBuyResult.clear();
 			strBuyResult += "\"";
@@ -859,7 +942,7 @@ void Shop::SellItem(Character* player)
 			PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 			strBuyResult.clear();
 			strBuyResult += to_string(digit_Quantity);
-			strBuyResult += "°³ ÆÇ¸Å, ";
+			strBuyResult += "ê°œ íŒë§¤, ";
 			PrintBySpellingWithColor(strBuyResult, EColors::YELLOW, ETypingSpeed::FAST);
 			strBuyResult.clear();
 			strBuyResult += "+";
@@ -868,8 +951,8 @@ void Shop::SellItem(Character* player)
 			PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			strBuyResult = "ÆÇ¡à¬« °á°ú: ";
+		{// íŠ¹ìˆ˜ ìƒì 
+			strBuyResult = "íŒâ–¡Ğ™ ê²°ê³¼: ";
 			PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
 			strBuyResult.clear();
 			strBuyResult += "\"";
@@ -880,7 +963,7 @@ void Shop::SellItem(Character* player)
 			PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 			strBuyResult.clear();
 			strBuyResult += to_string(digit_Quantity);
-			strBuyResult += "°³ ÆÇ¡à¬«, ";
+			strBuyResult += "ê°œ íŒâ–¡Ğ™, ";
 			PrintBySpellingWithColor(strBuyResult, EColors::YELLOW, ETypingSpeed::FAST);
 			strBuyResult.clear();
 			strBuyResult += "+";
@@ -889,61 +972,61 @@ void Shop::SellItem(Character* player)
 			PrintBySpellingWithColor(strBuyResult, EColors::LIGHT_CYAN, ETypingSpeed::FAST);
 		}
 
-		// ¼ø¼­ Áß¿ä! ½ÇÁ¦ ¾ÆÀÌÅÛ ÆÇ¸Å ·ÎÁ÷ ÁøÇà Àü¿¡ ·Î±× ¾÷µ¥ÀÌÆ®¸¦ ¸ÕÀú ÁøÇàÇØ¾ß ÇÔ.
-		// ·Î±× ¾÷µ¥ÀÌÆ®
+		// ìˆœì„œ ì¤‘ìš”! ì‹¤ì œ ì•„ì´í…œ íŒë§¤ ë¡œì§ ì§„í–‰ ì „ì— ë¡œê·¸ ì—…ë°ì´íŠ¸ë¥¼ ë¨¼ì € ì§„í–‰í•´ì•¼ í•¨.
+		// ë¡œê·¸ ì—…ë°ì´íŠ¸
 		UpdateLogMessage(false, strItemDefaultName, digit_Quantity);
 
-		// ÇÃ·¹ÀÌ¾î¿¡°Ô ±İ¾× Àü´Ş
+		// í”Œë ˆì´ì–´ì—ê²Œ ê¸ˆì•¡ ì „ë‹¬
 		player->setGold(player->getGold() + salePrice);
 
-		// ÀÎº¥Åä¸® ¼ö·® Â÷°¨
+		// ì¸ë²¤í† ë¦¬ ìˆ˜ëŸ‰ ì°¨ê°
 		ReduceItem(player, strKey, digit_Quantity);
 
 		//==========================================
-		// Ãß°¡ ÆÇ¸Å ºÒ°¡ (ÀÎº¥Åä¸®°¡ ºñ¾îÀÖ´Â °æ¿ì)
+		// ì¶”ê°€ íŒë§¤ ë¶ˆê°€ (ì¸ë²¤í† ë¦¬ê°€ ë¹„ì–´ìˆëŠ” ê²½ìš°)
 		//==========================================
 		if (player->getInventory().empty())
-		{// ÆÇ¸Å ºÒ°¡
+		{// íŒë§¤ ë¶ˆê°€
 			PrintSaleNotPossible(player, true);
 
 			//==========================================
-			// È¸±Í - ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ - ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
 
 		//==========================================
-		// Ãß°¡ ÆÇ¸Å °¡´É
+		// ì¶”ê°€ íŒë§¤ ê°€ëŠ¥
 		//==========================================
-		// Ãâ·Â - ÀÎº¥Åä¸®
+		// ì¶œë ¥ - ì¸ë²¤í† ë¦¬
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			DisplayPlayerInventory(player, true, true, EItemRegular::END, strKey);
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			DisplayPlayerInventory(player, true, true, EItemSpecial::END, strKey);
 		}
 
-		// Ãâ·Â - ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×
+		// ì¶œë ¥ - í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡
 		PrintPlayerGold(player, true);
 
-		// ¼±ÅÃ - Yes/No
+		// ì„ íƒ - Yes/No
 		string strAsk_More = "";
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			strAsk_More = "´õ ÆÇ¸ÅÇÏ½Ã°Ú½À´Ï±î?\n";
+		{// ì¼ë°˜ ìƒì 
+			strAsk_More = "ë” íŒë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n";
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			strAsk_More = "ªÆ¦© ÆÇ¡à¬«©Ìªó©¥°Ú½ÀLI±î?\n";
+		{// íŠ¹ìˆ˜ ìƒì 
+			strAsk_More = "ã¦â”¤ íŒâ–¡Ğ™ãˆ›ã‚“Ä±ê² ìŠµLIê¹Œ?\n";
 		}
 		PrintBySpellingWithColor(strAsk_More, EColors::YELLOW, ETypingSpeed::FAST);
 
 		if (!IsYes(player))
 		{
 			//==========================================
-			// È¸±Í -  ¸ŞÀÎ ¸Ş´º
+			// íšŒê·€ -  ë©”ì¸ ë©”ë‰´
 			//==========================================
 			isContinue = false; continue;
 		}
@@ -952,13 +1035,13 @@ void Shop::SellItem(Character* player)
 
 void Shop::PrintAsciiArt(int _type)
 {
-	// ÀÏ¹İ »óÁ¡¿ë
+	// ì¼ë°˜ ìƒì ìš©
 	vector<string> vecAsciiArt;
 	vecAsciiArt.clear();
 	EColors color = EColors::END;
 
-	// Æ¯¼ö »óÁ¡¿ë
-	// º¤ÅÍ´Â ÇÑ ÁÙ¾¿ Ãâ·ÂµÇ¹Ç·Î, ¹®ÀÚ¿­·Î Ã³¸®ÇÏ¿© Ã¶ÀÚ ÇÏ³ª¾¿ Ãâ·ÂÇÏ´Â ¹æ½ÄÀ¸·Î Àû¿ë.
+	// íŠ¹ìˆ˜ ìƒì ìš©
+	// ë²¡í„°ëŠ” í•œ ì¤„ì”© ì¶œë ¥ë˜ë¯€ë¡œ, ë¬¸ìì—´ë¡œ ì²˜ë¦¬í•˜ì—¬ ì² ì í•˜ë‚˜ì”© ì¶œë ¥í•˜ëŠ” ë°©ì‹ìœ¼ë¡œ ì ìš©.
 	string strAsciiArt = "";
 
 	EMenu type = static_cast<EMenu>(_type);
@@ -967,7 +1050,7 @@ void Shop::PrintAsciiArt(int _type)
 	case EMenu::Main:
 	{// MainMenu
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			vecAsciiArt = {
 				"___  ___        _        ___  ___                     ",
 				"|  \\/  |       (_)       |  \\/  |                     ",
@@ -979,13 +1062,13 @@ void Shop::PrintAsciiArt(int _type)
 			color = EColors::LIGHT_MAGENTA;
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			strAsciiArt += "___  ___        _        ___  ___                     ";
-			strAsciiArt += "\n|¡á¡á\\/¡á¡á|       (¡á)       |¡á¡á\\/¡á¡á|                     ";
-			strAsciiArt += "\n|¡á¡á¡á¡á¡á¡á|  __ _  _  _ __  |¡á¡á¡á¡á¡á¡á|  ___  _ __   _   _  ";
-			strAsciiArt += "\n|¡á|\\/|¡á| /¡á¡á¡á¡á||¡á||¡á¡á¡á¡á\\ |¡á|\\/|¡á| /¡á¡á¡á\|¡á¡á¡á¡á¡á\\ |¡á| |¡á| ";
-			strAsciiArt += "\n|¡á|  |¡á||¡á(_|¡á||¡á||¡á| |¡á||¡á|  |¡á||¡á¡á¡á¡á/|¡á| |¡á||¡á|_|¡á| ";
-			strAsciiArt += "\n\\¡á|  |¡á/ \\¡á¡á¡á¡á||¡á||¡á| |¡á|\\¡á|  |¡á/ \\¡á¡á¡á||¡á| |¡á| \\¡á¡á¡á¡á| ";
+			strAsciiArt += "\n|â– â– \\/â– â– |       (â– )       |â– â– \\/â– â– |                     ";
+			strAsciiArt += "\n|â– â– â– â– â– â– |  __ _  _  _ __  |â– â– â– â– â– â– |  ___  _ __   _   _  ";
+			strAsciiArt += "\n|â– |\\/|â– | /â– â– â– â– ||â– ||â– â– â– â– \\ |â– |\\/|â– | /â– â– â– \|â– â– â– â– â– \\ |â– | |â– | ";
+			strAsciiArt += "\n|â– |  |â– ||â– (_|â– ||â– ||â– | |â– ||â– |  |â– ||â– â– â– â– /|â– | |â– ||â– |_|â– | ";
+			strAsciiArt += "\n\\â– |  |â– / \\â– â– â– â– ||â– ||â– | |â– |\\â– |  |â– / \\â– â– â– ||â– | |â– | \\â– â– â– â– | ";
 		}
 	}
 	break;
@@ -993,7 +1076,7 @@ void Shop::PrintAsciiArt(int _type)
 	{// Purchase
 
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			vecAsciiArt = {
 				"______                     _                        ",
 				"| ___ \\                   | |                       ",
@@ -1005,20 +1088,20 @@ void Shop::PrintAsciiArt(int _type)
 			color = EColors::LIGHT_GREEN;
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			strAsciiArt += "______                     _                        ";
-			strAsciiArt += "\n|¡á¡á¡á¡á¡á\\                   |¡á|                       ";
-			strAsciiArt += "\n|¡á|_/¡á/ _   _  _ __   ___ |¡á|__    __ _  ___   ___  ";
-			strAsciiArt += "\n|¡á¡á¡á¡á/ |¡á| |¡á||¡á¡á¡á¡á| /¡á¡á¡á||¡á¡á¡á¡á\\  /¡á_¡á¡á|/ ¡á¡á| /¡á¡á¡á\\ ";
-			strAsciiArt += "\n|¡á|    |¡á|_|¡á||¡á|   |¡á(__ |¡á| |¡á||¡á(_|¡á|\\¡á¡á \\|¡á¡á¡á¡á/ ";
-			strAsciiArt += "\n\\¡á|     \\¡á¡á¡á¡á||¡á|   \\¡á¡á¡á¡á||¡á| |¡á| \\¡á¡á¡á¡á||¡á¡á¡á/ \\¡á¡á¡á| ";
+			strAsciiArt += "\n|â– â– â– â– â– \\                   |â– |                       ";
+			strAsciiArt += "\n|â– |_/â– / _   _  _ __   ___ |â– |__    __ _  ___   ___  ";
+			strAsciiArt += "\n|â– â– â– â– / |â– | |â– ||â– â– â– â– | /â– â– â– ||â– â– â– â– \\  /â– _â– â– |/ â– â– | /â– â– â– \\ ";
+			strAsciiArt += "\n|â– |    |â– |_|â– ||â– |   |â– (__ |â– | |â– ||â– (_|â– |\\â– â–  \\|â– â– â– â– / ";
+			strAsciiArt += "\n\\â– |     \\â– â– â– â– ||â– |   \\â– â– â– â– ||â– | |â– | \\â– â– â– â– ||â– â– â– / \\â– â– â– | ";
 		}
 	}
 	break;
 	case EMenu::Sell:
 	{// Sales
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			vecAsciiArt = {
 				" _____         _                ",
 				"/  ___|       | |               ",
@@ -1030,13 +1113,13 @@ void Shop::PrintAsciiArt(int _type)
 			color = EColors::LIGHT_BLUE;
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			strAsciiArt += " _____         _                ";
-			strAsciiArt += "\n/¡á¡á¡á¡á¡á|       |¡á|               ";
-			strAsciiArt += "\n\\¡á`--.   __ _ |¡á|  ___  ___    ";
-			strAsciiArt += "\n `--.¡á\\ /¡á¡á¡á¡á||¡á| /¡á¡á¡á\\/¡á¡á¡á|  ";
-			strAsciiArt += "\n/\\__/¡á/|¡á(_|¡á||¡á||¡á¡á¡á¡á/\\¡á¡á¡á\\ ";
-			strAsciiArt += "\n\\¡á¡á¡á¡á/  \\¡á¡á¡á¡á||¡á| \\¡á¡á¡á||¡á¡á¡á/ ";
+			strAsciiArt += "\n/â– â– â– â– â– |       |â– |               ";
+			strAsciiArt += "\n\\â– `--.   __ _ |â– |  ___  ___    ";
+			strAsciiArt += "\n `--.â– \\ /â– â– â– â– ||â– | /â– â– â– \\/â– â– â– |  ";
+			strAsciiArt += "\n/\\__/â– /|â– (_|â– ||â– ||â– â– â– â– /\\â– â– â– \\ ";
+			strAsciiArt += "\n\\â– â– â– â– /  \\â– â– â– â– ||â– | \\â– â– â– ||â– â– â– / ";
 		}
 	}
 	break;
@@ -1045,24 +1128,24 @@ void Shop::PrintAsciiArt(int _type)
 
 		color = EColors::RED;
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
+		{// ì¼ë°˜ ìƒì 
 			vecAsciiArt = {
 			" _____                _    _                ",
-			"/¡á¡á¡á¡á¡á\\              |¡á|  (¡á)               ",
-			"|¡á/  \\/  __ _  _   _ |¡á|_  _   ___   _ __   ",
-			"|¡á|     /¡á¡á¡á¡á||¡á| |¡á||¡á¡á¡á||¡á| /¡á¡á¡á\\ |¡á¡á¡á¡á\\  ",
-			"|¡á\\__/\\|¡á(_|¡á||¡á|_|¡á||¡á|_ |¡á||¡á(_)¡á||¡á| |¡á| ",
-			" \\¡á¡á¡á¡á/ \\¡á¡á¡á¡á| \\¡á¡á¡á¡á| \\¡á¡á||¡á| \\¡á¡á¡á/ |¡á| |¡á| "
+			"/â– â– â– â– â– \\              |â– |  (â– )               ",
+			"|â– /  \\/  __ _  _   _ |â– |_  _   ___   _ __   ",
+			"|â– |     /â– â– â– â– ||â– | |â– ||â– â– â– ||â– | /â– â– â– \\ |â– â– â– â– \\  ",
+			"|â– \\__/\\|â– (_|â– ||â– |_|â– ||â– |_ |â– ||â– (_)â– ||â– | |â– | ",
+			" \\â– â– â– â– / \\â– â– â– â– | \\â– â– â– â– | \\â– â– ||â– | \\â– â– â– / |â– | |â– | "
 			};
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
+		{// íŠ¹ìˆ˜ ìƒì 
 			strAsciiArt += " _____                _    _                ";
-			strAsciiArt += "\n/¡á¡á¡á¡á¡á\\              |¡á|  (¡á)               ";
-			strAsciiArt += "\n|¡á/  \\/  __ _  _   _ |¡á|_  _   ___   _ __   ";
-			strAsciiArt += "\n|¡á|     /¡á¡á¡á¡á||¡á| |¡á||¡á¡á¡á||¡á| /¡á¡á¡á\\ |¡á¡á¡á¡á\\  ";
-			strAsciiArt += "\n|¡á\\__/\\|¡á(_|¡á||¡á|_|¡á||¡á|_ |¡á||¡á(_)¡á||¡á| |¡á| ";
-			strAsciiArt += "\n \\¡á¡á¡á¡á/ \\¡á¡á¡á¡á| \\¡á¡á¡á¡á| \\¡á¡á||¡á| \\¡á¡á¡á/ |¡á| |¡á| ";
+			strAsciiArt += "\n/â– â– â– â– â– \\              |â– |  (â– )               ";
+			strAsciiArt += "\n|â– /  \\/  __ _  _   _ |â– |_  _   ___   _ __   ";
+			strAsciiArt += "\n|â– |     /â– â– â– â– ||â– | |â– ||â– â– â– ||â– | /â– â– â– \\ |â– â– â– â– \\  ";
+			strAsciiArt += "\n|â– \\__/\\|â– (_|â– ||â– |_|â– ||â– |_ |â– ||â– (_)â– ||â– | |â– | ";
+			strAsciiArt += "\n \\â– â– â– â– / \\â– â– â– â– | \\â– â– â– â– | \\â– â– ||â– | \\â– â– â– / |â– | |â– | ";
 		}
 	}
 	break;
@@ -1073,11 +1156,11 @@ void Shop::PrintAsciiArt(int _type)
 	}
 
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
+	{// ì¼ë°˜ ìƒì 
 		PrintByLineWithColor(vecAsciiArt, color, ETypingSpeed::SLOW);
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
+	{// íŠ¹ìˆ˜ ìƒì 
 		vector<int> colors = {
 			static_cast<int>(EColors::GREEN),
 			static_cast<int>(EColors::RED),
@@ -1104,24 +1187,24 @@ void Shop::PrintPlayerGold(Character* player, bool _isEnoughGold)
 {
 	EColors color = EColors::END;
 	string strPlayerGold1;
-	// Ãâ·Â - ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×
+	// ì¶œë ¥ - í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		strPlayerGold1 = "ÇöÀç ¼ÒÁö ÁßÀÎ °ñµå: ";
+	{// ì¼ë°˜ ìƒì 
+		strPlayerGold1 = "í˜„ì¬ ì†Œì§€ ì¤‘ì¸ ê³¨ë“œ: ";
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		strPlayerGold1 = "ÇöÀç ¼Ò«ºl ÁßÀÎ °ñµå: ";
+	{// íŠ¹ìˆ˜ ìƒì 
+		strPlayerGold1 = "í˜„ì¬ ì†Œã‚ºl ì¤‘ì¸ ê³¨ë“œ: ";
 	}
 	PrintBySpellingWithColor(strPlayerGold1, EColors::YELLOW, ETypingSpeed::FAST);
 
-	// °ñµå °­Á¶
+	// ê³¨ë“œ ê°•ì¡°
 	if (_isEnoughGold)
-	{// ÃæºĞÇÑ °æ¿ì
+	{// ì¶©ë¶„í•œ ê²½ìš°
 		color = EColors::LIGHT_YELLOW;
 	}
 	else
-	{// ÃæºĞÇÏÁö ¾ÊÀº °æ¿ì - °æ°íÀÇ ´À³¦À¸·Î RED
+	{// ì¶©ë¶„í•˜ì§€ ì•Šì€ ê²½ìš° - ê²½ê³ ì˜ ëŠë‚Œìœ¼ë¡œ RED
 		color = EColors::RED;
 	}
 	string strPlayerGold2;
@@ -1138,12 +1221,12 @@ void Shop::PrintYesNoMenu()
 	FnSetTextColor(EColors::YELLOW);		cout << "YES\n";
 	FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[2] ";
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		FnSetTextColor(EColors::YELLOW);	cout << "NO (ÀÌÀüÀ¸·Î µ¹¾Æ°¡±â)\n";
+	{// ì¼ë°˜ ìƒì 
+		FnSetTextColor(EColors::YELLOW);	cout << "NO (ì´ì „ìœ¼ë¡œ ëŒì•„ê°€ê¸°)\n";
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		FnSetTextColor(EColors::YELLOW);	cout << "NO (¡ÛlÀüÀ¸·Î µ¹¤·r¤¡r«Öl)\n";
+	{// íŠ¹ìˆ˜ ìƒì 
+		FnSetTextColor(EColors::YELLOW);	cout << "NO (â—‹lì „ìœ¼ë¡œ ëŒã…‡rã„±rãƒ–l)\n";
 	}
 	FnSetTextDefault();
 }//END-void Shop::PrintYesNoMenu
@@ -1152,54 +1235,54 @@ void Shop::PrintEmptyInventoryMessage()
 {
 	string str = "";
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		str = "ÀÎº¥Åä¸®°¡ ºñ¾îÀÖ½À´Ï´Ù.\n¾ÆÀÌÅÛÀ» ±¸¸ÅÇÏ¿© ÀÎº¥Åä¸®¸¦ Ã¤¿öº¸¼¼¿ä.\n";
+	{// ì¼ë°˜ ìƒì 
+		str = "ì¸ë²¤í† ë¦¬ê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤.\nì•„ì´í…œì„ êµ¬ë§¤í•˜ì—¬ ì¸ë²¤í† ë¦¬ë¥¼ ì±„ì›Œë³´ì„¸ìš”.\n";
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		str = "ÀÎº¥ÅäĞùl¤¡r ¨¶¤Ó©ª©©ÀÖ½ÀLI¡ø«È.\n¤·r¡ÛlÅÛÀ» ±¸¡à¬«©Ì©ª¤Å ÀÎº¥ÅäĞùl¸¦ Ã¤¿öº¸«Ñ¤Ä¿ä.\n";
+	{// íŠ¹ìˆ˜ ìƒì 
+		str = "ì¸ë²¤í† å·±lã„±r ã‰¥ã…£Ã¸Å‚ìˆìŠµLIâŠ‚ãƒˆ.\nã…‡râ—‹lí…œì„ êµ¬â–¡Ğ™ãˆ›Ã¸ã…• ì¸ë²¤í† å·±lë¥¼ ì±„ì›Œë³´ãƒ‘ã…”ìš”.\n";
 	}
 	PrintBySpellingWithColor(str, EColors::LIGHT_RED, ETypingSpeed::FAST);
 }//END-void Shop::PrintEmptyInventoryMessage
 
 void Shop::PrintPurchaseNotPossible(Character* player, bool _isAdditional)
 {
-	// Ãâ·Â - ÇÃ·¹ÀÌ¾î ¼ÒÁö ±İ¾×
+	// ì¶œë ¥ - í”Œë ˆì´ì–´ ì†Œì§€ ê¸ˆì•¡
 	PrintPlayerGold(player, false);
 
 	string str;
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
+	{// ì¼ë°˜ ìƒì 
 		if (_isAdditional)
-		{// Ãß°¡ ±¸¸ÅÀÎ °æ¿ì
-			str = "´õ ÀÌ»ó ±¸¸Å¸¦ ÁøÇàÇÒ ¼ö ¾ø½À´Ï´Ù. °ñµå°¡ ÃæºĞÇÏÁö ¾Ê½À´Ï´Ù.\n";
+		{// ì¶”ê°€ êµ¬ë§¤ì¸ ê²½ìš°
+			str = "ë” ì´ìƒ êµ¬ë§¤ë¥¼ ì§„í–‰í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ê³¨ë“œê°€ ì¶©ë¶„í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n";
 		}
 		else
-		{// ÃÊ±â ±¸¸ÅÀÎ °æ¿ì
-			str = "±¸¸ÅÇÒ ¼ö ¾ø½À´Ï´Ù. °ñµå°¡ ÃæºĞÇÏÁö ¾Ê½À´Ï´Ù.\n";
+		{// ì´ˆê¸° êµ¬ë§¤ì¸ ê²½ìš°
+			str = "êµ¬ë§¤í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ê³¨ë“œê°€ ì¶©ë¶„í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n";
 		}
 		PrintBySpellingWithColor(str, EColors::LIGHT_RED, ETypingSpeed::FAST);
 
-		const string strAsk = "ÀÌÀü ¸Ş´º·Î µ¹¾Æ°¡·Á¸é ¼ıÀÚ 0¹øÀ» ¼±ÅÃÇÏ¼¼¿ä.\n";
+		const string strAsk = "ì´ì „ ë©”ë‰´ë¡œ ëŒì•„ê°€ë ¤ë©´ ìˆ«ì 0ë²ˆì„ ì„ íƒí•˜ì„¸ìš”.\n";
 		PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
+	{// íŠ¹ìˆ˜ ìƒì 
 		if (_isAdditional)
-		{// Ãß°¡ ±¸¸ÅÀÎ °æ¿ì
-			str = "ªÆ¦© ¡Ûl«Ğ6 ±¸¡à¬«¸¦ ÁøÇàÇÒ ¼ö ¾ø½ÀLI¡ø«È. °ñµå¤¡r ÃæºĞ©Ì«ºl ¾Ê½ÀLI¡ø«È.\n";
+		{// ì¶”ê°€ êµ¬ë§¤ì¸ ê²½ìš°
+			str = "ã¦â”¤ â—‹lãƒ6 êµ¬â–¡Ğ™ë¥¼ ì§„í–‰í•  ìˆ˜ ì—†ìŠµLIâŠ‚ãƒˆ. ê³¨ë“œã„±r ì¶©ë¶„ãˆ›ã‚ºl ì•ŠìŠµLIâŠ‚ãƒˆ.\n";
 		}
 		else
-		{// ÃÊ±â ±¸¸ÅÀÎ °æ¿ì
-			str = "±¸¡à¬«ÇÒ ¼ö ¾ø½ÀLI¡ø«È. °ñµå¤¡r ÃæºĞ©Ì«ºl ¾Ê½ÀLI¡ø«È.\n";
+		{// ì´ˆê¸° êµ¬ë§¤ì¸ ê²½ìš°
+			str = "êµ¬â–¡Ğ™í•  ìˆ˜ ì—†ìŠµLIâŠ‚ãƒˆ. ê³¨ë“œã„±r ì¶©ë¶„ãˆ›ã‚ºl ì•ŠìŠµLIâŠ‚ãƒˆ.\n";
 		}
 		PrintBySpellingWithColor(str, EColors::LIGHT_RED, ETypingSpeed::FAST);
 
-		const string strAsk = "¡ÛlÀü ¸Ş´º·Î µ¹¤·r¤¡r·Á¸é ¼ı¤¸¥Ã 0¹øÀ» ¼±ÅÃ©Ì«Ñ¤Ä¿ä.\n";
+		const string strAsk = "â—‹lì „ ë©”ë‰´ë¡œ ëŒã…‡rã„±rë ¤ë©´ ìˆ«ã…ˆÎ“ 0ë²ˆì„ ì„ íƒãˆ›ãƒ‘ã…”ìš”.\n";
 		PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 	}
 
-	// ÀÔ·Â & À¯È¿¼º °Ë»ç (·ÎÁ÷»ó ¹İÈ¯°ª ¹«½Ã °¡´É)
+	// ì…ë ¥ & ìœ íš¨ì„± ê²€ì‚¬ (ë¡œì§ìƒ ë°˜í™˜ê°’ ë¬´ì‹œ ê°€ëŠ¥)
 	const string chkedStr = CheckInputValidation(0, 0, player);
 }//END-void Shop::PurchaseNotPossible
 
@@ -1207,37 +1290,37 @@ void Shop::PrintSaleNotPossible(Character* player, bool _isAdditional)
 {
 	string str;
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
+	{// ì¼ë°˜ ìƒì 
 		if (_isAdditional)
-		{// Ãß°¡ ÆÇ¸ÅÀÎ °æ¿ì
-			str = "´õ ÀÌ»ó ÆÇ¸Å¸¦ ÁøÇàÇÒ ¼ö ¾ø½À´Ï´Ù. ÀÎº¥Åä¸®°¡ ºñ¾ú½À´Ï´Ù.\n";
+		{// ì¶”ê°€ íŒë§¤ì¸ ê²½ìš°
+			str = "ë” ì´ìƒ íŒë§¤ë¥¼ ì§„í–‰í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ì¸ë²¤í† ë¦¬ê°€ ë¹„ì—ˆìŠµë‹ˆë‹¤.\n";
 		}
 		else
-		{// ÃÊ±â ÆÇ¸ÅÀÎ °æ¿ì
-			str = "ÆÇ¸ÅÇÒ ¼ö ÀÖ´Â ¾ÆÀÌÅÛÀÌ ¾ø½À´Ï´Ù. ÀÎº¥Åä¸®°¡ ºñ¾îÀÖ½À´Ï´Ù.\n";
+		{// ì´ˆê¸° íŒë§¤ì¸ ê²½ìš°
+			str = "íŒë§¤í•  ìˆ˜ ìˆëŠ” ì•„ì´í…œì´ ì—†ìŠµë‹ˆë‹¤. ì¸ë²¤í† ë¦¬ê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤.\n";
 		}
 		PrintBySpellingWithColor(str, EColors::LIGHT_RED, ETypingSpeed::FAST);
 
-		const string strAsk = "ÀÌÀü ¸Ş´º·Î µ¹¾Æ°¡·Á¸é ¼ıÀÚ 0¹øÀ» ¼±ÅÃÇÏ¼¼¿ä.\n";
+		const string strAsk = "ì´ì „ ë©”ë‰´ë¡œ ëŒì•„ê°€ë ¤ë©´ ìˆ«ì 0ë²ˆì„ ì„ íƒí•˜ì„¸ìš”.\n";
 		PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
+	{// íŠ¹ìˆ˜ ìƒì 
 		if (_isAdditional)
-		{// Ãß°¡ ÆÇ¸ÅÀÎ °æ¿ì
-			str = "ªÆ¦© ¡Ûl«Ğ6 ÆÇ¡à¬«¸¦ ÁøÇàÇÒ ¼ö ¾ø½ÀLI¡ø«È. ÀÎº¥ÅäĞùl¤¡r ¨¶¤Ó¾ú½ÀLI¡ø«È.\n";
+		{// ì¶”ê°€ íŒë§¤ì¸ ê²½ìš°
+			str = "ã¦â”¤ â—‹lãƒ6 íŒâ–¡Ğ™ë¥¼ ì§„í–‰í•  ìˆ˜ ì—†ìŠµLIâŠ‚ãƒˆ. ì¸ë²¤í† å·±lã„±r ã‰¥ã…£ì—ˆìŠµLIâŠ‚ãƒˆ.\n";
 		}
 		else
-		{// ÃÊ±â ÆÇ¸ÅÀÎ °æ¿ì
-			str = "ÆÇ¡à¬«ÇÒ ¼ö ÀÖ´Â ¤·r¡ÛlÅÛ¡Ûl ¾ø½ÀLI¡ø«È. ÀÎº¥ÅäĞùl¤¡r ¨¶¤Ó©ª©©ÀÖ½ÀLI¡ø«È.\n";
+		{// ì´ˆê¸° íŒë§¤ì¸ ê²½ìš°
+			str = "íŒâ–¡Ğ™í•  ìˆ˜ ìˆëŠ” ã…‡râ—‹lí…œâ—‹l ì—†ìŠµLIâŠ‚ãƒˆ. ì¸ë²¤í† å·±lã„±r ã‰¥ã…£Ã¸Å‚ìˆìŠµLIâŠ‚ãƒˆ.\n";
 		}
 		PrintBySpellingWithColor(str, EColors::LIGHT_RED, ETypingSpeed::FAST);
 
-		const string strAsk = "¡ÛlÀü ¸Ş´º·Î µ¹¤·r¤¡r·Á¸é ¼ı¤¸¥Ã 0¹øÀ» ¼±ÅÃ©Ì«Ñ¤Ä¿ä.\n";
+		const string strAsk = "â—‹lì „ ë©”ë‰´ë¡œ ëŒã…‡rã„±rë ¤ë©´ ìˆ«ã…ˆÎ“ 0ë²ˆì„ ì„ íƒãˆ›ãƒ‘ã…”ìš”.\n";
 		PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 	}
 
-	// ÀÔ·Â & À¯È¿¼º °Ë»ç (·ÎÁ÷»ó ¹İÈ¯°ª ¹«½Ã °¡´É)
+	// ì…ë ¥ & ìœ íš¨ì„± ê²€ì‚¬ (ë¡œì§ìƒ ë°˜í™˜ê°’ ë¬´ì‹œ ê°€ëŠ¥)
 	const string chkedStr = CheckInputValidation(0, 0, player);
 }//END-void Shop::SaleNotPossible
 
@@ -1245,28 +1328,28 @@ bool Shop::IsEnoughGoldBuyLowestPrice(Character* player)
 {
 	bool returnValue = false;
 
-	// »óÇ° Áß ÃÖ¼Ò °¡°İ Ã£±â
+	// ìƒí’ˆ ì¤‘ ìµœì†Œ ê°€ê²© ì°¾ê¸°
 	vector<int> vecPrice;
 
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
+	{// ì¼ë°˜ ìƒì 
 		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Reugular)
 		{
 			vecPrice.push_back(pair.second->getPrice());
 		}
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
+	{// íŠ¹ìˆ˜ ìƒì 
 		for (const pair<const EItemSpecial, unique_ptr<Item>>& pair : mCatalog_Special)
 		{
 			vecPrice.push_back(pair.second->getPrice());
 		}
 	}
 
-	// »óÇ° Áß ÃÖ¼Ò °¡°İ
+	// ìƒí’ˆ ì¤‘ ìµœì†Œ ê°€ê²©
 	const int minPrice = *std::min_element(vecPrice.begin(), vecPrice.end());
 	if (minPrice <= player->getGold())
-	{// °ñµå°¡ ÃæºĞÇÑ °æ¿ì ¹İÈ¯°ªÀº true
+	{// ê³¨ë“œê°€ ì¶©ë¶„í•œ ê²½ìš° ë°˜í™˜ê°’ì€ true
 		returnValue = true;
 	}
 
@@ -1279,7 +1362,7 @@ bool Shop::IsYes(Character* player)
 
 	PrintYesNoMenu();
 
-	// ÀÔ·Â
+	// ì…ë ¥
 	const string chkedStr = CheckInputValidation(static_cast<int>(EYesNo::Yes), static_cast<int>(EYesNo::No), player);
 	const EYesNo result2 = static_cast<EYesNo>(stoi(chkedStr));
 	switch (result2)
@@ -1304,60 +1387,60 @@ void Shop::MainMenu(Character* player)
 	while (isContinue)
 	{
 		//==========================================
-		// Ãâ·Â - °Å·¡ ·Î±×
+		// ì¶œë ¥ - ê±°ë˜ ë¡œê·¸
 		//==========================================
 		if (!mIsFirstEntry)
 		{
-			system("cls"); // È­¸é Áö¿ì±â
+			system("cls"); // í™”ë©´ ì§€ìš°ê¸°
 			PrintLog();
 		}
 
 		//==========================================
-		// Ãâ·Â - ¾Æ½ºÅ°¾ÆÆ®(MainMenu)
+		// ì¶œë ¥ - ì•„ìŠ¤í‚¤ì•„íŠ¸(MainMenu)
 		//==========================================
 		PrintAsciiArt(static_cast<int>(EMenu::Main));
 
 		//==========================================
-		// ÀÔ·Â(¼±ÅÃ°ª) - ±¸¸Å or ÆÇ¸Å
+		// ì…ë ¥(ì„ íƒê°’) - êµ¬ë§¤ or íŒë§¤
 		//==========================================
 
 		if (!mIsSpecialShop)
-		{// ÀÏ¹İ »óÁ¡
-			const string strAsk = "¿øÇÏ´Â ¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä.\n";
+		{// ì¼ë°˜ ìƒì 
+			const string strAsk = "ì›í•˜ëŠ” ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš”.\n";
 			PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 
 			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[1] ";
-			FnSetTextColor(EColors::YELLOW);		cout << "¾ÆÀÌÅÛ ±¸¸Å\n";
+			FnSetTextColor(EColors::YELLOW);		cout << "ì•„ì´í…œ êµ¬ë§¤\n";
 			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[2] ";
-			FnSetTextColor(EColors::YELLOW);		cout << "¾ÆÀÌÅÛ ÆÇ¸Å\n";
+			FnSetTextColor(EColors::YELLOW);		cout << "ì•„ì´í…œ íŒë§¤\n";
 			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[3] ";
-			FnSetTextColor(EColors::YELLOW);		cout << "»óÁ¡ ³ª°¡±â\n";
+			FnSetTextColor(EColors::YELLOW);		cout << "ìƒì  ë‚˜ê°€ê¸°\n";
 			FnSetTextDefault();
 		}
 		else
-		{// Æ¯¼ö »óÁ¡
-			const string strAsk = "¿ø©Ì´Â ¸Ş´º¸¦ ¼±ÅÃ©Ì«Ñ¤Ä¿ä.\n";
+		{// íŠ¹ìˆ˜ ìƒì 
+			const string strAsk = "ì›ãˆ›ëŠ” ë©”ë‰´ë¥¼ ì„ íƒãˆ›ãƒ‘ã…”ìš”.\n";
 			PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 
 			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[1] ";
-			FnSetTextColor(EColors::YELLOW);		cout << "¤·r¡ÛlÅÛ ±¸¡à¬«\n";
+			FnSetTextColor(EColors::YELLOW);		cout << "ã…‡râ—‹lí…œ êµ¬â–¡Ğ™\n";
 			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[2] ";
-			FnSetTextColor(EColors::YELLOW);		cout << "¤·r¡ÛlÅÛ ÆÇ¡à¬«\n";
+			FnSetTextColor(EColors::YELLOW);		cout << "ã…‡râ—‹lí…œ íŒâ–¡Ğ™\n";
 			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[3] ";
-			FnSetTextColor(EColors::YELLOW);		cout << "»óÁ¡ ¤¤r¤¡r«Öl\n";
+			FnSetTextColor(EColors::YELLOW);		cout << "ìƒì  ã„´rã„±rãƒ–l\n";
 			FnSetTextDefault();
 		}
 
-		// ÀÔ·Â
+		// ì…ë ¥
 		const string chkedStr = CheckInputValidation(static_cast<int>(EMenu::Buy), static_cast<int>(EMenu::Exit), player);
 		const EMenu result = static_cast<EMenu>(stoi(chkedStr));
 
-		mIsFirstEntry = false; // Ã¹ ÁøÀÔ ¿©ºÎ ÃÊ±âÈ­ (false·Î ¼³Á¤)
+		mIsFirstEntry = false; // ì²« ì§„ì… ì—¬ë¶€ ì´ˆê¸°í™” (falseë¡œ ì„¤ì •)
 
 		//==========================================
-		// ºĞ±â - ±¸¸Å or ÆÇ¸Å
+		// ë¶„ê¸° - êµ¬ë§¤ or íŒë§¤
 		//==========================================
-		// °á°ú¿¡ µû¶ó Èå¸§À» °áÁ¤
+		// ê²°ê³¼ì— ë”°ë¼ íë¦„ì„ ê²°ì •
 		switch (result)
 		{
 		case EMenu::Buy:
@@ -1367,7 +1450,7 @@ void Shop::MainMenu(Character* player)
 			SellItem(player);
 			break;
 		case EMenu::Exit:
-			isContinue = !OnExit(player); // true ¹İÈ¯ ½Ã Á¾·á
+			isContinue = !OnExit(player); // true ë°˜í™˜ ì‹œ ì¢…ë£Œ
 			break;
 		default:
 			break;
@@ -1378,23 +1461,23 @@ void Shop::MainMenu(Character* player)
 void Shop::ReduceItem(Character* player, string _strKey, int _quantity)
 {
 	/*
-		Character Å¬·¡½ºÀÇ ÀÎº¥Åä¸®¹Ç·Î
-		»óÁ¡¿¡¼­ ÀÎº£Åä¸®¸¦ Á¦¾îÇÏÁö ¾Ê°í Ä³¸¯ÅÍ¿¡°Ô º¯°æ »çÇ×ÀÇ Á¤º¸¸¸ ³Ñ°ÜÁÖ°í
-		ÀÎº¥Åä¸® º¯°æÀº Ä³¸¯ÅÍ°¡ Á÷Á¢ Ã³¸®ÇÏµµ·Ï ÇÑ´Ù.
-		(Ä³¸¯ÅÍ°¡ ÀÎº¥Åä¸®¸¦ °ü¸®ÇÏ´Â Ã¥ÀÓÀ» °¡Áø´Ù.)
+		Character í´ë˜ìŠ¤ì˜ ì¸ë²¤í† ë¦¬ë¯€ë¡œ
+		ìƒì ì—ì„œ ì¸ë² í† ë¦¬ë¥¼ ì œì–´í•˜ì§€ ì•Šê³  ìºë¦­í„°ì—ê²Œ ë³€ê²½ ì‚¬í•­ì˜ ì •ë³´ë§Œ ë„˜ê²¨ì£¼ê³ 
+		ì¸ë²¤í† ë¦¬ ë³€ê²½ì€ ìºë¦­í„°ê°€ ì§ì ‘ ì²˜ë¦¬í•˜ë„ë¡ í•œë‹¤.
+		(ìºë¦­í„°ê°€ ì¸ë²¤í† ë¦¬ë¥¼ ê´€ë¦¬í•˜ëŠ” ì±…ì„ì„ ê°€ì§„ë‹¤.)
 	*/
 	//map<string, pair<Item*, int>>& playerInventory = player->getInventory();
-	//const int quantity = playerInventory.find(_strKey)->second.second; // ¼ö·®
+	//const int quantity = playerInventory.find(_strKey)->second.second; // ìˆ˜ëŸ‰
 
 	//const int ONLY_ONE = 1;
 	//if (ONLY_ONE == quantity)
-	//{// ±âÁ¸ ¼ö·®ÀÌ 1°³ÀÎ °æ¿ì
-	//	delete playerInventory.find(_strKey)->second.first;	// ¸ÕÀú Item*¸¦ ÇØÁ¦ÇÏ°í
-	//	playerInventory.erase(_strKey);						// ¾ÆÀÌÅÛ Á¦°Å
+	//{// ê¸°ì¡´ ìˆ˜ëŸ‰ì´ 1ê°œì¸ ê²½ìš°
+	//	delete playerInventory.find(_strKey)->second.first;	// ë¨¼ì € Item*ë¥¼ í•´ì œí•˜ê³ 
+	//	playerInventory.erase(_strKey);						// ì•„ì´í…œ ì œê±°
 	//}
 	//else
-	//{// ±âÁ¸ ¼ö·®ÀÌ ÃÖ¼Ò 2ÀÌ»óÀÎ °æ¿ì
-	//	playerInventory.find(_strKey)->second.second--;		// ¼ö·® 1 °¨¼Ò
+	//{// ê¸°ì¡´ ìˆ˜ëŸ‰ì´ ìµœì†Œ 2ì´ìƒì¸ ê²½ìš°
+	//	playerInventory.find(_strKey)->second.second--;		// ìˆ˜ëŸ‰ 1 ê°ì†Œ
 	//}
 
 	player->removeItem(_strKey, _quantity);
@@ -1407,7 +1490,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 
 	while (true)
 	{
-		cout << "ÀÔ·Â: ";
+		cout << "ì…ë ¥: ";
 		//cin.ignore();
 		getline(std::cin, strTmp);
 
@@ -1415,12 +1498,12 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		{
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				std::cout << "ÀÔ·Â°ªÀº ºñ¿öµÑ ¼ö ¾ø½À´Ï´Ù." << endl;
+			{// ì¼ë°˜ ìƒì 
+				std::cout << "ì…ë ¥ê°’ì€ ë¹„ì›Œë‘˜ ìˆ˜ ì—†ìŠµë‹ˆë‹¤." << endl;
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				std::cout << "ÀÔ·Â°ªÀº ¨¶¤Ó¿öµÑ ¼ö ¾ø½ÀLI¡ø«È." << endl;
+			{// íŠ¹ìˆ˜ ìƒì 
+				std::cout << "ì…ë ¥ê°’ì€ ã‰¥ã…£ì›Œë‘˜ ìˆ˜ ì—†ìŠµLIâŠ‚ãƒˆ." << endl;
 			}
 			FnSetTextDefault();
 			continue;
@@ -1429,12 +1512,12 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		{
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				std::cout << "ÀÔ·Â°ªÀº °ø¹éÀ» Æ÷ÇÔÇÒ ¼ö ¾ø½À´Ï´Ù." << endl;
+			{// ì¼ë°˜ ìƒì 
+				std::cout << "ì…ë ¥ê°’ì€ ê³µë°±ì„ í¬í•¨í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤." << endl;
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				std::cout << "ÀÔ·Â°ªÀº °ø¹éÀ» Æ÷¤¾Í¯ÇÒ ¼ö ¾ø½ÀLI¡ø«È." << endl;
+			{// íŠ¹ìˆ˜ ìƒì 
+				std::cout << "ì…ë ¥ê°’ì€ ê³µë°±ì„ í¬ã…å¤í•  ìˆ˜ ì—†ìŠµLIâŠ‚ãƒˆ." << endl;
 			}
 			FnSetTextDefault();
 			continue;
@@ -1443,17 +1526,17 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		bool isOk = false;
 		try
 		{
-			const int digit = stoi(strTmp); // ¿¹¿Ü ¹ß»ı °¡´É¼º ÀÖÀ½
+			const int digit = stoi(strTmp); // ì˜ˆì™¸ ë°œìƒ ê°€ëŠ¥ì„± ìˆìŒ
 			if ((!_isPurcahseMode) && (_min <= digit) && (digit <= _max))
-			{// ÀÏ¹İÀûÀÎ °æ¿ì
+			{// ì¼ë°˜ì ì¸ ê²½ìš°
 				isOk = true;
 				returnValue = strTmp;
 
 				break;
 			}
 			else if (_isPurcahseMode)
-			{// ±¸¸Å ¸ğµåÀÎ °æ¿ì
-				// ÀÌÀüÀ¸·Î µ¹¾Æ°¡±â¸¦ ¼±ÅÃÇÑ °æ¿ì
+			{// êµ¬ë§¤ ëª¨ë“œì¸ ê²½ìš°
+				// ì´ì „ìœ¼ë¡œ ëŒì•„ê°€ê¸°ë¥¼ ì„ íƒí•œ ê²½ìš°
 				const int MIN = 0;
 				if (MIN == digit)
 				{
@@ -1464,82 +1547,82 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 
 				int MAX = -1;
 				if (!mIsSpecialShop)
-				{// ÀÏ¹İ »óÁ¡
+				{// ì¼ë°˜ ìƒì 
 					MAX = static_cast<int>(EItemRegular::END);
 				}
 				else
-				{// Æ¯¼ö »óÁ¡
+				{// íŠ¹ìˆ˜ ìƒì 
 					MAX = static_cast<int>(EItemSpecial::END);
 				}
 
 				if (digit <= MAX)
-				{// ¾ÆÀÌÅÛ ¸ñ·ÏÀÇ ¼±ÅÃ ¹øÈ£ ÀÌ³»·Î ÀÔ·ÂÇÑ °æ¿ì
+				{// ì•„ì´í…œ ëª©ë¡ì˜ ì„ íƒ ë²ˆí˜¸ ì´ë‚´ë¡œ ì…ë ¥í•œ ê²½ìš°
 
-					// È­¸é»ó ¹øÈ£´Â ½ÃÀÛ ¹øÈ£°¡ 1ºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î, ½ÇÁ¦ ¸ÅÇÎµÉ ÀÎµ¦½º¿Í´Â 1Â÷ÀÌ°¡ ³­´Ù.
+					// í™”ë©´ìƒ ë²ˆí˜¸ëŠ” ì‹œì‘ ë²ˆí˜¸ê°€ 1ë¶€í„° ì‹œì‘í•˜ë¯€ë¡œ, ì‹¤ì œ ë§¤í•‘ë  ì¸ë±ìŠ¤ì™€ëŠ” 1ì°¨ì´ê°€ ë‚œë‹¤.
 					const int idx = digit - 1;
 
 					int price = -1;
-					// ¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ °¡°İ
+					// ì„ íƒí•œ ì•„ì´í…œì˜ ê°€ê²©
 					if (!mIsSpecialShop)
-					{// ÀÏ¹İ »óÁ¡
+					{// ì¼ë°˜ ìƒì 
 						price = mCatalog_Reugular[static_cast<EItemRegular>(idx)]->getPrice();
 					}
 					else
-					{// Æ¯¼ö »óÁ¡
+					{// íŠ¹ìˆ˜ ìƒì 
 						price = mCatalog_Special[static_cast<EItemSpecial>(idx)]->getPrice();
 					}
 
-					// ÇÃ·¹ÀÌ¾îÀÇ °ñµå
+					// í”Œë ˆì´ì–´ì˜ ê³¨ë“œ
 					const int gold = player->getGold();
 
 					if (price <= gold)
-					{// ±¸¸Å °¡´ÉÇÑ °æ¿ì (¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ °¡°İ <= ÇÃ·¹ÀÌ¾îÀÇ °ñµå) 
+					{// êµ¬ë§¤ ê°€ëŠ¥í•œ ê²½ìš° (ì„ íƒí•œ ì•„ì´í…œì˜ ê°€ê²© <= í”Œë ˆì´ì–´ì˜ ê³¨ë“œ) 
 						isOk = true;
 						returnValue = strTmp;
 						break;
 					}
-					// ±¸¸Å °¡´ÉÇÏÁö ¾ÊÀº °æ¿ì´Â if¹®À» Å¸Áö ¸øÇÑ´Ù. (¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ °¡°İ > ÇÃ·¹ÀÌ¾îÀÇ °ñµå)
+					// êµ¬ë§¤ ê°€ëŠ¥í•˜ì§€ ì•Šì€ ê²½ìš°ëŠ” ifë¬¸ì„ íƒ€ì§€ ëª»í•œë‹¤. (ì„ íƒí•œ ì•„ì´í…œì˜ ê°€ê²© > í”Œë ˆì´ì–´ì˜ ê³¨ë“œ)
 				}
 			}
 		}
 		catch (const std::invalid_argument& e)
-		{// stoi : ¼ıÀÚ°¡ ¾Æ´Ñ ¹®ÀÚ¿­ ÀÔ·Â ½Ã
+		{// stoi : ìˆ«ìê°€ ì•„ë‹Œ ë¬¸ìì—´ ì…ë ¥ ì‹œ
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				cout << "¼ıÀÚ Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù." << endl;
+			{// ì¼ë°˜ ìƒì 
+				cout << "ìˆ«ì í˜•ì‹ì´ ì•„ë‹™ë‹ˆë‹¤." << endl;
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				cout << "¼ı¤¸¥Ã Çü½Ä¡Ûl ¤·r´ÕLI¡ø«È." << endl;
+			{// íŠ¹ìˆ˜ ìƒì 
+				cout << "ìˆ«ã…ˆÎ“ í˜•ì‹â—‹l ã…‡rë‹™LIâŠ‚ãƒˆ." << endl;
 			}
 			FnSetTextDefault();
 			continue;
 		}
 		catch (const std::out_of_range& e)
-		{// stoi : ÀÔ·Â ¼ıÀÚ°¡ int ¹üÀ§¸¦ ÃÊ°úÇÒ °æ¿ì
+		{// stoi : ì…ë ¥ ìˆ«ìê°€ int ë²”ìœ„ë¥¼ ì´ˆê³¼í•  ê²½ìš°
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				cout << "ÀÔ·Â°ªÀÌ ³Ê¹« Å®´Ï´Ù." << endl;
+			{// ì¼ë°˜ ìƒì 
+				cout << "ì…ë ¥ê°’ì´ ë„ˆë¬´ í½ë‹ˆë‹¤." << endl;
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				cout << "ÀÔ·Â°ª¡Ûl ³Ê¹« Å®LI¡ø«È." << endl;
+			{// íŠ¹ìˆ˜ ìƒì 
+				cout << "ì…ë ¥ê°’â—‹l ë„ˆë¬´ í½LIâŠ‚ãƒˆ." << endl;
 			}
 			FnSetTextDefault();
 			continue;
 		}
 		if (!isOk)
-		{// ÀÔ·Â°ªÀÌ ¼ıÀÚ¿©µµ À¯È¿ÇÑ °ªÀÌ ¾Æ´Ñ °æ¿ì
+		{// ì…ë ¥ê°’ì´ ìˆ«ìì—¬ë„ ìœ íš¨í•œ ê°’ì´ ì•„ë‹Œ ê²½ìš°
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
-			{// ÀÏ¹İ »óÁ¡
-				std::cout << "À¯È¿ÇÑ ÀÔ·Â°ªÀÌ ¾Æ´Õ´Ï´Ù." << endl;
+			{// ì¼ë°˜ ìƒì 
+				std::cout << "ìœ íš¨í•œ ì…ë ¥ê°’ì´ ì•„ë‹™ë‹ˆë‹¤." << endl;
 			}
 			else
-			{// Æ¯¼ö »óÁ¡
-				std::cout << "À¯È¿¤¾¨© ÀÔ·Â°ª¡Ûl ¤·r´ÕLI¡ø«È." << endl;
+			{// íŠ¹ìˆ˜ ìƒì 
+				std::cout << "ìœ íš¨ã…Å ì…ë ¥ê°’â—‹l ã…‡rë‹™LIâŠ‚ãƒˆ." << endl;
 			}
 			FnSetTextDefault();
 			continue;
@@ -1552,92 +1635,92 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 void Shop::CreateLog()
 {
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
+	{// ì¼ë°˜ ìƒì 
 		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Reugular)
 		{
 			const unique_ptr<Item>& itemPtr = pair.second;
-			const string name = itemPtr->getName(); // ¾ÆÀÌÅÛ ÀÌ¸§À» °¡Á®¿Í¼­ »ç¿ë
+			const string name = itemPtr->getName(); // ì•„ì´í…œ ì´ë¦„ì„ ê°€ì ¸ì™€ì„œ ì‚¬ìš©
 
-			mPurchaseLog[name] = 0;	// ±¸¸Å ·Î±× ÃÊ±âÈ­
-			mSalesLog[name] = 0;	// ÆÇ¸Å ·Î±× ÃÊ±âÈ­
+			mPurchaseLog[name] = 0;	// êµ¬ë§¤ ë¡œê·¸ ì´ˆê¸°í™”
+			mSalesLog[name] = 0;	// íŒë§¤ ë¡œê·¸ ì´ˆê¸°í™”
 		}
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
+	{// íŠ¹ìˆ˜ ìƒì 
 		for (const pair<const EItemSpecial, unique_ptr<Item>>& pair : mCatalog_Special)
 		{
 			const unique_ptr<Item>& itemPtr = pair.second;
-			const string name = itemPtr->getName(); // ¾ÆÀÌÅÛ ÀÌ¸§À» °¡Á®¿Í¼­ »ç¿ë
+			const string name = itemPtr->getName(); // ì•„ì´í…œ ì´ë¦„ì„ ê°€ì ¸ì™€ì„œ ì‚¬ìš©
 
-			mPurchaseLog[name] = 0;	// ±¸¸Å ·Î±× ÃÊ±âÈ­
-			mSalesLog[name] = 0;	// ÆÇ¸Å ·Î±× ÃÊ±âÈ­
+			mPurchaseLog[name] = 0;	// êµ¬ë§¤ ë¡œê·¸ ì´ˆê¸°í™”
+			mSalesLog[name] = 0;	// íŒë§¤ ë¡œê·¸ ì´ˆê¸°í™”
 		}
 	}
 }//END-void Shop::CreateLog
 
 void Shop::PrintLog()
 {
-	// Ãâ·Â - ·Î±× Ãâ·Â ÀüÃ³¸®
+	// ì¶œë ¥ - ë¡œê·¸ ì¶œë ¥ ì „ì²˜ë¦¬
 	FnSetTextColor(EColors::DARK_GRAY);
 	string strLog = "History\n";
 	strLog += "======================================================================================";
 	cout << strLog << endl;
 	strLog.clear();
 
-	// ±¸¸Å ·Î±× Ãâ·Â
+	// êµ¬ë§¤ ë¡œê·¸ ì¶œë ¥
 	FnSetTextColor(EColors::LIGHT_GREEN);
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		strLog += "[±¸¸Å] ";
+	{// ì¼ë°˜ ìƒì 
+		strLog += "[êµ¬ë§¤] ";
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		strLog += "[±¸¡à¬«] ";
+	{// íŠ¹ìˆ˜ ìƒì 
+		strLog += "[êµ¬â–¡Ğ™] ";
 	}
 	for (const auto& entry : mPurchaseLog)
 	{
 		strLog += entry.first + ":" + to_string(entry.second) + "/ ";
 	}
-	strLog.erase(strLog.size() - 2); // ¸¶Áö¸· 3±ÛÀÚ Á¦°Å: "/  "
+	strLog.erase(strLog.size() - 2); // ë§ˆì§€ë§‰ 3ê¸€ì ì œê±°: "/  "
 	cout << strLog << endl;
 	strLog.clear();
 
-	// ÆÇ¸Å ·Î±× Ãâ·Â
+	// íŒë§¤ ë¡œê·¸ ì¶œë ¥
 	FnSetTextColor(EColors::LIGHT_BLUE);
 	if (!mIsSpecialShop)
-	{// ÀÏ¹İ »óÁ¡
-		strLog += "[ÆÇ¸Å] ";
+	{// ì¼ë°˜ ìƒì 
+		strLog += "[íŒë§¤] ";
 	}
 	else
-	{// Æ¯¼ö »óÁ¡
-		strLog += "[ÆÇ¡à¬«] ";
+	{// íŠ¹ìˆ˜ ìƒì 
+		strLog += "[íŒâ–¡Ğ™] ";
 	}
 	for (const auto& entry : mSalesLog)
 	{
 		strLog += entry.first + ":" + to_string(entry.second) + "/ ";
 	}
-	strLog.erase(strLog.size() - 2); // ¸¶Áö¸· 3±ÛÀÚ Á¦°Å: " /  "
+	strLog.erase(strLog.size() - 2); // ë§ˆì§€ë§‰ 3ê¸€ì ì œê±°: " /  "
 	cout << strLog << endl;
 	strLog.clear();
 
-	// Ãâ·Â - ·Î±× Ãâ·Â ÈÄÃ³¸®
+	// ì¶œë ¥ - ë¡œê·¸ ì¶œë ¥ í›„ì²˜ë¦¬
 	FnSetTextColor(EColors::DARK_GRAY);
 	strLog += "======================================================================================";
 	cout << strLog << endl;
 	strLog.clear();
 
-	// ±âº» »ö»óÀ¸·Î µÇµ¹¸®±â
+	// ê¸°ë³¸ ìƒ‰ìƒìœ¼ë¡œ ë˜ëŒë¦¬ê¸°
 	FnSetTextDefault();
 }//END-void Shop::PrintLog
 
 void Shop::UpdateLogMessage(bool _isPurchase, string _key, int _quantity)
 {
 	if (_isPurchase)
-	{// ±¸¸Å ·Î±× ¾÷µ¥ÀÌÆ®
+	{// êµ¬ë§¤ ë¡œê·¸ ì—…ë°ì´íŠ¸
 		mPurchaseLog[_key] += _quantity;
 	}
 	else
-	{// ÆÇ¸Å ·Î±× ¾÷µ¥ÀÌÆ®
+	{// íŒë§¤ ë¡œê·¸ ì—…ë°ì´íŠ¸
 		mSalesLog[_key] += _quantity;
 	}
 }//END-void Shop::UpdateLogMessage
