@@ -52,7 +52,7 @@ void StartGame(GameManager& gm)
 		Monster* monster = gm.getMonster();
 
 		// 배틀 시작 전 씬 플레이
-		ConsoleUI::playScene();
+		// ConsoleUI::playScene();
 
 		// 배틀 시작
 		system("cls");

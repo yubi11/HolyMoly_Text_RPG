@@ -11,9 +11,9 @@ int AttackBoost::getItemValue() const { return value; }
 void AttackBoost::use(Character* character) {
     int current = character->getAttack();
     character->setAttack(current + value);
-    cout << character->getName() << "ì´(ê°€) " << name << "ì„(ë¥¼) ì‚¬ìš©í•˜ì—¬ " << value << " ê³µê²©ë ¥ì´ ì¦ê°€í–ˆìŠµë‹ˆë‹¤." << endl;
+    cout << character->getName() << "ÀÌ(°¡) " << name << "À»(¸¦) »ç¿ëÇÏ¿© " << value << " °ø°Ý·ÂÀÌ Áõ°¡Çß½À´Ï´Ù." << endl;
 }
 void AttackBoost::display() const {
-    cout << "[ì•„ì´í…œ: " << name << "] íš¨ê³¼: ê³µê²©ë ¥ + " << value
-        << " / ê°€ê²©: " << price << " Gold" << endl;
+    cout << "[¾ÆÀÌÅÛ: " << name << "] È¿°ú: °ø°Ý·Â + " << value
+        << " / °¡°Ý: " << price << " Gold" << endl;
 }

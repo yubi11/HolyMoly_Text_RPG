@@ -11,10 +11,10 @@ int HealthPotion::getItemValue() const { return value; }
 void HealthPotion::use(Character* character) {
     int current = character->getHealth();
     character->setHealth(current + value);
-    cout << character->getName() << "ì´(ê°€) " << name << "ì„(ë¥¼) ì‚¬ìš©í•˜ì—¬ " << value << " ì²´ë ¥ì„ íšŒë³µí–ˆìŠµë‹ˆë‹¤." << endl;
+    cout << character->getName() << "ÀÌ(°¡) " << name << "À»(¸¦) »ç¿ëÇÏ¿© " << value << " Ã¼·ÂÀ» È¸º¹Çß½À´Ï´Ù." << endl;
 }
 
 void HealthPotion::display() const {
-    cout << "[ì•„ì´í…œ : " << name << "] íš¨ê³¼ : ì²´ë ¥ + " << value
-        << " / ê°€ê²© : " << price << " Gold" << endl;
+    cout << "[¾ÆÀÌÅÛ : " << name << "] È¿°ú : Ã¼·Â + " << value
+        << " / °¡°Ý : " << price << " Gold" << endl;
 }

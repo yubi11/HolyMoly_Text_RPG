@@ -1,6 +1,9 @@
 #pragma once
 #include "common.h"
 
+
+template<typename T>
+struct dependent_false : std::false_type {};
 // 템플릿 함수 정의를 위해 헤더 파일에 포함
 //-----------------------------------------
 #include "Character.h"
@@ -62,6 +65,7 @@ private:
 	*/
 	// 출력 - 플레이어 인벤토리
 	template <typename TEnum>
+
 	void DisplayPlayerInventory(Character* player, bool _isSell, bool _isSuccessDeal = false, TEnum _item = static_cast<TEnum>(-1), string _key = "");
 
 	// 출력 - 아스키 아트
@@ -474,7 +478,7 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 	}
 	else
 	{// EItemRegular, EItemSpecial 이외의 enum 타입에 대한 처리
-		static_assert(false, "Unsupported enum type.");
+		static_assert(dependent_false<TEnum>, "Unsupported enum type.");
 	}
 }
 
@@ -527,6 +531,6 @@ inline void Shop::RegisterItem(Character* player, TEnum _itemType, int _quantity
 	}
 	else
 	{// EItemRegular, EItemSpecial 이외의 enum 타입에 대한 처리
-		static_assert(false, "Unsupported enum type");
+		static_assert(dependent_false<TEnum>, "Unsupported enum type");
 	}
 }//END-inline void Shop::RegisterItem
