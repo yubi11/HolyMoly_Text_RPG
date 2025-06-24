@@ -14,12 +14,12 @@ void ChaosOrb::use(Character* character) {
     int Health = RandomUtil::GetRandomInt(1, 400);
     int Attack = RandomUtil::GetRandomInt(1, 100);
     int Gold = RandomUtil::GetRandomInt(0, 300);
-    int Level = RandomUtil::GetRandomInt(1, 9);
+    //int Level = RandomUtil::GetRandomInt(1, 9);
     character->setMaxHealth(MaxHealth);
     character->setHealth(Health);
     character->setAttack(Attack);
     character->setGold(Gold);
-    character->setLevel(Level);
+    //character->setLevel(Level);
     cout << character->getName() << "이(가) " << name << "을(를) 사용하여 혼돈의 힘으로 인해 모든 능력치가 변화했습니다." << endl;
     character->displayStatus();
 }
