@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include <istream>
-#include <regex> // 정규표현식
+#include <iomanip>  // setw, setfill 등
+#include <regex>    // 정규표현식
 
 #include <vector>
 #include <string>
