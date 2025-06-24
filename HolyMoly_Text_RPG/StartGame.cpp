@@ -44,6 +44,10 @@ void StartGame(GameManager& gm)
 	Character* gamePlayer = gm.getPlayer();
 	int level = gamePlayer->getLevel();
 
+	gamePlayer->displayStatus();
+
+	ConsoleUI::pressEnter();
+
 	// 배틀
 	while (level < 10)
 	{
@@ -100,10 +104,13 @@ void StartGame(GameManager& gm)
 		gm.generateBossMonster(level);
 		Monster* monster = gm.getMonster();
 
+		ConsoleUI::playScene();
+		system("cls");
 		monster->displayMonster();
 		gm.battle();
 		gm.addBattleLog();
 		ConsoleUI::displayBattleResult(gm.getIsPlayerDead(), gamePlayer->getName(), monster->getName(), level);
+		ConsoleUI::pressEnter();
 	}
 
 	// 게임 종료 ui 출력

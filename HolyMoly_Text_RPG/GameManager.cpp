@@ -97,6 +97,9 @@ void GameManager::battle()
 
 	cout << RandomUtil::fillSides("레벨 " + to_string(level), consoleWidth, '=') << endl;
 	cout << RandomUtil::fillSides("야생의 " + monsterName + "이(가) 나타났습니다!", consoleWidth, ' ') << endl << endl;
+	FnSetTextColor(EColors::CYAN);
+	cout << RandomUtil::fillSides("체력: " + to_string(monster->getHealth()) + " 공격력: "+to_string(monster->getAttack()), consoleWidth, ' ') << endl << endl;
+	FnSetTextDefault();
 
 	while (1)
 	{
@@ -104,7 +107,7 @@ void GameManager::battle()
 		//플레이어가 몬스터 공격
 		monster->takeDamage(player->getAttack());
 
-		battleLog = playerName + "이(가) " + monsterName + "을(를) 공격합니다! " + monsterName + "체력: " + to_string(monster->getHealth());
+		battleLog = playerName + "이(가) " + monsterName + "을(를) 공격합니다! " + monsterName + "의 체력: " + to_string(monster->getHealth());
 		cout << setfill(' ') << setw(consoleWidth) << left << battleLog << endl << endl;
 
 		if (monster->getHealth() <= 0)
@@ -117,7 +120,7 @@ void GameManager::battle()
 		//몬스터가 플레이어 공격
 		player->takeDamage(monster->getAttack());
 		
-		battleLog = monsterName + "이(가) " + playerName + "을(를) 공격합니다! " + playerName + "체력: " + to_string(player->getHealth());
+		battleLog = monsterName + "이(가) " + playerName + "을(를) 공격합니다! " + playerName + "의 체력: " + to_string(player->getHealth());
 		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
 
 		if (player->getHealth() <= 0)

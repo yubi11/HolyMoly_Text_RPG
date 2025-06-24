@@ -17,5 +17,5 @@ void ConsoleUI::getPlayerJob(vector<string>& job)
 		cout << s << "    ";
 	}
 
-
+	cout << endl;
 }

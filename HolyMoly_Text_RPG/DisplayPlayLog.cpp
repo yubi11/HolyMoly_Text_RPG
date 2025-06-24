@@ -8,16 +8,22 @@ void ConsoleUI::displayPlayLog(vector<string>& log,int totalMonster, int level, 
 	cout << endl;
 	string last = "ÃÑ Ã³Ä¡ÇÑ ¸ó½ºÅÍ: " + to_string(totalMonster)
 		+ "¸¶¸® / ÃÖÁ¾ µµ´ÞÇÑ ·¹º§: " + to_string(level)
-		+ " ÃÑ °ñµå: " + to_string(gold);
+		+ " / ÃÑ °ñµå: " + to_string(gold);
 	log.push_back(last);
 	FnSetTextDefault();
-	for (auto s : log)
+	for (int i = 0; i < log.size(); i++)
 	{
-		int s_len = s.length();
+		if (i == log.size() - 1) 
+		{
+			cout << endl << endl;
+			FnSetTextColor(EColors::YELLOW);
+		}
+		int s_len = log[i].length();
 		int padding = (consoleWidth - s_len) / 2;
-		cout << setw(padding + s_len) << right << s << endl;
+		cout << setw(padding + s_len) << right << log[i] << endl;
 		FnSleep(300);
 	}
+	FnSetTextDefault();
 
 	ConsoleUI::pressEnter();
 	

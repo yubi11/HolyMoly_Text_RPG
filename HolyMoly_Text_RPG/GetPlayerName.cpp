@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <conio.h>
 #include "ConsoleUI.h"
 
 void ConsoleUI::getPlayerName()
@@ -49,9 +50,17 @@ void ConsoleUI::getPlayerName()
 	};
 	for (int i = 0; i < story.size(); i++)
 	{
+		
 		PrintBySpellingWithColor(story[i], EColors::LIGHT_GRAY, ETypingSpeed::FAST);
 		FnSleep(300);
 		if (i != story.size() - 1) cout << endl;
+
+		while (_kbhit()) 
+		{
+			_getch();
+		}
 	}
+	cout << endl;
+	
 }
 
