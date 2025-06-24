@@ -1,7 +1,16 @@
 #include "GameManager.h"
 #include <iostream>
 
+// string format 가운데 정렬
+string GameManager::fillSides(const string& s, int width, char fillChar = ' ') 
+{
+	int totalFill = width - s.size();
+	if (totalFill <= 0) return s;
 
+	int left = totalFill / 2;
+	int right = totalFill - left;
+	return string(left, fillChar) + s + string(right, fillChar);
+}
 //get level
 int GameManager::getLevel()
 {
@@ -37,6 +46,11 @@ vector<string>& GameManager::getPlayLog()
 {
 	return playLog;
 }
+//set level
+void GameManager::setLevel(int level) 
+{
+	this->level = level;
+}
 
 // level 기반으로 랜덤 몬스터 생성
 void GameManager::generateMonster(int level)
@@ -65,22 +79,20 @@ void GameManager::generateBossMonster(int level)
 	monster = make_unique<BossMonster>(level);
 }
 
-// 배틀 결과 출력
-void GameManager::displayBattleResult() {
+// 배틀 결과 로그에 추가
+// 잡은 몬스터 카운트
+void GameManager::addBattleLog() {
 	if (isPlayerDead)
 	{
-		cout << "게임 오버. " << player->getName() << "이(가) 죽었습니다." << endl;
 		string log = player->getName() + "이(가) 레벨 "
 			+ to_string(level) + " " + monster->getName() + "에게 쓰러졌습니다.";
-		addPlayLog(log);
+		playLog.push_back(log);
 	}
 	else
 	{
-		cout << "축하합니다! " << monster->getName()
-			<< "을(를) 처치하고 레벨" << level << "을 클리어했습니다." << endl;
 		string log = player->getName() + "이(가) 레벨 "
 			+ to_string(level) + " " + monster->getName() + "을(를) 처치했습니다.";
-		addPlayLog(log);
+		playLog.push_back(log);
 		monsterCount++;
 	}
 }
@@ -90,17 +102,20 @@ void GameManager::battle()
 {
 	string playerName = player->getName();
 	string monsterName = monster->getName();
-	// 화면 지우기
-	system("cls");
+	int consoleWidth = 90;
 	cout << "========레벨 " << level << "========" << endl;
-	cout << "야생의 " << monsterName << "이(가) 나타났습니다!" << endl;
+	cout << fillSides("레벨 " + to_string(level), consoleWidth, '=') << endl;
+	cout << fillSides("야생의 " + monsterName + "이(가) 나타났습니다!", consoleWidth, ' ') << endl << endl;
 
 	while (1)
 	{
+		string battleLog;
 		//플레이어가 몬스터 공격
 		monster->takeDamage(player->getAttack());
-		cout << playerName << "이(가) " << monsterName << "을(를) 공격합니다! "
-			<< monsterName << "체력: " << monster->getHealth() << endl;
+
+		battleLog = playerName + "이(가) " + monsterName + "을(를) 공격합니다! " + monsterName + "체력: " + to_string(monster->getHealth());
+		cout << setfill(' ') << setw(consoleWidth) << left << battleLog << endl << endl;
+
 		if (monster->getHealth() <= 0)
 		{
 			isPlayerDead = false;
@@ -110,8 +125,10 @@ void GameManager::battle()
 
 		//몬스터가 플레이어 공격
 		player->takeDamage(monster->getAttack());
-		cout << monsterName << "이(가) " << playerName << "을(를) 공격합니다! "
-			<< playerName << "체력: " << player->getHealth() << endl;
+		
+		battleLog = monsterName + "이(가) " + playerName + "을(를) 공격합니다! " + playerName + "체력: " + to_string(player->getHealth());
+		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
+
 		if (player->getHealth() <= 0)
 		{
 			isPlayerDead = true;
@@ -137,11 +154,6 @@ void GameManager::addPlayerExperience()
 {
 	player->addExperience(experience);
 }
-// 플레이 로그 추가
-void GameManager::addPlayLog(string& log)
-{
-	playLog.push_back(log);
-}
 // 플레이어 골드 추가
 void GameManager::addPlayerGold(int gold)
 {
@@ -156,7 +168,7 @@ void GameManager::visitShop()
 	while (1)
 	{
 		getline(cin, answer);
-		cin.ignore();
+		
 		answer = toupper(answer[0]);
 		if (answer != "Y" && answer != "N")
 		{
@@ -172,7 +184,14 @@ void GameManager::visitShop()
 	{
 		// 화면 지우고 상점만 표시
 		system("cls");
-		Shop gameShop;
+		// 수정: Shop shop(player, bool) 10%확률로 true
+		int randomInt = RandomUtil::GetRandomInt(1, 100);
+		bool isTrue = false;
+		if (randomInt <= 10) 
+		{
+			isTrue = true;
+		}
+		Shop gameShop(player, isTrue);
 		gameShop.OnEnter(player);
 
 	}
@@ -218,12 +237,36 @@ void GameManager::displayPlayLog()
 
 }
 
-// 플레이어 생성
-void GameManager::createPlayer()
-{	
-	string name = "";
-	/*cout << "이름을 입력하세요: ";*/
+// 플레이어 이름 받아오기
+string GameManager::getPlayerName() 
+{
+	string name;
 	getline(cin, name);
-	cin.ignore();
-	this->player = Character::getInstance(name);
+	while (name == "")
+	{
+		cout << "이름을 입력하세요: ";
+		getline(cin, name);
+	}
+	return name;
+}
+// 플레이어 직업 받아오기
+int GameManager::getPlayerJob(vector<string>& job)
+{
+	string str;
+	getline(cin, str);
+
+	while (!FnIsNumber(str) || stoi(str) > job.size())
+	{
+		cout << "알맞은 번호를 입력하세요: ";
+		getline(cin, str);
+	}
+
+	string myJob = job[stoi(str) - 1].substr(job[stoi(str) - 1].find(" ") + 1);
+
+	return stoi(str);
+}
+// 플레이어 생성
+void GameManager::createPlayer(string name, int job)
+{	
+	this->player = Character::getInstance(name, job);
 }

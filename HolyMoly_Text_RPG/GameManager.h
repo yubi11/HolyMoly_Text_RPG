@@ -6,6 +6,7 @@
 #include <vector>
 #include <map> 
 #include <memory>
+#include <iomanip>
 
 #include "RandomUtil.h"
 #include "Goblin.h"
@@ -32,19 +33,20 @@ private:
 
 public:
 
-	void createPlayer();
+	void createPlayer(string name, int job);
 	//void StartGame();
 	void generateMonster(int level);
 	void generateBossMonster(int level);
 	void battle();
 	void addPlayerExperience();
-	void addPlayLog(string& log);
 	void visitShop();
 	void addPlayerGold(int gold);
+	void addBattleLog();
 
 	void displayInventory();
-	void displayBattleResult();
 	void displayPlayLog();
+	string getPlayerName();
+	int getPlayerJob(vector<string>& job);
 
 	//Getter
 	int getLevel();
@@ -54,6 +56,13 @@ public:
 	bool getIsPlayerDead();
 	int getMonsterCount();
 	vector<string>& getPlayLog();
+
+	//Setter
+	void setLevel(int level);
+
+	// string 가운데 정렬, format
+	string fillSides(const string& s, int width, char fillChar = ' ');
+
 };
 
 
