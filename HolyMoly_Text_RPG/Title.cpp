@@ -44,9 +44,5 @@ void ConsoleUI::title()
     for (string& s : test2) {
         cout << s << endl;
     }
-    FnSetTextColor(EColors::LIGHT_RED);
-    cout.width(90);
-    cout << "Press Enter to Start";
-    FnSetTextDefault();
-    cin.get();
+    ConsoleUI::pressEnter();
 }

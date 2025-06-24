@@ -4,7 +4,7 @@
 
 void ConsoleUI::getPlayerName()
 {
-	//system("cls");
+	system("cls");
 	vector<string>castle =
 	{
 		 "                                                                               ",
@@ -53,17 +53,5 @@ void ConsoleUI::getPlayerName()
 		FnSleep(300);
 		if (i != story.size() - 1) cout << endl;
 	}
-
-	// 이름입력은 StartGame에서 하기
-
-	//string name;
-	//FnSetTextColor(EColors::LIGHT_CYAN);
-
-	//getline(cin, name);
-
-	//cout << castle[castle.size() - 3].size() << endl;
-
-
-
 }
 
