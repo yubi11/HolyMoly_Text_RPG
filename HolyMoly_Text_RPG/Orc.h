@@ -11,5 +11,4 @@ public:
 
 	void displayMonster() override;
 
-	void InitItemPool() override;
 };
