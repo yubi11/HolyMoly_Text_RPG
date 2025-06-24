@@ -154,7 +154,7 @@ void GameManager::addPlayerGold(int gold)
 void GameManager::visitShop()
 {
 	string answer = "";
-	cout << "상점에 방문하시겠습니까? (Y/N)";
+	cout << "상점에 방문하시겠습니까? (Y/N) : ";
 
 	while (1)
 	{

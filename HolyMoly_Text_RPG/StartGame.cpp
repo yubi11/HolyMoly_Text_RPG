@@ -57,6 +57,7 @@ void StartGame(GameManager& gm)
 		ConsoleUI::playScene();
 
 		// 배틀 시작
+		system("cls");
 		monster->displayMonster();
 		gm.battle();
 		gm.addBattleLog();
