@@ -107,27 +107,51 @@ void GameManager::battle()
 		//플레이어가 몬스터 공격
 		monster->takeDamage(player->getAttack());
 
-		battleLog = playerName + "이(가) " + monsterName + "을(를) 공격합니다! " + monsterName + "의 체력: " + to_string(monster->getHealth());
-		cout << setfill(' ') << setw(consoleWidth) << left << battleLog << endl << endl;
+		// 공격 메시지
+		battleLog = playerName + "이(가) " + monsterName + "을(를) 공격합니다!";
+		cout << battleLog << endl;
 
+		// 받은 피해 메시지
+		FnSetTextColor(EColors::LIGHT_RED);
+		battleLog = monsterName + "이(가) " + to_string(player->getAttack()) + "의 피해를 입었습니다."+monsterName + "의 체력: " + to_string(monster->getHealth());
+		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
+		FnSetTextDefault();
+
+		// 몬스터 생존 여부 확인
 		if (monster->getHealth() <= 0)
 		{
 			isPlayerDead = false;
 			break;
 		}
-
+		FnSetTextColor(EColors::DARK_GRAY);
+		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
+		FnSetTextDefault();
+		FnSleep(300);
 
 		//몬스터가 플레이어 공격
 		player->takeDamage(monster->getAttack());
-		
-		battleLog = monsterName + "이(가) " + playerName + "을(를) 공격합니다! " + playerName + "의 체력: " + to_string(player->getHealth());
-		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
 
+		// 공격 메시지
+		FnSetTextColor(EColors::LIGHT_RED);
+		battleLog = monsterName + "이(가) " + playerName + "을(를) 공격합니다!";
+		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl;
+		FnSetTextDefault();
+
+		// 받은 피해 메시지
+		battleLog = playerName + "이(가) " + to_string(monster->getAttack()) + "의 피해를 입었습니다." + playerName + "의 체력: " + to_string(player->getHealth());
+		cout << battleLog << endl << endl;
+		
+		// 플레이어 생존 여부 확인
 		if (player->getHealth() <= 0)
 		{
 			isPlayerDead = true;
 			break;
 		}
+
+		FnSetTextColor(EColors::DARK_GRAY);
+		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
+		FnSetTextDefault();
+		FnSleep(300);
 
 		// 아이템 랜덤 사용 
 		int randNum = RandomUtil::GetRandomInt(1, 100);	// 아이템 사용 확률
@@ -157,7 +181,7 @@ void GameManager::addPlayerGold(int gold)
 void GameManager::visitShop()
 {
 	string answer = "";
-	cout << "상점에 방문하시겠습니까? (Y/N) : ";
+	cout << endl << "상점에 방문하시겠습니까? (Y/N) : ";
 
 	while (1)
 	{

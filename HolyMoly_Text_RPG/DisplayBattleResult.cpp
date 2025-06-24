@@ -26,26 +26,4 @@ void ConsoleUI::displayBattleResult(bool isPlayerDead, string p_name, string m_n
 
 	FnSetTextDefault();
 	cout << endl << endl;
-
-	//ConsoleUI::pressEnter();
-
-	////test용
-	//if (isPlayerDead) return;
-	//string answer = "";
-	//cout << "상점에 방문하시겠습니까? (Y/N)";
-
-	//while (1)
-	//{
-	//	getline(cin, answer);
-
-	//	answer = toupper(answer[0]);
-	//	if (answer != "Y" && answer != "N")
-	//	{
-	//		cout << "Y나 N을 입력하세요: ";
-	//	}
-	//	else
-	//	{
-	//		break;
-	//	}
-	//}
 }

@@ -110,7 +110,6 @@ void StartGame(GameManager& gm)
 		gm.battle();
 		gm.addBattleLog();
 		ConsoleUI::displayBattleResult(gm.getIsPlayerDead(), gamePlayer->getName(), monster->getName(), level);
-		ConsoleUI::pressEnter();
 	}
 
 	// 게임 종료 ui 출력
@@ -121,6 +120,7 @@ void StartGame(GameManager& gm)
 	}
 	else 
 	{
+		ConsoleUI::pressEnter();
 		ConsoleUI::gameClear();
 	}
 	// 플레이 로그 출력
