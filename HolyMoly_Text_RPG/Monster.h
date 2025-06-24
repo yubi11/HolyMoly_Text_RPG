@@ -1,8 +1,18 @@
 ﻿#pragma once
 #include <iostream>
-#include <random>
+#include <iomanip>
+#include <vector>
 
-#include "Item.h"
+#include "RandomUtil.h"
+#include "common.h"
+
+#include "HealthPotion.h"
+#include "AttackBoost.h"
+#include "ExpBook.h"
+#include "GoldBar.h"
+#include "HolyWater.h"
+#include "rottenMeat.h"
+#include "Bomb.h"
 
 using namespace std;
 
@@ -11,67 +21,49 @@ protected:
 	string name;
 	int health = 0;
 	int attack = 0;
+	int gold = 0;
+
+	enum class ItemType {
+		HealthPotion = 0,
+		AttackBoost = 1,
+		ExpBook = 2,
+		GoldBar = 3,
+		HolyWater = 4,
+		rottenMeat = 5
+	};
+
+	struct WeightedItem {
+		ItemType type;
+		int weight;
+	};
+
+	// 기본 드랍 아이템 구성 (자식에서 InitItemPool() 호출 시 덮어씌워짐)
+	vector<WeightedItem> itemPool = {
+		{ ItemType::HolyWater, 1 },       // 1%
+		{ ItemType::GoldBar, 5 },         // 5%
+		{ ItemType::ExpBook, 5 },         // 5%
+		{ ItemType::AttackBoost, 14 },    // 14%
+		{ ItemType::HealthPotion, 15 },   // 15%
+		{ ItemType::rottenMeat, 60 }	  // 60%
+	};
 
 
-	int getRandom(int n) { // 1부터 n 까지 랜덤
-		static std::random_device rd;
-		static std::mt19937 gen(rd());
-
-		std::uniform_int_distribution<> dis(0, n);
-
-		return dis(gen);
-	}
-	
 public:
 	Monster() {};
-	Monster(int level) {
-		int randHNum = 20 + getRandom(10);
-		int randANum = 5 + getRandom(5);
-
-		health = level * randHNum;
-		attack = level * randANum;
-	};
+	Monster(int level);
 	virtual ~Monster() {};
 
 	// Getter 함수
-	virtual string getName() const;		// 몬스터 이름
-	virtual int getHealth() const;	// 몬스터 체력 
-	virtual int getAttack() const;		// 몬스터 공격
-	
+	string getName() const;					// 몬스터 이름
+	int getHealth() const;					// 몬스터 체력 
+	int getAttack() const;					// 몬스터 공격
+
 	virtual void takeDamage(int damage);	// 몬스터 피해
-	virtual Item* dropItem() = 0;				// 아이템 드롭
-	
-};
 
-class Goblin :public Monster {
-public:
-	Goblin(int level) : Monster(level) {
-		name = "Goblin";
-	}
-	Item* dropItem() override;
-};
+	Item* pickItem();						// 아이템 랜덤 추출
+	virtual void InitItemPool();			// 아이템 목록
+	virtual Item* dropItem() = 0;			// 아이템 드롭
+	virtual int dropGold() = 0;				// 골드 드롭
 
-class Orc :public Monster {
-public:
-	Orc(int level) : Monster(level) {
-		name = "Orc";
-	}
-	Item* dropItem() override;
-};
-
-class Troll :public Monster {
-public:
-	Troll(int level) : Monster(level) {
-		name = "Troll";
-	}
-	Item* dropItem() override;
-};
-
-class BossMonster :public Monster {
-	int power = 1.5;
-public:
-	BossMonster(int level) : Monster(level * power) {
-		name = "BossMonster";
-	}
-	Item* dropItem() override;
+	virtual void displayMonster() = 0;		// 몬스터 아스키 아트
 };

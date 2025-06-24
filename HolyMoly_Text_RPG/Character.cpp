@@ -7,19 +7,55 @@ using namespace std;
 
 Character* Character::instance = nullptr;
 
-Character::Character(string n) : name(n), level(1), health(200),
+Character::Character(string n, int jobNum) : name(n), level(1), health(200),
 maxHealth(200), attack(30),
 experience(0), gold(0) {
+
+    switch (jobNum) {
+    case 1:
+        job = "전사";
+        cout << "기본 공격력이 높은 전사입니다. (직업: " << job << ")" << endl;
+        attack = 45;
+        break;
+    case 2:
+        job = "팔라딘";
+        cout << "튼튼한 방패로 기본 체력이 높습니다. (직업: " << job << ")" << endl;
+        maxHealth = 300;
+        health = 300;
+        break;
+    case 3:
+        job = "상인";
+        cout << "기본 능력이 낮지만 소지 골드가 많습니다. (직업: " << job << ")" << endl;
+        attack = 25;
+        maxHealth = 150;
+        health = 150;
+        gold = 200;
+        break;
+    default:
+        job = "가지지 못한 자";
+        cout << "잘못된 입력으로 여신의 축복을 받지 못했습니다. (직업: " << job << ")" << endl;
+        health = 150;
+        maxHealth = 150;
+        attack = 20;
+        break;
+    }
+        
 }
 
-Character* Character::getInstance(string name) {
+Character* Character::getInstance(string name, int jobNum) {
     if (instance == nullptr) {
         if (name.empty()) {
             name = "Unknown";
         }
-        instance = new Character(name);
+        instance = new Character(name, jobNum);
     }
     return instance;
+}
+Character::~Character() {
+    for (auto& item : inventory) {
+        delete item.second.first;
+    }
+    inventory.clear();
 }
 
 string Character::getInstanceName() {
@@ -50,7 +86,7 @@ void Character::levelUp() {
     }
 }
 
-void Character::useItem(const string& itemName, int quantity = 1) {
+void Character::useItem(const string& itemName, int quantity) {
     auto it = inventory.find(itemName);
     if (it != inventory.end() && it->second.second >= quantity) {
         for (int i = 0; i < quantity; i++) {
@@ -58,6 +94,7 @@ void Character::useItem(const string& itemName, int quantity = 1) {
         }
         it->second.second -= quantity;
         if (it->second.second == 0) {
+            delete it->second.first;
             inventory.erase(it);
         }
     };
@@ -67,7 +104,7 @@ void Character::useItemObject(Item* item) { //혹시 몰라 작성
     item->use(this);
 }
 
-void Character::addItem(Item* item, int quantity = 1) {
+void Character::addItem(Item* item, int quantity) {
     if (item == nullptr) return;
 
     string itemName = item->getName();
@@ -76,6 +113,7 @@ void Character::addItem(Item* item, int quantity = 1) {
     if (it != inventory.end()) {
         // 같은 이름이면 개수만 증가 (같은 효과이므로 문제없음)
         it->second.second += quantity;
+        delete item; // 같은 아이템이면 새로운 포인터 삭제 (중복 방지)
     }
     else {
         // 새로운 아이템 추가
@@ -88,9 +126,16 @@ int Character::getItemCount(const string& itemName) {
     return (it != inventory.end()) ? it->second.second : 0;
 }
 
-void Character::removeItem(const string& itemName) {
+void Character::removeItem(const string& itemName, int quantity) {
     auto it = inventory.find(itemName);
-    if (it != inventory.end()) {
+    if (it != inventory.end() && it->second.second >= quantity) {
+        it->second.second -= quantity;
+    }
+    else if (it != inventory.end() && it->second.second < quantity) { //보유 아이템 수량보다 많은 수 입력 시 수량 0개.
+        it->second.second = 0;
+    }
+    if (it->second.second == 0) {
+        delete it->second.first;
         inventory.erase(it);
     }
 }
@@ -123,6 +168,8 @@ void Character::setHealth(int h) {
 
 void Character::setAttack(int a) { attack = a; }
 void Character::setGold(int g) { gold = g; }
+void Character::setLevel(int l) { level = l; }
+void Character::setMaxHealth(int mh) { maxHealth = mh; }
 
 void Character::addExperience(int exp) {
     experience += exp;
