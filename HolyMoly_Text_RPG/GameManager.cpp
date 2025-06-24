@@ -112,8 +112,8 @@ void GameManager::battle()
 		cout << battleLog << endl;
 
 		// 받은 피해 메시지
-		FnSetTextColor(EColors::LIGHT_RED);
-		battleLog = monsterName + "이(가) " + to_string(player->getAttack()) + "의 피해를 입었습니다."+monsterName + "의 체력: " + to_string(monster->getHealth());
+		FnSetTextColor(EColors::LIGHT_CYAN);
+		battleLog = monsterName + "이(가) " + to_string(player->getAttack()) + "의 피해를 입었습니다. "+monsterName + "의 체력: " + to_string(monster->getHealth());
 		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
 		FnSetTextDefault();
 
@@ -132,13 +132,18 @@ void GameManager::battle()
 		player->takeDamage(monster->getAttack());
 
 		// 공격 메시지
+		string skill = monster->getSkill();
+		FnSetTextColor(EColors::LIGHT_CYAN);
+		battleLog = monsterName + "의 ";
+		cout << setfill(' ') << setw(consoleWidth - skill.length() - 3) << right << battleLog;
 		FnSetTextColor(EColors::LIGHT_RED);
-		battleLog = monsterName + "이(가) " + playerName + "을(를) 공격합니다!";
-		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl;
+		cout << setfill(' ') << right << skill;
+		FnSetTextColor(EColors::LIGHT_CYAN);
+		cout << setfill(' ') << right << "!!!" << endl;
 		FnSetTextDefault();
 
 		// 받은 피해 메시지
-		battleLog = playerName + "이(가) " + to_string(monster->getAttack()) + "의 피해를 입었습니다." + playerName + "의 체력: " + to_string(player->getHealth());
+		battleLog = playerName + "이(가) " + to_string(monster->getAttack()) + "의 피해를 입었습니다. " + playerName + "의 체력: " + to_string(player->getHealth());
 		cout << battleLog << endl << endl;
 		
 		// 플레이어 생존 여부 확인
