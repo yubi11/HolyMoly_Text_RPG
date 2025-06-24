@@ -67,6 +67,7 @@ string Character::getInstanceName() {
 
 void Character::displayStatus() {
     cout << "\n=== " << name << " 상태 ===" << endl;
+    cout << "직업: " << job << endl;
     cout << "레벨: " << level << endl;
     cout << "체력: " << health << "/" << maxHealth << endl;
     cout << "공격력: " << attack << endl;
