@@ -5,9 +5,9 @@
 #include "Character.h"
 using namespace std;
 
-Character* Character::instance = nullptr;
+Character* Character::instance = nullptr; // 싱글톤 패턴용 인스턴스 초기화
 
-Character::Character(string n, int jobNum) : name(n), level(1), health(100),
+Character::Character(string n, int jobNum) : name(n), level(1), health(100),  // 캐릭터 클래스를 상속받는 생성자로 이름와 직업번호를 
 maxHealth(100), attack(15),
 experience(0), gold(0) {
 
@@ -176,9 +176,7 @@ void Character::setMaxHealth(int mh) { maxHealth = mh; }
 void Character::addExperience(int exp) {
     experience += exp;
     cout << exp << " 경험치를 획득했습니다!" << endl;
-    while (experience < 100) {
-        if (experience >= 100) {
-            levelUp();
-        }
+    while (experience >= 100 && level < 10) {
+        levelUp();
     }
 }
