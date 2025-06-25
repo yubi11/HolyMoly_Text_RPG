@@ -47,7 +47,7 @@ void BossMonster::displayMonster() {
 	for (auto& s : MonsterAsciiArt)
 	{
 		int s_len = s.length();
-		int padding = (consoleWidth - s_len);
+		int padding = (consoleWidth - s_len)/2;
 		cout << setw(padding + s_len) << right << s << endl;
 		FnSleep(100);
 	}
