@@ -210,16 +210,16 @@ void GameManager::addPlayerGold(int gold)
 void GameManager::visitShop()
 {
 	string answer = "";
-	cout << endl << "상점에 방문하시겠습니까? (Y/N) : ";
+	cout << endl << "낡은 간판이 달린 상점이 보입니다. 들어가시겠습니까?"<<endl<<"1. 조심스럽게 들어간다   2. 위험해 보이니 지나친다    ";
 
 	while (1)
 	{
 		getline(cin, answer);
 
 		answer = toupper(answer[0]);
-		if (answer != "Y" && answer != "N")
+		if (answer != "1" && answer != "2")
 		{
-			cout << "Y나 N을 입력하세요: ";
+			cout << "알맞은 번호를 입력하세요: ";
 		}
 		else
 		{
@@ -227,7 +227,7 @@ void GameManager::visitShop()
 		}
 	}
 
-	if (answer == "Y")
+	if (answer == "1")
 	{
 		// 화면 지우고 상점만 표시
 		system("cls");
@@ -240,7 +240,7 @@ void GameManager::visitShop()
 		}
 		Shop gameShop(player, isTrue);
 	}
-	else if (answer == "N")
+	else if (answer == "2")
 	{
 		cout << "상점을 지나쳤습니다." << endl;
 	}
