@@ -13,6 +13,9 @@
 #include "rottenMeat.h"
 #include "HolyWater.h"
 #include "ChaosOrb.h"
+
+template<typename T>
+struct always_false : std::false_type {};
 //-----------------------------------------
 
 enum class EMenu;
@@ -99,7 +102,7 @@ private:
 	void ReduceItem(Character* player, string _strKey, int _quantity = 1);
 
 	// 입력값 유효성 검사
-	string CheckInputValidation(int _min, int _max, Character* player, bool _isPurcahseMode = false);
+	string CheckInputValidation(int _min, int _max, Character* player, bool _isPurchaseMode = false);
 
 	// 로그 생성
 	void CreateLog();
@@ -112,7 +115,7 @@ private:
 
 private:
 	// 판매 중인 아이템 목록
-	map<EItemRegular, unique_ptr<Item>>mCatalog_Reugular;
+	map<EItemRegular, unique_ptr<Item>>mCatalog_Regular;
 	map<EItemSpecial, unique_ptr<Item>>mCatalog_Special;
 	//vector<> availableItems;
 	//vector<Item*> availableItems;
@@ -152,7 +155,8 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 
 	// 정렬 기준값
 	const int SORT_NANE = 36;	// 이름 정렬 기준값
-	const int SORT_NUMB = 2;	// 숫자 정렬 기준값
+	const int SORT_NUMB_2 = 2;	// 숫자 정렬 기준값
+	const int SORT_NUMB_3 = 3;	// 숫자 정렬 기준값
 
 	//==========================================
 	// 일반 상점과 특수 상점 구분
@@ -201,9 +205,9 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+					cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+					cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 				}
 				else
 				{// 판매 후
@@ -220,11 +224,11 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 
 						// 남은 수량 강조
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 
 						isFind = true;
 					}
@@ -236,9 +240,9 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 					}
 				}
 			}
@@ -252,13 +256,13 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+					cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+					cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 				}
 				else
 				{// 구매 후
-					string name_SelectedItem = mCatalog_Reugular[_item]->getName();
+					string name_SelectedItem = mCatalog_Regular[_item]->getName();
 
 					if (name_key == name_SelectedItem)
 					{// 구매한 아이템 강조
@@ -273,11 +277,11 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 
 						// 수량 강조
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 					}
 					else
 					{// 구매한 품목이 아닌 나머지 인벤토리
@@ -287,9 +291,9 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 					}
 				}
 			}
@@ -326,7 +330,8 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 		string strLine = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		for (size_t i = 0; i < strLine.size(); ++i)
 		{// 출력 - 아스키아트 라인
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colors[(i + 3) % colors.size()]);
+			const int colorIndex = (i + 3) % colors.size();
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colors[colorIndex]);
 			cout << strLine[i];
 		}
 		string str = "인벤토己l 목록:\n";
@@ -363,9 +368,9 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+					cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+					cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 				}
 				else
 				{// 판매 후
@@ -382,11 +387,11 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 
 						// 남은 수량 강조
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 
 						isFind = true;
 					}
@@ -398,9 +403,9 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 					}
 				}
 			}
@@ -414,9 +419,9 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 					string strTmp = "";
 					strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 					cout << left << setw(SORT_NANE) << strTmp;
-					cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-					cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-					cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+					cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+					cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+					cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 				}
 				else
 				{// 구매 후
@@ -435,11 +440,11 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 
 						// 수량 강조
 						FnSetTextColor(EColors::LIGHT_CYAN);
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
 
 						FnSetTextColor(EColors::LIGHT_YELLOW);
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 					}
 					else
 					{// 구매한 품목이 아닌 나머지 인벤토리
@@ -449,9 +454,9 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 						string strTmp = "";
 						strTmp += "\""; strTmp += name_key; strTmp += "\""; strTmp += "(Type:"; strTmp += itemDefaultName; strTmp += ")";
 						cout << left << setw(SORT_NANE) << strTmp;
-						cout << " | 수량: " << right << setw(SORT_NUMB) << quantity;
-						cout << " | 원가: " << right << setw(SORT_NUMB) << originalPrice << "(G)";
-						cout << " | 매입가: " << right << setw(SORT_NUMB) << salePrice << "(G)";
+						cout << " | 수량: " << right << setw(SORT_NUMB_2) << quantity;
+						cout << " | 원가: " << right << setw(SORT_NUMB_3) << originalPrice << "(G)";
+						cout << " | 매입가: " << right << setw(SORT_NUMB_2) << salePrice << "(G)";
 					}
 				}
 			}
@@ -474,7 +479,8 @@ inline void Shop::DisplayPlayerInventory(Character* player, bool _isSell, bool _
 	}
 	else
 	{// EItemRegular, EItemSpecial 이외의 enum 타입에 대한 처리
-		static_assert(false, "Unsupported enum type.");
+		//static_assert(false, "Unsupported enum type.");
+		static_assert(always_false<TEnum>::value, "Unsupported enum type.");
 	}
 }
 
@@ -527,6 +533,7 @@ inline void Shop::RegisterItem(Character* player, TEnum _itemType, int _quantity
 	}
 	else
 	{// EItemRegular, EItemSpecial 이외의 enum 타입에 대한 처리
-		static_assert(false, "Unsupported enum type");
+		//static_assert(false, "Unsupported enum type");
+		static_assert(always_false<TEnum>::value, "Unsupported enum type.");
 	}
 }//END-inline void Shop::RegisterItem

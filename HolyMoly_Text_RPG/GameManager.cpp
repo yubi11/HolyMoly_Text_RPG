@@ -1,4 +1,4 @@
-#include "GameManager.h"
+ï»¿#include "GameManager.h"
 #include <iostream>
 
 
@@ -28,22 +28,22 @@ bool GameManager::getIsPlayerDead()
 	return isPlayerDead;
 }
 //get monsterCount
-int GameManager::getMonsterCount() 
+int GameManager::getMonsterCount()
 {
 	return monsterCount;
 }
 //get playLog
-vector<string>& GameManager::getPlayLog() 
+vector<string>& GameManager::getPlayLog()
 {
 	return playLog;
 }
 //set level
-void GameManager::setLevel(int level) 
+void GameManager::setLevel(int level)
 {
 	this->level = level;
 }
 
-// level ±â¹İÀ¸·Î ·£´ı ¸ó½ºÅÍ »ı¼º
+// level ê¸°ë°˜ìœ¼ë¡œ ëœë¤ ëª¬ìŠ¤í„° ìƒì„±
 void GameManager::generateMonster(int level)
 {
 	int randNum = RandomUtil::GetRandomInt(0, 2);
@@ -64,77 +64,87 @@ void GameManager::generateMonster(int level)
 		break;
 	}
 }
-// level ±â¹İÀ¸·Î º¸½º ¸ó½ºÅÍ »ı¼º
+// level ê¸°ë°˜ìœ¼ë¡œ ë³´ìŠ¤ ëª¬ìŠ¤í„° ìƒì„±
 void GameManager::generateBossMonster(int level)
 {
 	monster = make_unique<BossMonster>(level);
 }
 
-// ¹èÆ² °á°ú ·Î±×¿¡ Ãß°¡
-// ÀâÀº ¸ó½ºÅÍ Ä«¿îÆ®
+// ë°°í‹€ ê²°ê³¼ ë¡œê·¸ì— ì¶”ê°€
+// ì¡ì€ ëª¬ìŠ¤í„° ì¹´ìš´íŠ¸
 void GameManager::addBattleLog() {
 	if (isPlayerDead)
 	{
-		string log = player->getName() + "ÀÌ(°¡) ·¹º§ "
-			+ to_string(level) + " " + monster->getName() + "¿¡°Ô ¾²·¯Á³½À´Ï´Ù.";
+		string log = player->getName() + "ì´(ê°€) ë ˆë²¨ "
+			+ to_string(level) + " " + monster->getName() + "ì—ê²Œ ì“°ëŸ¬ì¡ŒìŠµë‹ˆë‹¤.";
 		playLog.push_back(log);
 	}
 	else
 	{
-		string log = player->getName() + "ÀÌ(°¡) ·¹º§ "
-			+ to_string(level) + " " + monster->getName() + "À»(¸¦) Ã³Ä¡Çß½À´Ï´Ù.";
+		string log = player->getName() + "ì´(ê°€) ë ˆë²¨ "
+			+ to_string(level) + " " + monster->getName() + "ì„(ë¥¼) ì²˜ì¹˜í–ˆìŠµë‹ˆë‹¤.";
 		playLog.push_back(log);
 		monsterCount++;
 	}
 }
 
-// player¿Í monster ¹èÆ²
+// playerì™€ monster ë°°í‹€
 void GameManager::battle()
 {
 	string playerName = player->getName();
 	string monsterName = monster->getName();
 	int consoleWidth = 90;
 
-	cout << RandomUtil::fillSides("·¹º§ " + to_string(level), consoleWidth, '=') << endl;
-	cout << RandomUtil::fillSides("¾ß»ıÀÇ " + monsterName + "ÀÌ(°¡) ³ªÅ¸³µ½À´Ï´Ù!", consoleWidth, ' ') << endl << endl;
+	cout << RandomUtil::fillSides("ë ˆë²¨ " + to_string(level), consoleWidth, '=') << endl;
+	cout << RandomUtil::fillSides("ì•¼ìƒì˜ " + monsterName + "ì´(ê°€) ë‚˜íƒ€ë‚¬ìŠµë‹ˆë‹¤!", consoleWidth, ' ') << endl << endl;
 	FnSetTextColor(EColors::CYAN);
-	cout << RandomUtil::fillSides("Ã¼·Â: " + to_string(monster->getHealth()) + " °ø°İ·Â: "+to_string(monster->getAttack()), consoleWidth, ' ') << endl << endl;
+	cout << RandomUtil::fillSides("ì²´ë ¥: " + to_string(monster->getHealth()) + " ê³µê²©ë ¥: " + to_string(monster->getAttack()), consoleWidth, ' ') << endl << endl;
 	FnSetTextDefault();
+
+	const int PLAYER_MAX_HP = player->getMaxHealth();
+	const int MONSTER_MAX_HP = monster->getHealth();
 
 	while (1)
 	{
 		string battleLog;
-		//ÇÃ·¹ÀÌ¾î°¡ ¸ó½ºÅÍ °ø°İ
+		//í”Œë ˆì´ì–´ê°€ ëª¬ìŠ¤í„° ê³µê²©
 		monster->takeDamage(player->getAttack());
 
-		// °ø°İ ¸Ş½ÃÁö
-		battleLog = playerName + "ÀÌ(°¡) " + monsterName + "À»(¸¦) °ø°İÇÕ´Ï´Ù!";
+		// ê³µê²© ë©”ì‹œì§€
+		battleLog = playerName + "ì´(ê°€) " + monsterName + "ì„(ë¥¼) ê³µê²©í•©ë‹ˆë‹¤!";
 		cout << battleLog << endl;
 
-		// ¹ŞÀº ÇÇÇØ ¸Ş½ÃÁö
+		// ë°›ì€ í”¼í•´ ë©”ì‹œì§€
 		FnSetTextColor(EColors::LIGHT_CYAN);
-		battleLog = monsterName + "ÀÌ(°¡) " + to_string(player->getAttack()) + "ÀÇ ÇÇÇØ¸¦ ÀÔ¾ú½À´Ï´Ù. "+monsterName + "ÀÇ Ã¼·Â: " + to_string(monster->getHealth());
-		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
+		battleLog = monsterName + "ì´(ê°€) " + to_string(player->getAttack()) + "ì˜ í”¼í•´ë¥¼ ì…ì—ˆìŠµë‹ˆë‹¤. " + monsterName + "ì˜ ì²´ë ¥: " + to_string(monster->getHealth());
+		//cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
+		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl;
 		FnSetTextDefault();
 
-		// ¸ó½ºÅÍ »ıÁ¸ ¿©ºÎ È®ÀÎ
+		// HP ìƒíƒœ í‘œì‹œ
+		FnPrintHpStatusBar(player->getHealth(), PLAYER_MAX_HP, monster->getHealth(), MONSTER_MAX_HP, playerName, monsterName);
+
+		// ì¶œë ¥ - ë¼ì¸
+		FnSetTextColor(EColors::DARK_GRAY);
+		//cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
+		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl;
+		FnSetTextDefault();
+		FnSleep(300);
+
+		// ëª¬ìŠ¤í„° ìƒì¡´ ì—¬ë¶€ í™•ì¸
 		if (monster->getHealth() <= 0)
 		{
 			isPlayerDead = false;
 			break;
 		}
-		FnSetTextColor(EColors::DARK_GRAY);
-		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
-		FnSetTextDefault();
-		FnSleep(300);
 
-		//¸ó½ºÅÍ°¡ ÇÃ·¹ÀÌ¾î °ø°İ
+		//ëª¬ìŠ¤í„°ê°€ í”Œë ˆì´ì–´ ê³µê²©
 		player->takeDamage(monster->getAttack());
 
-		// °ø°İ ¸Ş½ÃÁö
+		// ê³µê²© ë©”ì‹œì§€
 		string skill = monster->getSkill();
 		FnSetTextColor(EColors::LIGHT_CYAN);
-		battleLog = monsterName + "ÀÇ ";
+		battleLog = monsterName + "ì˜ ";
 		cout << setfill(' ') << setw(consoleWidth - skill.length() - 3) << right << battleLog;
 		FnSetTextColor(EColors::LIGHT_RED);
 		cout << setfill(' ') << right << skill;
@@ -142,60 +152,64 @@ void GameManager::battle()
 		cout << setfill(' ') << right << "!!!" << endl;
 		FnSetTextDefault();
 
-		// ¹ŞÀº ÇÇÇØ ¸Ş½ÃÁö
-		battleLog = playerName + "ÀÌ(°¡) " + to_string(monster->getAttack()) + "ÀÇ ÇÇÇØ¸¦ ÀÔ¾ú½À´Ï´Ù. " + playerName + "ÀÇ Ã¼·Â: " + to_string(player->getHealth());
-		cout << battleLog << endl << endl;
-		
-		// ÇÃ·¹ÀÌ¾î »ıÁ¸ ¿©ºÎ È®ÀÎ
+		// ë°›ì€ í”¼í•´ ë©”ì‹œì§€
+		battleLog = playerName + "ì´(ê°€) " + to_string(monster->getAttack()) + "ì˜ í”¼í•´ë¥¼ ì…ì—ˆìŠµë‹ˆë‹¤. " + playerName + "ì˜ ì²´ë ¥: " + to_string(player->getHealth());
+		//cout << battleLog << endl << endl;
+		cout << battleLog << endl;
+
+		// í”Œë ˆì´ì–´ ìƒì¡´ ì—¬ë¶€ í™•ì¸
 		if (player->getHealth() <= 0)
 		{
 			isPlayerDead = true;
 			break;
 		}
 
+		// HP ìƒíƒœ í‘œì‹œ
+		FnPrintHpStatusBar(player->getHealth(), PLAYER_MAX_HP, monster->getHealth(), MONSTER_MAX_HP, playerName, monsterName);
+
+		// ì¶œë ¥ - ë¼ì¸
 		FnSetTextColor(EColors::DARK_GRAY);
-		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
+		//cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
+		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl;
 		FnSetTextDefault();
 		FnSleep(300);
 
-		// ¾ÆÀÌÅÛ ·£´ı »ç¿ë 
-		int randNum = RandomUtil::GetRandomInt(1, 100);	// ¾ÆÀÌÅÛ »ç¿ë È®·ü
+		// ì•„ì´í…œ ëœë¤ ì‚¬ìš© 
+		int randNum = RandomUtil::GetRandomInt(1, 100);	// ì•„ì´í…œ ì‚¬ìš© í™•ë¥ 
 
 		map<string, pair<Item*, int>> playerInventory = player->getInventory();
 
 		if (playerInventory.size() > 0 && randNum < eventProbability)
 		{
-			int randIdx = RandomUtil::GetRandomInt(0, playerInventory.size() - 1);	// »ç¿ëÇÒ ¾ÆÀÌÅÛ ÀÎµ¦½º 
+			int randIdx = RandomUtil::GetRandomInt(0, playerInventory.size() - 1);	// ì‚¬ìš©í•  ì•„ì´í…œ ì¸ë±ìŠ¤ 
 			player->useItem(next(playerInventory.begin(), randIdx)->first);
 		}
-
 	}
-
 }
-// ÇÃ·¹ÀÌ¾î °æÇèÄ¡ Ãß°¡
+// í”Œë ˆì´ì–´ ê²½í—˜ì¹˜ ì¶”ê°€
 void GameManager::addPlayerExperience()
 {
 	player->addExperience(experience);
 }
-// ÇÃ·¹ÀÌ¾î °ñµå Ãß°¡
+// í”Œë ˆì´ì–´ ê³¨ë“œ ì¶”ê°€
 void GameManager::addPlayerGold(int gold)
 {
 	player->setGold(player->getGold() + gold);
 }
-// »óÁ¡ ¹æ¹®
+// ìƒì  ë°©ë¬¸
 void GameManager::visitShop()
 {
 	string answer = "";
-	cout << endl << "»óÁ¡¿¡ ¹æ¹®ÇÏ½Ã°Ú½À´Ï±î? (Y/N) : ";
+	cout << endl << "ìƒì ì— ë°©ë¬¸í•˜ì‹œê² ìŠµë‹ˆê¹Œ? (Y/N) : ";
 
 	while (1)
 	{
 		getline(cin, answer);
-		
+
 		answer = toupper(answer[0]);
 		if (answer != "Y" && answer != "N")
 		{
-			cout << "Y³ª NÀ» ÀÔ·ÂÇÏ¼¼¿ä: ";
+			cout << "Yë‚˜ Nì„ ì…ë ¥í•˜ì„¸ìš”: ";
 		}
 		else
 		{
@@ -205,12 +219,12 @@ void GameManager::visitShop()
 
 	if (answer == "Y")
 	{
-		// È­¸é Áö¿ì°í »óÁ¡¸¸ Ç¥½Ã
+		// í™”ë©´ ì§€ìš°ê³  ìƒì ë§Œ í‘œì‹œ
 		system("cls");
-		// ¼öÁ¤: Shop shop(player, bool) 10%È®·ü·Î true
+		// ìˆ˜ì •: Shop shop(player, bool) 10%í™•ë¥ ë¡œ true
 		int randomInt = RandomUtil::GetRandomInt(1, 100);
 		bool isTrue = false;
-		if (randomInt <= 20 )
+		if (randomInt <= 20)
 		{
 			isTrue = true;
 		}
@@ -218,59 +232,59 @@ void GameManager::visitShop()
 	}
 	else if (answer == "N")
 	{
-		cout << "»óÁ¡À» Áö³ªÃÆ½À´Ï´Ù." << endl;
+		cout << "ìƒì ì„ ì§€ë‚˜ì³¤ìŠµë‹ˆë‹¤." << endl;
 	}
 }
 
-// ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸® Ãâ·Â
+// í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬ ì¶œë ¥
 void GameManager::displayInventory()
 {
-	// player inventory map<string, pair<Item*,int>>·Î º¯°æ
+	// player inventory map<string, pair<Item*,int>>ë¡œ ë³€ê²½
 	map<string, pair<Item*, int>>& inventory = player->getInventory();
 	for (auto p : inventory)
 	{
-		cout << p.first << " " << p.second.second << "°³" << endl;
+		cout << p.first << " " << p.second.second << "ê°œ" << endl;
 	}
 }
 
-// ÇÃ·¹ÀÌ ³»¿ª Ãâ·Â
+// í”Œë ˆì´ ë‚´ì—­ ì¶œë ¥
 void GameManager::displayPlayLog()
 {
-	//È­¸é Áö¿ì±â
+	//í™”ë©´ ì§€ìš°ê¸°
 	system("cls");
 
 	int totalMonster = playLog.size();
 	if (isPlayerDead)
 	{
 		totalMonster--;
-		cout << "°ÔÀÓ ¿À¹ö" << endl;
+		cout << "ê²Œì„ ì˜¤ë²„" << endl;
 	}
 	else
 	{
-		cout << "°ÔÀÓ ¼º°ø" << endl;
+		cout << "ê²Œì„ ì„±ê³µ" << endl;
 	}
-	cout << "========ÇÃ·¹ÀÌ ±â·Ï========" << endl;
+	cout << "========í”Œë ˆì´ ê¸°ë¡========" << endl;
 	for (string s : playLog)
 	{
 		cout << s << endl;
 	}
-	cout << "ÃÑ Ã³Ä¡ÇÑ ¸ó½ºÅÍ: " << totalMonster << "¸¶¸® / ÃÖÁ¾ µµ´ŞÇÑ ·¹º§: " << level << endl;
+	cout << "ì´ ì²˜ì¹˜í•œ ëª¬ìŠ¤í„°: " << totalMonster << "ë§ˆë¦¬ / ìµœì¢… ë„ë‹¬í•œ ë ˆë²¨: " << level << endl;
 
 }
 
-// ÇÃ·¹ÀÌ¾î ÀÌ¸§ ¹Ş¾Æ¿À±â
-string GameManager::getPlayerName() 
+// í”Œë ˆì´ì–´ ì´ë¦„ ë°›ì•„ì˜¤ê¸°
+string GameManager::getPlayerName()
 {
 	string name;
 	getline(cin, name);
 	while (name == "")
 	{
-		cout << "ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä: ";
+		cout << "ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”: ";
 		getline(cin, name);
 	}
 	return name;
 }
-// ÇÃ·¹ÀÌ¾î Á÷¾÷ ¹Ş¾Æ¿À±â
+// í”Œë ˆì´ì–´ ì§ì—… ë°›ì•„ì˜¤ê¸°
 int GameManager::getPlayerJob()
 {
 	string str;
@@ -278,14 +292,14 @@ int GameManager::getPlayerJob()
 
 	while (!FnIsNumber(str))
 	{
-		cout << "¾Ë¸ÂÀº ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ";
+		cout << "ì•Œë§ì€ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ";
 		getline(cin, str);
 	}
 
 	return stoi(str);
 }
-// ÇÃ·¹ÀÌ¾î »ı¼º
+// í”Œë ˆì´ì–´ ìƒì„±
 void GameManager::createPlayer(string name, int job)
-{	
+{
 	this->player = Character::getInstance(name, job);
 }

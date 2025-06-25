@@ -31,19 +31,19 @@ Shop::Shop(Character* player, bool _isSpecial)
 			switch (key)
 			{
 			case EItemRegular::HealthPotion:
-				mCatalog_Reugular[key] = std::make_unique<HealthPotion>();
+				mCatalog_Regular[key] = std::make_unique<HealthPotion>();
 				break;
 			case EItemRegular::AttackBoost:
-				mCatalog_Reugular[key] = std::make_unique<AttackBoost>();
+				mCatalog_Regular[key] = std::make_unique<AttackBoost>();
 				break;
 			case EItemRegular::ExpBook:
-				mCatalog_Reugular[key] = std::make_unique<ExpBook>();
+				mCatalog_Regular[key] = std::make_unique<ExpBook>();
 				break;
 			case EItemRegular::GoldBar:
-				mCatalog_Reugular[key] = std::make_unique<GoldBar>();
+				mCatalog_Regular[key] = std::make_unique<GoldBar>();
 				break;
 			case EItemRegular::rottenMeat:
-				mCatalog_Reugular[key] = std::make_unique<rottenMeat>();
+				mCatalog_Regular[key] = std::make_unique<rottenMeat>();
 				break;
 			case EItemRegular::END:
 				break;
@@ -255,7 +255,7 @@ void Shop::DisplayItems(Character* player)
 	int idx = 1;
 	if (!mIsSpecialShop)
 	{// 일반 상점
-		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Reugular)
+		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Regular)
 		{
 			const EItemRegular& key = pair.first;			// 아이템 키 (EItemRegular 타입)
 			const unique_ptr<Item>& itemPtr = pair.second;	// 아이템 포인터
@@ -483,7 +483,7 @@ void Shop::BuyItem(Character* player)
 
 		if (!mIsSpecialShop)
 		{// 일반 상점
-			price = mCatalog_Reugular[static_cast<EItemRegular>(key_digit)]->getPrice();
+			price = mCatalog_Regular[static_cast<EItemRegular>(key_digit)]->getPrice();
 		}
 		else
 		{// 특수 상점
@@ -643,7 +643,6 @@ void Shop::BuyItem(Character* player)
 				PrintByLineWithColor(vecAsciiArt_HolySpirit, EColors::LIGHT_YELLOW, ETypingSpeed::FAST);
 				cout << endl;
 			}
-
 			strBuyResult = "구□Й 결과 : ";
 		}
 
@@ -653,7 +652,7 @@ void Shop::BuyItem(Character* player)
 
 		if (!mIsSpecialShop)
 		{// 일반 상점
-			strBuyResult += mCatalog_Reugular[static_cast<EItemRegular>(key_digit)]->getName();
+			strBuyResult += mCatalog_Regular[static_cast<EItemRegular>(key_digit)]->getName();
 		}
 		else
 		{// 특수 상점
@@ -687,7 +686,7 @@ void Shop::BuyItem(Character* player)
 		if (!mIsSpecialShop)
 		{// 일반 상점
 			// 로그 업데이트
-			UpdateLogMessage(true, mCatalog_Reugular[static_cast<EItemRegular>(key_digit)]->getName(), digit_Quantity);
+			UpdateLogMessage(true, mCatalog_Regular[static_cast<EItemRegular>(key_digit)]->getName(), digit_Quantity);
 
 			// 플레이어에게 아이템 주기
 			RegisterItem(player, static_cast<EItemRegular>(key_digit), digit_Quantity);
@@ -1092,7 +1091,7 @@ void Shop::PrintAsciiArt(int _type)
 			strAsciiArt += "______                     _                        ";
 			strAsciiArt += "\n|■■■■■\\                   |■|                       ";
 			strAsciiArt += "\n|■|_/■/ _   _  _ __   ___ |■|__    __ _  ___   ___  ";
-			strAsciiArt += "\n|■■■■/ |■| |■||■■■■| /■■■||■■■■\\  /■_■■|/ ■■| /■■■\\ ";
+			strAsciiArt += "\n|■■■■/ |■| |■||■■■■| /■■■||■■■■\\  /■■■■|/ ■■| /■■■\\ ";
 			strAsciiArt += "\n|■|    |■|_|■||■|   |■(__ |■| |■||■(_|■|\\■■ \\|■■■■/ ";
 			strAsciiArt += "\n\\■|     \\■■■■||■|   \\■■■■||■| |■| \\■■■■||■■■/ \\■■■| ";
 		}
@@ -1333,7 +1332,7 @@ bool Shop::IsEnoughGoldBuyLowestPrice(Character* player)
 
 	if (!mIsSpecialShop)
 	{// 일반 상점
-		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Reugular)
+		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Regular)
 		{
 			vecPrice.push_back(pair.second->getPrice());
 		}
@@ -1483,7 +1482,7 @@ void Shop::ReduceItem(Character* player, string _strKey, int _quantity)
 	player->removeItem(_strKey, _quantity);
 }//END-void Shop::ReduceItem
 
-string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _isPurcahseMode)
+string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _isPurchaseMode)
 {
 	string returnValue = "";
 	string strTmp = "";
@@ -1527,14 +1526,14 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		try
 		{
 			const int digit = stoi(strTmp); // 예외 발생 가능성 있음
-			if ((!_isPurcahseMode) && (_min <= digit) && (digit <= _max))
+			if ((!_isPurchaseMode) && (_min <= digit) && (digit <= _max))
 			{// 일반적인 경우
 				isOk = true;
 				returnValue = strTmp;
 
 				break;
 			}
-			else if (_isPurcahseMode)
+			else if (_isPurchaseMode)
 			{// 구매 모드인 경우
 				// 이전으로 돌아가기를 선택한 경우
 				const int MIN = 0;
@@ -1565,7 +1564,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 					// 선택한 아이템의 가격
 					if (!mIsSpecialShop)
 					{// 일반 상점
-						price = mCatalog_Reugular[static_cast<EItemRegular>(idx)]->getPrice();
+						price = mCatalog_Regular[static_cast<EItemRegular>(idx)]->getPrice();
 					}
 					else
 					{// 특수 상점
@@ -1636,7 +1635,7 @@ void Shop::CreateLog()
 {
 	if (!mIsSpecialShop)
 	{// 일반 상점
-		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Reugular)
+		for (const pair<const EItemRegular, unique_ptr<Item>>& pair : mCatalog_Regular)
 		{
 			const unique_ptr<Item>& itemPtr = pair.second;
 			const string name = itemPtr->getName(); // 아이템 이름을 가져와서 사용

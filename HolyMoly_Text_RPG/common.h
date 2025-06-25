@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <istream>
 #include <iomanip>  // setw, setfill 등
@@ -62,7 +62,13 @@ namespace COMMON
         END
     };
 
-    // 목록 - 타자 효과 속도 고정값
+    // ANSI 컬러 코드 정의
+#define RESET       "\033[0m"
+#define RED_BG      "\033[41m \033[0m"
+#define GREEN_BG    "\033[42m \033[0m"
+#define BLACK_BG    "\033[40m \033[0m"
+
+// 목록 - 타자 효과 속도 고정값
     enum class ETypingSpeed
     {
         FAST = 10,
@@ -170,12 +176,142 @@ namespace COMMON
     //==========================================
     // 입력 유효성 검사
     // Input Validation
-    //========================================== 
+    //==========================================
+
     // 문자열 입력값으로 정수 판별 확인 (정규식을 사용해 문자열이 숫자인지 판별)
     inline bool FnIsNumber(const std::string& s)
     {
         std::regex pattern("^-?\\d+(\\.\\d+)?$"); // 부호 있는 정수 또는 실수
         return std::regex_match(s, pattern);
+    }
+
+    //==========================================
+    // 전투 장면 HP 바 표시 함수
+    //==========================================
+
+    // Windows 콘솔에서 ANSI 이스케이프 시퀀스(컬러, 텍스트 효과 등) 를 활성화
+    inline void EnableANSIColors()
+    {
+        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        DWORD dwMode = 0;
+
+        // 현재 모드 가져오기
+        if (!GetConsoleMode(hOut, &dwMode))
+            return;
+
+        // ANSI escape 시퀀스 활성화
+        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        SetConsoleMode(hOut, dwMode);
+    }
+
+    // 플레이어와 적의 HP 바를 문자열로 반환, hp: 현재 HP, maxHp: 최대 HP, barWidth: 바의 너비
+    inline string FnGetHealthBar(int _hp, int _maxHp, int _barWidth = 15)
+    {
+        string bar = "";
+
+        // 현재 HP가 전체 체력에서 차지하는 비율을 계산, 바의 너비에 맞춰 상태를 계산
+        int status = (_hp * _barWidth) / _maxHp;
+
+        // 체력이 1 이상일 경우 최소 1칸 보장 (단, 체력이 0이면 0)
+        if (_hp > 0 && status == 0)
+        {
+            status = 1;
+        }
+
+        // (Way 1) HP 표시 방식 : '|'
+        for (int i = 0; i < _barWidth; ++i)
+        {
+            bar += (i < status) ? '|' : ' ';
+        };
+
+        //// (Way 2) HP 표시 방식 : 배경색
+        //for (int i = 0; i < _barWidth; ++i)
+        //{
+        //    if (i < status)
+        //    {
+        //        //bar += GREEN_BG;  // GREEN 배경 (체력 있음)
+        //        bar += RED_BG;  // RED 배경 (체력 있음)
+        //    }
+        //    else
+        //    {
+        //        bar += BLACK_BG;  // 검정색 배경 (체력 없음)
+        //    }
+        //}
+
+        return bar;
+    }
+
+    // 플레이어와 적의 HP 상태 표시
+    inline void FnPrintHpStatusBar(int _playerHp, int _playerMaxHp, int _enemyHp, int _enemyMaxHp, const string& _playerName, const string& _enemyName, int _space = 35)
+    {
+        // (Way 2) HP 표시 방식 : 배경색, 적용하는 경우 필요함.
+        //EnableANSIColors();
+
+        // 플레이어 상태 표시
+        //cout << playerName << " HP: " << getHealthBar(playerHp, playerMaxHp) << " " << playerHp << "/" << playerMaxHp;
+        string strPlayerStatus;
+        strPlayerStatus += "HP:[";
+        FnSetTextColor(EColors::YELLOW); cout << strPlayerStatus;
+
+        // (Way 1) HP 표시 방식 : '|'
+        strPlayerStatus.clear();
+        strPlayerStatus += FnGetHealthBar(_playerHp, _playerMaxHp);   // 플레이어의 HP 바
+        FnSetTextColor(EColors::GREEN); cout << strPlayerStatus;
+
+        // (Way 2) HP 표시 방식 : 배경색
+        //strPlayerStatus.clear();
+        //strPlayerStatus += FnGetHealthBar(_playerHp, _playerMaxHp);   // 플레이어의 HP 바
+        //cout << strPlayerStatus;
+
+        strPlayerStatus.clear();
+        strPlayerStatus += "] ";
+        FnSetTextColor(EColors::YELLOW); cout << strPlayerStatus;
+        strPlayerStatus.clear();
+        strPlayerStatus += to_string(_playerHp);                     // 플레이어의 현재 HP
+        FnSetTextColor(EColors::GREEN); cout << strPlayerStatus;
+        strPlayerStatus.clear();
+        strPlayerStatus += "/";
+        strPlayerStatus += to_string(_playerMaxHp);                  // 플레이어의 최대 HP
+        FnSetTextColor(EColors::YELLOW); cout << strPlayerStatus;
+
+        // 여백 조정
+        int spaceValue = 0;
+        const int MAX_SIZE_NAME = 7; // ex) string BOSS_NAME = "BossMonster"; // 11글자
+        spaceValue = (MAX_SIZE_NAME <= _enemyName.size()) ? (25 - _playerName.length()) : (35 - _playerName.length());
+        cout << string(spaceValue, ' ');
+
+        // 적 상태 표시
+        //cout << enemyName << " HP: " << getHealthBar(enemyHp, enemyMaxHp) << " " << enemyHp << "/" << enemyMaxHp << "\n";
+        string strEnemyStatus;
+        strEnemyStatus += _enemyName;
+        FnSetTextColor(EColors::YELLOW); cout << strEnemyStatus;
+        strEnemyStatus.clear();
+        strEnemyStatus += " HP:[";
+        FnSetTextColor(EColors::YELLOW); cout << strEnemyStatus;
+
+        // (Way 1) HP 표시 방식 : '|'
+        strEnemyStatus.clear();
+        strEnemyStatus += FnGetHealthBar(_enemyHp, _enemyMaxHp);  // 적의 HP 바
+        FnSetTextColor(EColors::RED); cout << strEnemyStatus;
+
+        // (Way 2) HP 표시 방식 : 배경색
+        //strEnemyStatus.clear();
+        //strEnemyStatus += FnGetHealthBar(_enemyHp, _enemyMaxHp);  // 적의 HP 바
+        //cout << strEnemyStatus;
+
+        strEnemyStatus.clear();
+        strEnemyStatus += "] ";
+        FnSetTextColor(EColors::YELLOW); cout << strEnemyStatus;
+        strEnemyStatus.clear();
+        strEnemyStatus += to_string(_enemyHp);                   // 적의 현재 HP
+        FnSetTextColor(EColors::RED); cout << strEnemyStatus;
+        strEnemyStatus.clear();
+        strEnemyStatus += "/";
+        strEnemyStatus += to_string(_enemyMaxHp);                // 적의 최대 HP
+        FnSetTextColor(EColors::YELLOW); cout << strEnemyStatus;
+
+        // 줄바꿈
+        cout << endl;
     }
 }
 
