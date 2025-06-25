@@ -1,8 +1,11 @@
 #include "StartGame.h"
-
+#include <windows.h>
 
 void StartGame(GameManager& gm)
 {
+	// 게임 타이틀
+	system("title 홀리몰리 어드벤처");
+
 	// 시드 초기화
 	RandomUtil::Init();
 
