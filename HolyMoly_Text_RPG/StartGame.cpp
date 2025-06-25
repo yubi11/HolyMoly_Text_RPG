@@ -82,7 +82,7 @@ void StartGame(GameManager& gm)
 
 		// 몬스터별 골드 획득 
 		gm.addPlayerGold(monster->dropGold());
-		cout << monster->getName() << "에게 " << monster->dropGold() << "골드를 얻었습니다." << endl;
+		cout << monster->getName() << "에게 " << monster->dropGold() << " 골드를 얻었습니다." << endl;
 
 		// 몬스터 아이템 드랍
 		// 수정 고려사항) 0~3번 랜덤하게 반복하도록

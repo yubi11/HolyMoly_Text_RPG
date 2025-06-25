@@ -193,6 +193,9 @@ void GameManager::battle()
 		int eventNum = eventProbability;
 		if (player->getHealth() <= player->getMaxHealth() / 3)
 		{
+			FnSetTextColor(EColors::DARK_GRAY);
+			cout << playerName+"의 생존 본능이 깨어납니다. 아이템을 쓸지 망설입니다." << endl;
+			FnSetTextDefault();
 			eventNum *= 2;
 		}
 
