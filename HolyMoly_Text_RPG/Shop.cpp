@@ -330,7 +330,12 @@ void Shop::DisplayItems(Character* player)
 			// 출력 - 아이템 이름 + 효과 + 가격
 			if (EItemSpecial::HolyWater == key)
 			{
-				strPrint = itemPtr->getName() + " (" + str_effect + " +" + to_string(itemPtr->getItemValue()) + ")";
+				/*
+					실제로 HolyWater로부터 getItemValue()로 찾아오는 값은 value 하나인데
+					이 값은 HP와 Attack을 모두 증가시키는 효과가 있다.
+				*/
+				//strPrint = itemPtr->getName() + " (" + str_effect + " +" + to_string(itemPtr->getItemValue()) + ")";
+				strPrint = itemPtr->getName() + " (HP +" + to_string(itemPtr->getItemValue()) + ", Attack +" + to_string(itemPtr->getItemValue() / 5) + ")";
 			}
 			else if (EItemSpecial::ChaosOrb == key)
 			{
@@ -670,7 +675,7 @@ void Shop::BuyItem(Character* player)
 		}
 		else
 		{// 특수 상점
-			strBuyResult = "개 구□Й, ";
+			strBuyResult += "개 구□Й, ";
 		}
 
 		PrintBySpellingWithColor(strBuyResult, EColors::YELLOW, ETypingSpeed::FAST);
