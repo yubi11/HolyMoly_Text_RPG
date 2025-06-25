@@ -1,10 +1,11 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <iomanip>
 #include <conio.h>
 #include "ConsoleUI.h"
 
 void ConsoleUI::getPlayerName()
 {
+	FnPlaySFX_GetPlayerName(); // íš¨ê³¼ìŒ ìž¬ìƒ
 	system("cls");
 	vector<string>castle =
 	{
@@ -43,22 +44,23 @@ void ConsoleUI::getPlayerName()
 	vector<string> story =
 	{
 		"",
-		"¿©±ä ÀÛÀº ¿Õ±¹, ½ºÆÄ¸£Å¸. ¾ó¸¶ ÀüºÎÅÍ ³ª¶ó¿¡ ¸ó½ºÅÍ°¡ ³ªÅ¸³ª±â ½ÃÀÛÇß½À´Ï´Ù.",
-		"»ç¶÷µéÀº ºÒ¾È¿¡ ¶³¾ú°í ³ª¶ó´Â È¥¶õ¿¡ ºüÁ³½À´Ï´Ù."
+		"ì—¬ê¸´ ìž‘ì€ ì™•êµ­, ìŠ¤íŒŒë¥´íƒ€. ì–¼ë§ˆ ì „ë¶€í„° ë‚˜ë¼ì— ëª¬ìŠ¤í„°ê°€ ë‚˜íƒ€ë‚˜ê¸° ì‹œìž‘í–ˆìŠµë‹ˆë‹¤.",
+		"ì‚¬ëžŒë“¤ì€ ë¶ˆì•ˆì— ë–¨ì—ˆê³  ë‚˜ë¼ëŠ” í˜¼ëž€ì— ë¹ ì¡ŒìŠµë‹ˆë‹¤."
 		"",
-		"ÀÌ¸¦ ÇØ°áÇÏ±â À§ÇØ ¸ðÇèÀ» ³ª¼± ´ç½ÅÀÇ ÀÌ¸§Àº...   "
+		"ì´ë¥¼ í•´ê²°í•˜ê¸° ìœ„í•´ ëª¨í—˜ì„ ë‚˜ì„  ë‹¹ì‹ ì˜ ì´ë¦„ì€...   "
 	};
 	for (int i = 0; i < story.size(); i++)
 	{
-		
+
 		PrintBySpellingWithColor(story[i], EColors::LIGHT_GRAY, ETypingSpeed::FAST);
 		FnSleep(300);
 		if (i != story.size() - 1) cout << endl;
 
-		while (_kbhit()) 
+		while (_kbhit())
 		{
 			_getch();
 		}
-	}	
+	}
+	FnStopSFX_GetPlayerName(); // íš¨ê³¼ìŒ ì •ì§€
 }
 

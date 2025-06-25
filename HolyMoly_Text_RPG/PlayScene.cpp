@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <vector>
 #include <thread>
@@ -28,43 +28,44 @@ vector<string> bg = {
 };
 
 void drawFrame(int frame) {
-    // ÄÜ¼Ö È­¸é ÃÊ±âÈ­ (Áö¿î °ÍÃ³·³ º¸ÀÌ°Ô)
-    system("cls");  // Windows Àü¿ë
+    // ì½˜ì†” í™”ë©´ ì´ˆê¸°í™” (ì§€ìš´ ê²ƒì²˜ëŸ¼ ë³´ì´ê²Œ)
+    system("cls");  // Windows ì „ìš©
     cout << string(3, '\n');
-    // ¹è°æ Ãâ·Â
+    // ë°°ê²½ ì¶œë ¥
     FnSetTextColor(EColors::DARK_GRAY);
     for (const auto& line : bg) {
-        string extended = line + "   " + line + "   " + line; // ¹İº¹
+        string extended = line + "   " + line + "   " + line; // ë°˜ë³µ
         int start = frame % line.size();
         cout << extended.substr(start, screenWidth) << endl;
     }
 
-    // ¸Ş½ÃÁö Ãâ·Â (¹è°æ ¹Ù·Î ¾Æ·¡¿¡)
+    // ë©”ì‹œì§€ ì¶œë ¥ (ë°°ê²½ ë°”ë¡œ ì•„ë˜ì—)
     cout << endl;
     FnSetTextDefault();
     if (frame <= messageFrame1) {
-        cout << RandomUtil::fillSides("...ÁÖº¯ÀÌ Á¶¿ëÇØÁ³´Ù...", screenWidth, ' ') << endl;
+        cout << RandomUtil::fillSides("...ì£¼ë³€ì´ ì¡°ìš©í•´ì¡Œë‹¤...", screenWidth, ' ') << endl;
     }
     else if (frame <= messageFrame2) {
-        cout << RandomUtil::fillSides("...¾îµò°¡¿¡¼­ ±âÃ´ÀÌ ´À²¸Áø´Ù...", screenWidth, ' ') << endl;
+        cout << RandomUtil::fillSides("...ì–´ë”˜ê°€ì—ì„œ ê¸°ì²™ì´ ëŠê»´ì§„ë‹¤...", screenWidth, ' ') << endl;
     }
     else if (frame <= messageFrame3) {
-        cout << RandomUtil::fillSides("¾ß»ıÀÇ ¸ó½ºÅÍ°¡ ³ªÅ¸³µ´Ù!", screenWidth, ' ') << endl;
+        cout << RandomUtil::fillSides("ì•¼ìƒì˜ ëª¬ìŠ¤í„°ê°€ ë‚˜íƒ€ë‚¬ë‹¤!", screenWidth, ' ') << endl;
     }
 }
 
 void ConsoleUI::playScene()
 {
     int frame = 0;
-
+    drawFrame(frame);
+    FnPlaySFX_PlayScene();  // íš¨ê³¼ìŒ ì¬ìƒ
     while (true) {
-        drawFrame(frame);
-
         this_thread::sleep_for(chrono::milliseconds(scrollSpeedMs));
         frame++;
 
-        if (frame > messageFrame3) break;
+        if (frame > messageFrame3)
+        {
+            FnStopSFX_PlayScene(); // íš¨ê³¼ìŒ ì •ì§€
+            break;
+        }
     }
 }
-
-

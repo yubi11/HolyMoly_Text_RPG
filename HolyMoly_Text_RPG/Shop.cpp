@@ -83,6 +83,7 @@ Shop::Shop(Character* player, bool _isSpecial)
 
 void Shop::OnEnter(Character* player)
 {
+	FnPlaySFX_EnterShop();
 	//==========================================
 	// 출력 - 아스키아트 Only 최초진입
 	//==========================================
@@ -167,6 +168,7 @@ void Shop::OnEnter(Character* player)
 		const string str_Welcome = "상점øłl 오신 것을 환영합LI⊂ト!\nㅇr○l템을 구□Й㈛つㅓㄴr 판□ЙぁĦ 보パㅔ요!\n\n\n";
 		PrintBySpellingWithColor(str_Welcome, EColors::YELLOW, ETypingSpeed::FAST);
 	}
+	FnStopSFX_EnterShop; // 효과음 정지
 
 	//==========================================
 	// 메인 메뉴

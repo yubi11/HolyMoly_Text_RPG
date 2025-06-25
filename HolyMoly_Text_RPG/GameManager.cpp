@@ -10,19 +10,19 @@ int GameManager::getLevel()
 //get experience
 int GameManager::getExperience()
 {
-	if (level < 5) 
+	if (level < 5)
 	{
-		return experience*2;
+		return experience * 2;
 	}
-	else if (level < 8) 
+	else if (level < 8)
 	{
 		return experience;
 	}
-	else 
+	else
 	{
-		return experience/2;
+		return experience / 2;
 	}
-	
+
 }
 //get player
 Character* GameManager::getPlayer()
@@ -144,11 +144,10 @@ void GameManager::battle()
 		// 몬스터 생존 여부 확인
 		if (monster->getHealth() <= 0)
 		{
+			FnPlaySFX_PunchShort();	// 효과음 재생 & 정지
 			isPlayerDead = false;
 			break;
 		}
-
-
 
 		// 공격 메시지
 		string skill = monster->getSkill();
@@ -194,7 +193,7 @@ void GameManager::battle()
 		if (player->getHealth() <= player->getMaxHealth() / 3)
 		{
 			FnSetTextColor(EColors::DARK_GRAY);
-			cout << playerName+"의 생존 본능이 깨어납니다. 아이템을 쓸지 망설입니다." << endl;
+			cout << playerName + "의 생존 본능이 깨어납니다. 아이템을 쓸지 망설입니다." << endl;
 			FnSetTextDefault();
 			eventNum *= 2;
 		}
@@ -220,7 +219,7 @@ void GameManager::addPlayerGold(int gold)
 void GameManager::visitShop()
 {
 	string answer = "";
-	cout << endl << "낡은 간판이 달린 상점이 보입니다. 들어가시겠습니까?"<<endl<<"1. 조심스럽게 들어간다   2. 위험해 보이니 지나친다    ";
+	cout << endl << "낡은 간판이 달린 상점이 보입니다. 들어가시겠습니까?" << endl << "1. 조심스럽게 들어간다   2. 위험해 보이니 지나친다    ";
 
 	while (1)
 	{
@@ -316,6 +315,7 @@ int GameManager::getPlayerJob()
 		getline(cin, str);
 	}
 
+	FnPlaySFX_GetPlayerJob(); // 효과음 재생
 	return stoi(str);
 }
 // 플레이어 생성

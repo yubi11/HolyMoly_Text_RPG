@@ -23,7 +23,10 @@
 
 #include <memory>
 
-#include <iomanip>  //setw
+// sound 관련 헤더
+#include <windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -277,11 +280,14 @@ namespace COMMON
         strPlayerStatus += to_string(_playerMaxHp);                  // 플레이어의 최대 HP
         FnSetTextColor(EColors::YELLOW); cout << strPlayerStatus;
 
-        //// 수정중
         // 여백 조정
+        //int spaceValue = 0;
+        //const int MAX_SIZE_NAME = 7; // ex) string BOSS_NAME = "BossMonster"; // 11글자
+        //spaceValue = (MAX_SIZE_NAME <= _enemyName.size()) ? (25 - _playerName.length()) : (35 - _playerName.length());
+        //cout << string(spaceValue, ' ');
+
         int spaceValue = 0;
         const int MAX_SIZE_NAME = 7; // ex) string BOSS_NAME = "BossMonster"; // 11글자
-        //spaceValue = (MAX_SIZE_NAME <= _enemyName.size()) ? (25 - _playerName.length()) : (35 - _playerName.length());
         spaceValue = consoleWidth - 1
             - 22 - to_string(_enemyHp).size() - to_string(_enemyMaxHp).size()
             - 22 - _enemyName.size() - to_string(_playerHp).size() - to_string(_playerMaxHp).size();
@@ -301,7 +307,6 @@ namespace COMMON
         strEnemyStatus += FnGetHealthBar(_enemyHp, _enemyMaxHp);  // 적의 HP 바
         FnSetTextColor(EColors::RED); cout << strEnemyStatus;
 
-
         // (Way 2) HP 표시 방식 : 배경색
         //strEnemyStatus.clear();
         //strEnemyStatus += FnGetHealthBar(_enemyHp, _enemyMaxHp);  // 적의 HP 바
@@ -320,6 +325,101 @@ namespace COMMON
 
         // 줄바꿈
         cout << endl;
+    }
+
+    //==========================================
+    // sound 관련 함수
+    //========================================== 
+
+    // BGM
+    inline void FnPlayBGM()
+    {// 재생
+        // 실행 파일 위치가 TextRPG_HolyMoly_UTF-8\x64\Debug 일 때,
+        // 음원은 TextRPG_HolyMoly_UTF-8\TextRPG_HolyMoly\sound\ 안에 있으므로
+        // 상대경로는 두 단계 위로 올라가서 다시 들어가야 함
+         // alias: bgm
+        mciSendString(L"open \"sound\\s_BGM_HolyMoly.mp3\" type mpegvideo alias bgm", NULL, 0, NULL);
+        mciSendString(L"play bgm from 0 repeat", NULL, 0, NULL);
+    }
+    inline void FnStopBGM()
+    {// 정지
+        mciSendString(L"close bgm", NULL, 0, NULL); //alias: bgm
+    }
+
+    // 종소리
+    // getPlayerName
+    inline void FnPlaySFX_GetPlayerName()
+    {// 재생
+        mciSendString(L"open \"sound\\s_getPlayerName.mp3\" type mpegvideo alias getPlayerName", NULL, 0, NULL);
+        mciSendString(L"play getPlayerName from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_GetPlayerName()
+    {// 정지
+        mciSendString(L"close getPlayerName", NULL, 0, NULL);
+    }
+
+    // 둔탁한 소리
+    // getPlayerJob
+    inline void FnPlaySFX_GetPlayerJob()
+    {// 재생
+        mciSendString(L"open \"sound\\s_getPlayerJob.mp3\" type mpegvideo alias getPlayerJob", NULL, 0, NULL);
+        mciSendString(L"play getPlayerJob from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_GetPlayerJob()
+    {// 정지
+        mciSendString(L"close getPlayerJob", NULL, 0, NULL);
+    }
+
+
+
+
+    // 숲소리
+    // playScene
+    inline void FnPlaySFX_PlayScene()
+    {// 재생
+        mciSendString(L"open \"sound\\s_playScene.mp3\" type mpegvideo alias sfxPlayScene", NULL, 0, NULL);
+        mciSendString(L"play sfxPlayScene from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_PlayScene()
+    {// 정지
+        mciSendString(L"close sfxPlayScene", NULL, 0, NULL);
+    }
+
+    // gameOver
+    inline void FnPlaySFX_GameOver()
+    {// 재생
+        mciSendString(L"open \"sound\\s_playScene.mp3\" type mpegvideo alias sfxGameOver", NULL, 0, NULL);
+        mciSendString(L"play sfxGameOver from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_GameOver()
+    {// 정지
+        mciSendString(L"close sfxGameOver", NULL, 0, NULL);
+    }
+
+    // punchShort
+    inline void FnPlaySFX_PunchShort()
+    {// 재생 & 정지
+        mciSendString(L"open \"sound\\s_PunchShort.mp3\" type mpegvideo alias sfxPunchShort", NULL, 0, NULL);
+        mciSendString(L"play sfxPunchShort from 0", NULL, 0, NULL); // 효과음 한 번 재생
+        //// 선택: 일정 시간 후 sfx 닫기
+        Sleep(300);
+        mciSendString(L"close sfxPunchShort", NULL, 0, NULL);
+    }
+
+
+
+
+
+    // 효과음 - 상점 입장
+    inline void FnPlaySFX_EnterShop()
+    {// 재생
+        mciSendString(L"open \"sound\\s_EnterShop.mp3\" type mpegvideo alias sfxEnterShop", NULL, 0, NULL);
+        mciSendString(L"play sfxEnterShop from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    // 효과음 - 상점 입장
+    inline void FnStopSFX_EnterShop()
+    {// 정지
+        mciSendString(L"close sfxEnterShop", NULL, 0, NULL);
     }
 }
 
