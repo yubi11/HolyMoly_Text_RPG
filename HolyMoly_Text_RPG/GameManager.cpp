@@ -189,7 +189,14 @@ void GameManager::battle()
 
 		map<string, pair<Item*, int>> playerInventory = player->getInventory();
 
-		if (playerInventory.size() > 0 && randNum < eventProbability)
+		// 플레이어 체력이 1/3이하로 떨어지면 아이템 사용 확률 두배로 올림
+		int eventNum = eventProbability;
+		if (player->getHealth() <= player->getMaxHealth() / 3)
+		{
+			eventNum *= 2;
+		}
+
+		if (playerInventory.size() > 0 && randNum < eventNum)
 		{
 			int randIdx = RandomUtil::GetRandomInt(0, playerInventory.size() - 1);	// 사용할 아이템 인덱스 
 			player->useItem(next(playerInventory.begin(), randIdx)->first);
