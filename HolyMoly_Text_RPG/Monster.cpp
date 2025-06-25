@@ -10,19 +10,23 @@ Monster:: Monster(int level)
     attack = level * randANum;
 }
 
-string Monster:: getName() const { return name; }		               // 몬스터 이름
-int Monster:: getHealth() const { return health; }		               // 몬스터 체력 
-int Monster:: getAttack() const { return attack; }			           // 몬스터 공격
-string Monster:: getSkill()                                            // 몬스터 스킬
+string Monster:: getName() const { return name; }   // 몬스터 이름
+int Monster:: getHealth() const { return health; }  // 몬스터 체력 
+int Monster:: getAttack() const { return attack; }  // 몬스터 공격
+int Monster::getDamage() const { return damage; }   // 몬스터 데미지
+
+string Monster:: getSkill()                        // 몬스터 스킬 및 데미지 반환
 {
     int randSNum = RandomUtil::GetRandomInt(0, skills.size() - 1);
-    SetAttackRandom();
-    return skills[randSNum];
+    const Skill& chosenSkill = skills[randSNum];
+
+    SetAttackDamage(chosenSkill.multiplier); // 데미지 세팅
+
+    return chosenSkill.name;
 }
 
-void Monster::SetAttackRandom() {
-    int randANum = 5 + RandomUtil::GetRandomInt(0, 5); 
-    attack = level * randANum;
+void Monster::SetAttackDamage(float multiy) { // 데미지 세팅
+    damage = attack * multiy;
 }
 
 void Monster::takeDamage(int damage) // 몬스터 피해

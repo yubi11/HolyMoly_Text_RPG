@@ -21,10 +21,18 @@ protected:
 	string name = "";
 	int health = 0;
 	int attack = 0;
+	int damage = 0;
 	int gold = 0;
 	int level = 1;
 
-	vector<string> skills = { "몸통 박치기" };
+	struct Skill {
+		string name;
+		float multiplier;
+	};
+
+	vector<Skill> skills = {
+		{ "몸통 박치기", 1.0f }
+	};
 
 	enum class ItemType {
 		HealthPotion = 0,
@@ -57,20 +65,21 @@ public:
 	virtual ~Monster() {};
 
 	// Getter 함수
-	string getName() const;					// 몬스터 이름
-	int getHealth() const;					// 몬스터 체력 
-	int getAttack() const;					// 몬스터 공격
-	virtual string getSkill();				// 몬스터 스킬
+	string getName() const;					 // 몬스터 이름
+	int getHealth() const;					 // 몬스터 체력 
+	int getAttack() const;					 // 몬스터 공격
+	int getDamage() const;					 // 몬스터 공격
+	virtual string getSkill();	 // 몬스터 스킬
 
 	// Setter 함수
-	void SetAttackRandom();
+	void SetAttackDamage(float multiply);	 // 사용한 스킬에 따른 데미지 반환
 
-	virtual void takeDamage(int damage = 0);	// 몬스터 피해
+	virtual void takeDamage(int damage = 0); // 몬스터 피해
 
-	Item* pickItem();						// 아이템 랜덤 추출
-	virtual void InitItemPool();			// 아이템 목록
-	virtual Item* dropItem() = 0;			// 아이템 드롭
-	virtual int dropGold() = 0;				// 골드 드롭
+	Item* pickItem();						 // 아이템 랜덤 추출
+	virtual void InitItemPool();			 // 아이템 목록
+	virtual Item* dropItem() = 0;			 // 아이템 드롭
+	virtual int dropGold() = 0;				 // 골드 드롭
 
-	virtual void displayMonster() = 0;		// 몬스터 아스키 아트
+	virtual void displayMonster() = 0;		 // 몬스터 아스키 아트
 };
