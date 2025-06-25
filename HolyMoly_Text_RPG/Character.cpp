@@ -82,7 +82,7 @@ void Character::levelUp() {
         level++;
         maxHealth += level * 8;
         attack += level * 2;
-        health = maxHealth;
+        //health = maxHealth;
         experience -= 100;
         cout << "레벨업! 현재 레벨: " << level << endl;
     }

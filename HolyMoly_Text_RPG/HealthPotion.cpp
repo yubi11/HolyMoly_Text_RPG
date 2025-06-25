@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-HealthPotion::HealthPotion() : name("Health Potion"), price(10), value(50) {}
+HealthPotion::HealthPotion() : name("Health Potion"), price(20), value(50) {}
 
 string HealthPotion::getName() const { return name; }
 int HealthPotion::getPrice() const { return price; }
