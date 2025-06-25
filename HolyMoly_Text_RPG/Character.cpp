@@ -7,36 +7,36 @@ using namespace std;
 
 Character* Character::instance = nullptr; // 싱글톤 패턴용 인스턴스 초기화
 
-Character::Character(string n, int jobNum) : name(n), level(1), health(150),  // 캐릭터 클래스를 상속받는 생성자로 이름와 직업번호를 
-maxHealth(150), attack(20),
+Character::Character(string n, int jobNum) : name(n), level(1), health(200),  // 캐릭터 클래스를 상속받는 생성자로 이름와 직업번호를 
+maxHealth(200), attack(25),
 experience(0), gold(0) {
 
     switch (jobNum) {
     case 1:
         job = "전사";
         cout << "기본 공격력이 높은 전사입니다. (직업: " << job << ")" << endl;
-        attack = 30;
+        attack = 40;
         break;
     case 2:
         job = "팔라딘";
         cout << "튼튼한 방패로 기본 체력이 높습니다. (직업: " << job << ")" << endl;
-        maxHealth = 250;
-        health = 250;
+        maxHealth = 300;
+        health = 300;
         break;
     case 3:
         job = "상인";
-        cout << "기본 능력이 낮지만 소지 골드가 많습니다. (직업: " << job << ")" << endl;
-        attack = 15;
-        maxHealth = 100;
-        health = 100;
-        gold = 100;
+        cout << "기본 능력이 낮지만 많은 Gold를 가지고 시작합니다.. (직업: " << job << ")" << endl;
+        attack = 20;
+        maxHealth = 120;
+        health = 120;
+        gold = 150;
         break;
     default:
         job = "가지지 못한 자";
         cout << "잘못된 입력으로 여신의 축복을 받지 못했습니다. (직업: " << job << ")" << endl;
-        health = 80;
-        maxHealth = 80;
-        attack = 10;
+        health = 100;
+        maxHealth = 100;
+        attack = 15;
         break;
     }
         
@@ -80,9 +80,9 @@ void Character::displayStatus() {
 void Character::levelUp() {
     if (experience >= 100 && level < 10) {
         level++;
-        maxHealth += level * 10;
-        attack += level * 2;
-        health += level * 10;
+        maxHealth += level * 20;
+        attack += level * 5;
+        health += level * 20;
         experience -= 100;
         cout << "레벨업! 현재 레벨: " << level << endl;
     }
