@@ -10,7 +10,19 @@ int GameManager::getLevel()
 //get experience
 int GameManager::getExperience()
 {
-	return experience;
+	if (level < 5) 
+	{
+		return experience*2;
+	}
+	else if (level < 8) 
+	{
+		return experience;
+	}
+	else 
+	{
+		return experience/2;
+	}
+	
 }
 //get player
 Character* GameManager::getPlayer()
@@ -116,8 +128,7 @@ void GameManager::battle()
 
 		// 받은 피해 메시지
 		FnSetTextColor(EColors::LIGHT_CYAN);
-		battleLog = monsterName + "이(가) " + to_string(player->getAttack()) + "의 피해를 입었습니다. " + monsterName + "의 체력: " + to_string(monster->getHealth());
-		//cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl << endl;
+		battleLog = monsterName + "이(가) " + to_string(player->getAttack()) + "의 피해를 입었습니다.";
 		cout << setfill(' ') << setw(consoleWidth) << right << battleLog << endl;
 		FnSetTextDefault();
 
@@ -126,7 +137,6 @@ void GameManager::battle()
 
 		// 출력 - 라인
 		FnSetTextColor(EColors::DARK_GRAY);
-		//cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
 		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl;
 		FnSetTextDefault();
 		FnSleep(300);
@@ -153,8 +163,7 @@ void GameManager::battle()
 		FnSetTextDefault();
 
 		// 받은 피해 메시지
-		battleLog = playerName + "이(가) " + to_string(monster->getAttack()) + "의 피해를 입었습니다. " + playerName + "의 체력: " + to_string(player->getHealth());
-		//cout << battleLog << endl << endl;
+		battleLog = playerName + "이(가) " + to_string(monster->getAttack()) + "의 피해를 입었습니다.";
 		cout << battleLog << endl;
 
 		// 플레이어 생존 여부 확인
@@ -169,7 +178,6 @@ void GameManager::battle()
 
 		// 출력 - 라인
 		FnSetTextColor(EColors::DARK_GRAY);
-		//cout << RandomUtil::fillSides("", consoleWidth, '-') << endl << endl;
 		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl;
 		FnSetTextDefault();
 		FnSleep(300);
@@ -189,7 +197,7 @@ void GameManager::battle()
 // 플레이어 경험치 추가
 void GameManager::addPlayerExperience()
 {
-	player->addExperience(experience);
+	player->addExperience(getExperience());
 }
 // 플레이어 골드 추가
 void GameManager::addPlayerGold(int gold)
