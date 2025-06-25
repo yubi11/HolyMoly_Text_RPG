@@ -44,6 +44,7 @@ void StartGame(GameManager& gm)
 	Character* gamePlayer = gm.getPlayer();
 	int level = gamePlayer->getLevel();
 
+	// 플레이어 스탯 출력
 	gamePlayer->displayStatus();
 
 	ConsoleUI::pressEnter();
@@ -103,7 +104,7 @@ void StartGame(GameManager& gm)
 	{
 		gm.generateBossMonster(level);
 		Monster* monster = gm.getMonster();
-
+		// 배틀 시작 전 씬 플레이
 		ConsoleUI::playScene();
 		system("cls");
 		monster->displayMonster();

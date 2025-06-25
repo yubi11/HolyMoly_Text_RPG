@@ -10,9 +10,9 @@ using namespace std;
 
 const int screenWidth = 90;
 const int scrollSpeedMs = 100;
-const int messageFrame1 = 20;
-const int messageFrame2 = 40;
-const int messageFrame3 = 60;
+const int messageFrame1 = 15;
+const int messageFrame2 = 25;
+const int messageFrame3 = 32;
 
 
 
