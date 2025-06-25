@@ -1,10 +1,10 @@
-#include "Goblin.h"
+ï»¿#include "Goblin.h"
 
 Goblin::Goblin(int level) : Monster(level)
 {
-	name = "Goblin";
+    name = "Goblin";
     gold = RandomUtil::GetRandomInt(5, 10);
-    skills = { { "¸öÅë ¹ÚÄ¡±â" , 1.0f }, { "¸¶±¸ ÇÒÄû±â", 1.5f} };
+    skills = { { "ëª¸í†µ ë°•ì¹˜ê¸°" , 1.0f }, { "ë§ˆêµ¬ í• í€´ê¸°", 1.5f} };
 
     InitItemPool();
 }
@@ -18,18 +18,19 @@ void Goblin::InitItemPool()
     };
 }
 
-Item* Goblin::dropItem() 
+Item* Goblin::dropItem()
 {
-	return pickItem();
+    return pickItem();
 }
 
 
 int Goblin::dropGold()
 {
-	return gold;
+    return gold;
 }
 
 void Goblin::displayMonster() {
+    FnPlaySFX_MonsterGoblin(); // íš¨ê³¼ìŒ ì¬ìƒ
     vector<string> MonsterAsciiArt = {
     "       ,      ,       ",
     "      /(.-\"\"-.)\\      ",
@@ -58,4 +59,5 @@ void Goblin::displayMonster() {
 
     cout << endl;
     FnSetTextDefault();
+    FnStopSFX_MonsterGoblin(); // íš¨ê³¼ìŒ ì •ì§€
 }

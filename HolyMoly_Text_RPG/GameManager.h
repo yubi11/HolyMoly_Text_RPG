@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #ifndef	GAMEMANAGER_H
 #define GAMEMANAGER_H
 
@@ -21,14 +21,14 @@ using namespace std;
 class GameManager
 {
 private:
-	int level = 1;						// ½ÃÀÛ ·¹º§
-	const int eventProbability = 25;	// ¹èÆ² Áß ¾ÆÀÌÅÛ »ç¿ë È®·ü
-	const int experience = 50;			// °æÇèÄ¡ Áõ°¡À² ·¹º§ ¿Ã¶ó°¥¼ö·Ï ÁÙ¾îµé°Ô
-	Character* player;					// ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ
-	bool isPlayerDead = false;			// ÇÃ·¹ÀÌ¾î »ç¸Á¿©ºÎ
-	unique_ptr<Monster> monster;		// ¸ó½ºÅÍ Æ÷ÀÎÅÍ
-	int monsterCount = 0;				// ÀâÀº ¸ó½ºÅÍ ¼ö
-	vector<string> playLog;				// ÇÃ·¹ÀÌ ±â·Ï
+	int level = 1;						// ì‹œì‘ ë ˆë²¨
+	const int eventProbability = 25;	// ë°°í‹€ ì¤‘ ì•„ì´í…œ ì‚¬ìš© í™•ë¥ 
+	const int experience = 50;			// ê²½í—˜ì¹˜ ì¦ê°€ìœ¨ ë ˆë²¨ ì˜¬ë¼ê°ˆìˆ˜ë¡ ì¤„ì–´ë“¤ê²Œ
+	Character* player;					// í”Œë ˆì´ì–´ ìºë¦­í„°
+	bool isPlayerDead = false;			// í”Œë ˆì´ì–´ ì‚¬ë§ì—¬ë¶€
+	unique_ptr<Monster> monster;		// ëª¬ìŠ¤í„° í¬ì¸í„°
+	int monsterCount = 0;				// ì¡ì€ ëª¬ìŠ¤í„° ìˆ˜
+	vector<string> playLog;				// í”Œë ˆì´ ê¸°ë¡
 
 
 public:
@@ -60,6 +60,8 @@ public:
 	//Setter
 	void setLevel(int level);
 
+	// TODO : ë©”ëª¨ë¦¬ ëˆ„ìˆ˜ : ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ íŒŒê´´ ë©”ì„œë“œ
+	void destroyPlayer();
 };
 
 

@@ -1,9 +1,11 @@
-#include "ConsoleUI.h"
+﻿#include "ConsoleUI.h"
 #include <iostream>
 #include <iomanip>
 
 void ConsoleUI::gameClear()
 {
+	FnPlaySFX_GameClear(); // 효과음 재생
+
 	system("cls");
 
 	//vector<string>gameclear =

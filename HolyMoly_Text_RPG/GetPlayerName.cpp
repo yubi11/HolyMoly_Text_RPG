@@ -6,6 +6,7 @@
 void ConsoleUI::getPlayerName()
 {
 	FnPlaySFX_GetPlayerName(); // 효과음 재생
+
 	system("cls");
 	vector<string>castle =
 	{
@@ -61,6 +62,7 @@ void ConsoleUI::getPlayerName()
 			_getch();
 		}
 	}
+	
 	FnStopSFX_GetPlayerName(); // 효과음 정지
 }
 

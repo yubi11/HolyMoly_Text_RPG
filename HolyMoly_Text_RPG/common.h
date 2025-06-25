@@ -103,6 +103,13 @@ namespace COMMON
         SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
     }
 
+    // 커서를 현재 위치로 이동
+    inline void FnMoveCursorToTop()
+    {
+        COORD coord = { 0, 0 };
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    }
+
     //==========================================
     // 텍스트 효과 함수
     //==========================================
@@ -329,15 +336,11 @@ namespace COMMON
 
     //==========================================
     // sound 관련 함수
-    //========================================== 
+    //==========================================
 
-    // BGM
+    // BGM - main
     inline void FnPlayBGM()
     {// 재생
-        // 실행 파일 위치가 TextRPG_HolyMoly_UTF-8\x64\Debug 일 때,
-        // 음원은 TextRPG_HolyMoly_UTF-8\TextRPG_HolyMoly\sound\ 안에 있으므로
-        // 상대경로는 두 단계 위로 올라가서 다시 들어가야 함
-         // alias: bgm
         mciSendString(L"open \"sound\\s_BGM_HolyMoly.mp3\" type mpegvideo alias bgm", NULL, 0, NULL);
         mciSendString(L"play bgm from 0 repeat", NULL, 0, NULL);
     }
@@ -346,11 +349,15 @@ namespace COMMON
         mciSendString(L"close bgm", NULL, 0, NULL); //alias: bgm
     }
 
+    //==========================================
+    // UI 관련 효과음
+    //==========================================
+
     // 종소리
-    // getPlayerName
+    // getPlayerName - ConsoleUI::getPlayerName
     inline void FnPlaySFX_GetPlayerName()
     {// 재생
-        mciSendString(L"open \"sound\\s_getPlayerName.mp3\" type mpegvideo alias getPlayerName", NULL, 0, NULL);
+        mciSendString(L"open \"sound\\s_UI_GetPlayerName.mp3\" type mpegvideo alias getPlayerName", NULL, 0, NULL);
         mciSendString(L"play getPlayerName from 0", NULL, 0, NULL); // 효과음 한 번 재생
     }
     inline void FnStopSFX_GetPlayerName()
@@ -361,23 +368,20 @@ namespace COMMON
     // 둔탁한 소리
     // getPlayerJob
     inline void FnPlaySFX_GetPlayerJob()
-    {// 재생
-        mciSendString(L"open \"sound\\s_getPlayerJob.mp3\" type mpegvideo alias getPlayerJob", NULL, 0, NULL);
+    {// 재생 - GameManager::getPlayerJob
+        mciSendString(L"open \"sound\\s_UI_GM_GetPlayerJob.mp3\" type mpegvideo alias getPlayerJob", NULL, 0, NULL);
         mciSendString(L"play getPlayerJob from 0", NULL, 0, NULL); // 효과음 한 번 재생
     }
     inline void FnStopSFX_GetPlayerJob()
-    {// 정지
+    {// 정지 - ConsoleUI::pressEnter
         mciSendString(L"close getPlayerJob", NULL, 0, NULL);
     }
 
-
-
-
     // 숲소리
-    // playScene
+    // playScene - ConsoleUI::playScene()
     inline void FnPlaySFX_PlayScene()
     {// 재생
-        mciSendString(L"open \"sound\\s_playScene.mp3\" type mpegvideo alias sfxPlayScene", NULL, 0, NULL);
+        mciSendString(L"open \"sound\\s_UI_PlayScene.mp3\" type mpegvideo alias sfxPlayScene", NULL, 0, NULL);
         mciSendString(L"play sfxPlayScene from 0", NULL, 0, NULL); // 효과음 한 번 재생
     }
     inline void FnStopSFX_PlayScene()
@@ -385,10 +389,21 @@ namespace COMMON
         mciSendString(L"close sfxPlayScene", NULL, 0, NULL);
     }
 
-    // gameOver
+    // gameClear
+    inline void FnPlaySFX_GameClear()
+    {// 재생 - ConsoleUI::gameClear
+        mciSendString(L"open \"sound\\s_UI_GameClear.mp3\" type mpegvideo alias sfxGameClear", NULL, 0, NULL);
+        mciSendString(L"play sfxGameClear from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_GameClear()
+    {// 정지 - StartGame
+        mciSendString(L"close sfxGameClear", NULL, 0, NULL);
+    }
+
+    // gameOver- ConsoleUI::gameOver()
     inline void FnPlaySFX_GameOver()
     {// 재생
-        mciSendString(L"open \"sound\\s_playScene.mp3\" type mpegvideo alias sfxGameOver", NULL, 0, NULL);
+        mciSendString(L"open \"sound\\s_UI_GameOver.mp3\" type mpegvideo alias sfxGameOver", NULL, 0, NULL);
         mciSendString(L"play sfxGameOver from 0", NULL, 0, NULL); // 효과음 한 번 재생
     }
     inline void FnStopSFX_GameOver()
@@ -396,30 +411,168 @@ namespace COMMON
         mciSendString(L"close sfxGameOver", NULL, 0, NULL);
     }
 
-    // punchShort
-    inline void FnPlaySFX_PunchShort()
+    // punchShort - GameManager::battle
+    inline void FnPlaySFX_Battle()
     {// 재생 & 정지
-        mciSendString(L"open \"sound\\s_PunchShort.mp3\" type mpegvideo alias sfxPunchShort", NULL, 0, NULL);
+        mciSendString(L"open \"sound\\s_UI_GM_Battle.mp3\" type mpegvideo alias sfxPunchShort", NULL, 0, NULL);
         mciSendString(L"play sfxPunchShort from 0", NULL, 0, NULL); // 효과음 한 번 재생
-        //// 선택: 일정 시간 후 sfx 닫기
         Sleep(300);
         mciSendString(L"close sfxPunchShort", NULL, 0, NULL);
     }
 
+    //==========================================
+    // Monster 관련 효과음
+    //==========================================
 
+    // MonsterOrc
+    inline void FnPlaySFX_MonsterOrc()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Monster_Orc.mp3\" type mpegvideo alias sfxMonsterOrc", NULL, 0, NULL);
+        mciSendString(L"play sfxMonsterOrc from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_MonsterOrc()
+    {// 정지
+        Sleep(1500);
+        mciSendString(L"close sfxMonsterOrc", NULL, 0, NULL);
+    }
 
+    // MonsterGoblin
+    inline void FnPlaySFX_MonsterGoblin()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Monster_Goblin.mp3\" type mpegvideo alias sfxMonsterGoblin", NULL, 0, NULL);
+        mciSendString(L"play sfxMonsterGoblin from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_MonsterGoblin()
+    {// 정지
+        mciSendString(L"close sfxMonsterGoblin", NULL, 0, NULL);
+    }
 
+    // MonsterTroll
+    inline void FnPlaySFX_MonsterTroll()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Monster_Troll.mp3\" type mpegvideo alias sfxMonsterTroll", NULL, 0, NULL);
+        mciSendString(L"play sfxMonsterTroll from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_MonsterTroll()
+    {// 정지
+        Sleep(300);
+        mciSendString(L"close sfxMonsterTroll", NULL, 0, NULL);
+    }
 
-    // 효과음 - 상점 입장
+    // MonsterBoss
+    inline void FnPlaySFX_MonsterBoss()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Monster_Boss.mp3\" type mpegvideo alias sfxMonsterBoss", NULL, 0, NULL);
+        mciSendString(L"play sfxMonsterBoss from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_MonsterBoss()
+    {// 정지
+        Sleep(1500);
+        mciSendString(L"close sfxMonsterBoss", NULL, 0, NULL);
+    }
+
+    //==========================================
+    // Shop 관련 효과음
+    //========================================== 
+
+    // 상점 입장
     inline void FnPlaySFX_EnterShop()
     {// 재생
-        mciSendString(L"open \"sound\\s_EnterShop.mp3\" type mpegvideo alias sfxEnterShop", NULL, 0, NULL);
+        mciSendString(L"open \"sound\\s_Shop_EnterShop.mp3\" type mpegvideo alias sfxEnterShop", NULL, 0, NULL);
         mciSendString(L"play sfxEnterShop from 0", NULL, 0, NULL); // 효과음 한 번 재생
     }
-    // 효과음 - 상점 입장
     inline void FnStopSFX_EnterShop()
     {// 정지
         mciSendString(L"close sfxEnterShop", NULL, 0, NULL);
+    }
+
+    // 메뉴 선택
+    inline void FnPlaySFX_SelectMenu()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_SelectMenu.mp3\" type mpegvideo alias sfxSelectMenu", NULL, 0, NULL);
+        mciSendString(L"play sfxSelectMenu from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_SelectMenu()
+    {// 정지
+        mciSendString(L"close sfxSelectMenu", NULL, 0, NULL);
+    }
+
+    // Empty
+    inline void FnPlaySFX_Empty()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_Empty.mp3\" type mpegvideo alias sfxEmpty", NULL, 0, NULL);
+        mciSendString(L"play sfxEmpty from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_Empty()
+    {// 정지
+        mciSendString(L"close sfxEmpty", NULL, 0, NULL);
+    }
+
+    // Empty
+    inline void FnPlaySFX_Error()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_Error.mp3\" type mpegvideo alias sfxError", NULL, 0, NULL);
+        mciSendString(L"play sfxError from 0", NULL, 0, NULL); // 효과음 한 번 재생
+        //}
+        //inline void FnStopSFX_Error()
+        //{// 정지
+        Sleep(100);
+        mciSendString(L"close sfxError", NULL, 0, NULL);
+    }
+
+    // SelectItem
+    inline void FnPlaySFX_SelectItem()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_SelectItem.mp3\" type mpegvideo alias sfxSelectItem", NULL, 0, NULL);
+        mciSendString(L"play sfxSelectItem from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_SelectItem()
+    {// 정지
+        mciSendString(L"close sfxSelectItem", NULL, 0, NULL);
+    }
+
+    // Buy
+    inline void FnPlaySFX_Buy()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_Buy.mp3\" type mpegvideo alias sfxBuy", NULL, 0, NULL);
+        mciSendString(L"play sfxBuy from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_Buy()
+    {// 정지
+        mciSendString(L"close sfxBuy", NULL, 0, NULL);
+    }
+
+    // Sell
+    inline void FnPlaySFX_Sell()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_Sell_Coin.mp3\" type mpegvideo alias sfxSell", NULL, 0, NULL);
+        mciSendString(L"play sfxSell from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_Sell()
+    {// 정지
+        mciSendString(L"close sfxSell", NULL, 0, NULL);
+    }
+
+    // ItemHolyWater
+    inline void FnPlaySFX_ItemHolyWater()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_ItemHolyWater.mp3\" type mpegvideo alias sfxItemHolyWater", NULL, 0, NULL);
+        mciSendString(L"play sfxItemHolyWater from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_ItemHolyWater()
+    {// 정지
+        mciSendString(L"close sfxItemHolyWater", NULL, 0, NULL);
+    }
+
+    // ItemChaosOrb
+    inline void FnPlaySFX_ItemChaosOrb()
+    {// 재생
+        mciSendString(L"open \"sound\\s_Shop_ItemChaosOrb.mp3\" type mpegvideo alias ItemChaosOrb", NULL, 0, NULL);
+        mciSendString(L"play ItemChaosOrb from 0", NULL, 0, NULL); // 효과음 한 번 재생
+    }
+    inline void FnStopSFX_ItemChaosOrb()
+    {// 정지
+        mciSendString(L"close ItemChaosOrb", NULL, 0, NULL);
     }
 }
 

@@ -1,22 +1,23 @@
-#include "Troll.h"
+ï»¿#include "Troll.h"
 
-Troll::Troll (int level) : Monster(level) {
-	name = "Troll";
-	gold = RandomUtil::GetRandomInt(5, 15);
-    skills = { { "¸öÅë ¹ÚÄ¡±â" , 1.0f }, { "¹°¾î ¶â±â", 1.5f} };
+Troll::Troll(int level) : Monster(level) {
+    name = "Troll";
+    gold = RandomUtil::GetRandomInt(5, 15);
+    skills = { { "ëª¸í†µ ë°•ì¹˜ê¸°" , 1.0f }, { "ë¬¼ì–´ ëœ¯ê¸°", 1.5f} };
 }
 
-Item* Troll::dropItem()  // Ã¼·Â, °ø°İ Æ÷¼Ç
+Item* Troll::dropItem()  // ì²´ë ¥, ê³µê²© í¬ì…˜
 {
-	return pickItem(); // ÀüÃ¼ ·£´ı
+    return pickItem(); // ì „ì²´ ëœë¤
 }
 
 int Troll::dropGold()
 {
-	return gold;
+    return gold;
 }
 
 void Troll::displayMonster() {
+    FnPlaySFX_MonsterTroll(); // íš¨ê³¼ìŒ ì¬ìƒ
     vector<string> MonsterAsciiArt = {
 "       ,   .-'''=;_   ",
 "      |\\.'-~`-.`-`;/|",
@@ -59,4 +60,5 @@ void Troll::displayMonster() {
 
     cout << endl;
     FnSetTextDefault();
+    FnStopSFX_MonsterTroll(); // íš¨ê³¼ìŒ ì •ì§€
 }

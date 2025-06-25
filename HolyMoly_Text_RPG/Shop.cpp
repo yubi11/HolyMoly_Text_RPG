@@ -387,7 +387,7 @@ void Shop::BuyItem(Character* player)
 		//==========================================
 		PrintAsciiArt(static_cast<int>(EMenu::Buy));
 
-		// 출력 - 상점 나가기 선택지	
+		// 출력 - 상점 나가기 선택지
 		if (!mIsSpecialShop)
 		{// 일반 상점
 			FnSetTextColor(EColors::LIGHT_YELLOW);	cout << "[0] 이전으로 돌아가기\n";
@@ -400,6 +400,7 @@ void Shop::BuyItem(Character* player)
 		// 출력 - 아이템 목록
 		DisplayItems(player);
 
+		FnStopSFX_SelectMenu(); // 효과음 정지
 		//==========================================
 		// 구매 가능성 확인
 		//==========================================
@@ -414,11 +415,13 @@ void Shop::BuyItem(Character* player)
 		//==========================================
 		if (!IsEnoughGoldBuyLowestPrice(player))
 		{
+			FnPlaySFX_Empty(); // 효과음 재생
 			PrintPurchaseNotPossible(player, false);
 
 			//==========================================
 			// 회귀 - 메인 메뉴
 			//==========================================
+			FnPlaySFX_SelectMenu(); // 효과음 재생
 			isContinue = false; continue;
 		}
 
@@ -439,6 +442,7 @@ void Shop::BuyItem(Character* player)
 		}
 		else
 		{// 인벤토리가 비어 있는 경우
+			FnPlaySFX_Empty(); // 효과음 재생
 			PrintEmptyInventoryMessage();
 		}
 
@@ -479,6 +483,7 @@ void Shop::BuyItem(Character* player)
 			//==========================================
 			// 회귀 - 메인 메뉴
 			//==========================================
+			FnPlaySFX_SelectMenu(); // 효과음 재생
 			isContinue = false; continue;
 		}
 
@@ -499,17 +504,21 @@ void Shop::BuyItem(Character* player)
 
 		if (price > player->getGold())
 		{// 구매 불가
+			FnPlaySFX_Empty(); // 효과음 재생
 			PrintPurchaseNotPossible(player, false);
 
 			//==========================================
 			// 회귀 - 메인 메뉴
 			//==========================================
+			FnPlaySFX_SelectMenu(); // 효과음 재생
 			isContinue = false; continue;
 		}
 
 		//==========================================
 		// 구매 가능 (골드 >= 선택 아이템 가격)
-		//==========================================
+		//==========================================	
+		FnPlaySFX_SelectItem(); // 효과음 재생
+
 		// 구매 가능한 최대 수량 찾기 (현재 골드량 / 아이템 가격 = 구매 가능한 최대 수량)
 		int quantity_possibleMAX = player->getGold() / price;
 
@@ -568,6 +577,8 @@ void Shop::BuyItem(Character* player)
 		}
 		PrintBySpellingWithColor(strAsk_HowMany, EColors::YELLOW, ETypingSpeed::FAST);
 
+		FnStopSFX_SelectItem(); // 효과음 정지
+
 		// 입력
 		const string chkedStr_HowMany = CheckInputValidation(1, quantity_possibleMAX, player); // 수량은 1개 이상, 골드로 가능한 최대치 이하로 입력받는다.
 		digit_Quantity = stoi(chkedStr_HowMany);
@@ -582,12 +593,14 @@ void Shop::BuyItem(Character* player)
 		string strBuyResult = "";
 		if (!mIsSpecialShop)
 		{// 일반 상점
+			FnPlaySFX_Buy(); // 효과음 재생
 			strBuyResult = "구매 결과 : ";
 		}
 		else
 		{// 특수 상점
 			if (EItemSpecial::HolyWater == static_cast<EItemSpecial>(key_digit))
 			{
+				FnPlaySFX_ItemHolyWater(); // 효과음 재생
 				vector<string> vecAsciiArt_HolySpirit;
 				vecAsciiArt_HolySpirit = {
 
@@ -621,6 +634,7 @@ void Shop::BuyItem(Character* player)
 			}
 			else if (EItemSpecial::ChaosOrb == static_cast<EItemSpecial>(key_digit))
 			{
+				FnPlaySFX_ItemChaosOrb(); // 효과음 재생
 				vector<string> vecAsciiArt_HolySpirit;
 				vecAsciiArt_HolySpirit = {
 					"                              ___gWgg___                             ",
@@ -700,6 +714,8 @@ void Shop::BuyItem(Character* player)
 
 			// 출력 - 플레이어 인벤토리
 			DisplayPlayerInventory(player, false, true, static_cast<EItemRegular>(key_digit));
+
+			FnStopSFX_Buy(); // 효과음 정지
 		}
 		else
 		{// 특수 상점
@@ -711,6 +727,16 @@ void Shop::BuyItem(Character* player)
 
 			// 출력 - 플레이어 인벤토리
 			DisplayPlayerInventory(player, false, true, static_cast<EItemSpecial>(key_digit));
+
+
+			if (EItemSpecial::HolyWater == static_cast<EItemSpecial>(key_digit))
+			{
+				FnStopSFX_ItemHolyWater(); // 효과음 정지
+			}
+			else if (EItemSpecial::ChaosOrb == static_cast<EItemSpecial>(key_digit))
+			{
+				FnStopSFX_ItemChaosOrb(); // 효과음 정지
+			}
 		}
 
 		//==========================================
@@ -718,11 +744,13 @@ void Shop::BuyItem(Character* player)
 		//==========================================
 		if (!IsEnoughGoldBuyLowestPrice(player))
 		{// 구매 불가
+			FnPlaySFX_Empty(); // 효과음 재생
 			PrintPurchaseNotPossible(player, true);
 
 			//==========================================
 			// 회귀 - 메인 메뉴
 			//==========================================
+			FnPlaySFX_SelectMenu(); // 효과음 재생
 			isContinue = false; continue;
 		}
 
@@ -771,6 +799,8 @@ void Shop::SellItem(Character* player)
 		//==========================================
 		PrintAsciiArt(static_cast<int>(EMenu::Sell));
 
+		FnStopSFX_SelectMenu(); // 효과음 정지
+
 		// 출력 - 상점 나가기 선택지
 		if (!mIsSpecialShop)
 		{// 일반 상점
@@ -786,11 +816,13 @@ void Shop::SellItem(Character* player)
 		//==========================================
 		if (player->getInventory().empty())
 		{
+			FnPlaySFX_Empty(); // 효과음 재생
 			PrintSaleNotPossible(player, false);
 
 			//==========================================
 			// 회귀 - 메인 메뉴
 			//==========================================
+			FnPlaySFX_SelectMenu(); // 효과음 재생
 			isContinue = false; continue;
 		}
 
@@ -846,7 +878,12 @@ void Shop::SellItem(Character* player)
 			//==========================================
 			// 회귀 - 메인 메뉴
 			//==========================================
+			FnPlaySFX_SelectMenu(); // 효과음 재생
 			isContinue = false; continue;
+		}
+		else
+		{
+			FnPlaySFX_SelectItem(); // 효과음 재생
 		}
 
 		//==========================================
@@ -877,6 +914,7 @@ void Shop::SellItem(Character* player)
 				strAsk_SellReally = "선택ㅎŁ ㅇr○l템은 현재 1개뿐인 ㅇr○l템입LI⊂ト. 정말로 판□Й㈛んı겠습LI까?\n";
 			}
 			PrintBySpellingWithColor(strAsk_SellReally, EColors::LIGHT_RED, ETypingSpeed::FAST);
+			FnStopSFX_SelectItem(); // 효과음 정지
 
 			if (!IsYes(player))
 			{
@@ -930,6 +968,8 @@ void Shop::SellItem(Character* player)
 		//==========================================
 		// 판매 로직 진행
 		//==========================================
+		FnPlaySFX_Sell(); // 효과음 재생
+
 		// 매입가 계산 : 1개 단위 매입가에 판매할 아이템 수량이 곱해진다.
 		salePrice *= digit_Quantity;
 
@@ -993,11 +1033,14 @@ void Shop::SellItem(Character* player)
 		//==========================================
 		if (player->getInventory().empty())
 		{// 판매 불가
+			FnStopSFX_Sell(); // 효과음 정지
+			FnPlaySFX_Empty(); // 효과음 재생
 			PrintSaleNotPossible(player, true);
 
 			//==========================================
 			// 회귀 - 메인 메뉴
 			//==========================================
+			FnPlaySFX_SelectMenu(); // 효과음 재생
 			isContinue = false; continue;
 		}
 
@@ -1016,6 +1059,8 @@ void Shop::SellItem(Character* player)
 
 		// 출력 - 플레이어 소지 금액
 		PrintPlayerGold(player, true);
+
+		FnStopSFX_Sell(); // 효과음 정지
 
 		// 선택 - Yes/No
 		string strAsk_More = "";
@@ -1249,6 +1294,8 @@ void Shop::PrintEmptyInventoryMessage()
 		str = "인벤토己lㄱr ㉥ㅣøł있습LI⊂ト.\nㅇr○l템을 구□Й㈛øㅕ 인벤토己l를 채워보パㅔ요.\n";
 	}
 	PrintBySpellingWithColor(str, EColors::LIGHT_RED, ETypingSpeed::FAST);
+
+	FnStopSFX_Empty(); // 효과음 정지
 }//END-void Shop::PrintEmptyInventoryMessage
 
 void Shop::PrintPurchaseNotPossible(Character* player, bool _isAdditional)
@@ -1288,6 +1335,8 @@ void Shop::PrintPurchaseNotPossible(Character* player, bool _isAdditional)
 		PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 	}
 
+	FnStopSFX_Empty(); // 효과음 정지
+
 	// 입력 & 유효성 검사 (로직상 반환값 무시 가능)
 	const string chkedStr = CheckInputValidation(0, 0, player);
 }//END-void Shop::PurchaseNotPossible
@@ -1325,6 +1374,8 @@ void Shop::PrintSaleNotPossible(Character* player, bool _isAdditional)
 		const string strAsk = "○l전 메뉴로 돌ㅇrㄱr려면 숫ㅈΓ 0번을 선택㈛パㅔ요.\n";
 		PrintBySpellingWithColor(strAsk, EColors::YELLOW, ETypingSpeed::FAST);
 	}
+
+	FnStopSFX_Empty(); // 효과음 정지
 
 	// 입력 & 유효성 검사 (로직상 반환값 무시 가능)
 	const string chkedStr = CheckInputValidation(0, 0, player);
@@ -1384,6 +1435,8 @@ bool Shop::IsYes(Character* player)
 		break;
 	}
 
+	FnPlaySFX_SelectMenu(); // 메뉴 선택 사운드 재생
+
 	return returnValue;
 }//END-bool Shop::IsYes
 
@@ -1405,6 +1458,8 @@ void Shop::MainMenu(Character* player)
 		// 출력 - 아스키아트(MainMenu)
 		//==========================================
 		PrintAsciiArt(static_cast<int>(EMenu::Main));
+
+		FnStopSFX_SelectMenu(); // 효과음 정지
 
 		//==========================================
 		// 입력(선택값) - 구매 or 판매
@@ -1440,6 +1495,7 @@ void Shop::MainMenu(Character* player)
 		// 입력
 		const string chkedStr = CheckInputValidation(static_cast<int>(EMenu::Buy), static_cast<int>(EMenu::Exit), player);
 		const EMenu result = static_cast<EMenu>(stoi(chkedStr));
+		FnPlaySFX_SelectMenu(); // 메뉴 선택 사운드 재생
 
 		mIsFirstEntry = false; // 첫 진입 여부 초기화 (false로 설정)
 
@@ -1502,6 +1558,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 
 		if (strTmp.empty())
 		{
+			FnPlaySFX_Error(); // 오류 사운드 재생
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
 			{// 일반 상점
@@ -1516,6 +1573,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		}
 		if (strTmp.find(' ') != std::string::npos)
 		{
+			FnPlaySFX_Error(); // 오류 사운드 재생
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
 			{// 일반 상점
@@ -1593,6 +1651,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		}
 		catch (const std::invalid_argument& e)
 		{// stoi : 숫자가 아닌 문자열 입력 시
+			FnPlaySFX_Error(); // 오류 사운드 재생
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
 			{// 일반 상점
@@ -1607,6 +1666,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		}
 		catch (const std::out_of_range& e)
 		{// stoi : 입력 숫자가 int 범위를 초과할 경우
+			FnPlaySFX_Error(); // 오류 사운드 재생
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
 			{// 일반 상점
@@ -1621,6 +1681,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		}
 		if (!isOk)
 		{// 입력값이 숫자여도 유효한 값이 아닌 경우
+			FnPlaySFX_Error(); // 오류 사운드 재생
 			FnSetTextColor(EColors::LIGHT_RED);
 			if (!mIsSpecialShop)
 			{// 일반 상점
@@ -1635,6 +1696,7 @@ string Shop::CheckInputValidation(int _min, int _max, Character* player, bool _i
 		}
 	}
 	cout << endl;
+
 	return returnValue;
 }//END-string Shop::CheckInputValidation
 

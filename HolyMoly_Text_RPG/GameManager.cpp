@@ -144,7 +144,7 @@ void GameManager::battle()
 		// 몬스터 생존 여부 확인
 		if (monster->getHealth() <= 0)
 		{
-			FnPlaySFX_PunchShort();	// 효과음 재생 & 정지
+			FnPlaySFX_Battle();	// 효과음 재생 & 정지
 			isPlayerDead = false;
 			break;
 		}
@@ -322,4 +322,11 @@ int GameManager::getPlayerJob()
 void GameManager::createPlayer(string name, int job)
 {
 	this->player = Character::getInstance(name, job);
+}
+
+// TODO : 메모리 누수 : 싱글톤 인스턴스 파괴 메서드
+void GameManager::destroyPlayer()
+{
+	Character::destroyInstance();
+	player = nullptr;
 }

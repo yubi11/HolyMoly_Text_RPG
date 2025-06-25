@@ -1,22 +1,23 @@
-#include "BossMonster.h"
+Ôªø#include "BossMonster.h"
 
 BossMonster::BossMonster(int level) : Monster(level) {
-	name = "BossMonster";
-	gold = RandomUtil::GetRandomInt(25, 50);
-    skills = { { "∆ƒ¿ÃæÓ ∫Í∑πΩ∫" , 2.0f }, { "≤ø∏Æ »÷µŒ∏£±‚", 1.5f}, { "≤ø∏Æ »÷µŒ∏£±‚", 1.5f} };
+    name = "BossMonster";
+    gold = RandomUtil::GetRandomInt(25, 50);
+    skills = { { "ÌååÏù¥Ïñ¥ Î∏åÎ†àÏä§" , 2.0f }, { "Íº¨Î¶¨ ÌúòÎëêÎ•¥Í∏∞", 1.5f}, { "Íº¨Î¶¨ ÌúòÎëêÎ•¥Í∏∞", 1.5f} };
 }
 
-Item* BossMonster::dropItem() 
+Item* BossMonster::dropItem()
 {
-	return pickItem(); // ¿¸√º ∑£¥˝
+    return pickItem(); // Ï†ÑÏ≤¥ ÎûúÎç§
 }
 
 int BossMonster::dropGold()
 {
-	return gold;
+    return gold;
 }
 
 void BossMonster::displayMonster() {
+    FnPlaySFX_MonsterBoss(); // Ìö®Í≥ºÏùå Ïû¨ÏÉù
     vector<string> MonsterAsciiArt = {
     "                              )      (                                ",
     "                        /+++=))    ((=+++\\                          ",
@@ -31,27 +32,28 @@ void BossMonster::displayMonster() {
     "|+/|++++++++++/\\++++++(***/\\***)++++++/\\++++++++++|/+\\ ",
     "|/ |+/\\+/\\+/\\/  \\+/\\++\\**|**|**/++/\\+/  \\/\\+/\\+/+| \\| ",
     "v  |/  V  V  V   V  \\+\\|*|**|*|/+/  V   v  V  V  \\|  v ",
-    "   v                   /*|*|**|*|*\\...              v       ",
-    "                      (**|*|**|*|**). .                     ",
-    "                     __\\*|*|**|*|*/__. .                    ",
-    "                    (vvv(VVV)(VVV)vvv). .                   ",
-    "                      ............../ /                  ",
-    "                     / ............../                   ",
-    "                     ((                                          "
+    "      v                   /*|*|**|*|*\\...              v       ",
+    "                         (**|*|**|*|**). .                     ",
+    "                        __\\*|*|**|*|*/__. .                    ",
+    "                       (vvv(VVV)(VVV)vvv). .                   ",
+    "                         ............../ /                  ",
+    "                        / ............../                   ",
+    "                        ((                                          "
     };
 
 
-	int consoleWidth = 90;
+    int consoleWidth = 90;
 
-	FnSetTextColor(EColors::RED);
-	for (auto& s : MonsterAsciiArt)
-	{
-		int s_len = s.length();
-		int padding = (consoleWidth - s_len)/2;
-		cout << setw(padding + s_len) << right << s << endl;
-		FnSleep(100);
-	}
+    FnSetTextColor(EColors::RED);
+    for (auto& s : MonsterAsciiArt)
+    {
+        int s_len = s.length();
+        int padding = (consoleWidth - s_len) / 2;
+        cout << setw(padding + s_len) << right << s << endl;
+        FnSleep(100);
+    }
 
-	cout << endl;
-	FnSetTextDefault();
+    cout << endl;
+    FnSetTextDefault();
+    FnStopSFX_MonsterBoss(); // Ìö®Í≥ºÏùå Ï†ïÏßÄ
 }

@@ -1,36 +1,36 @@
-#include "StartGame.h"
+ï»¿#include "StartGame.h"
 #include <windows.h>
 
 void StartGame(GameManager& gm)
 {
-	// °ÔÀÓ Å¸ÀÌÆ²
-	system("title È¦¸®¸ô¸® ¾îµåº¥Ã³");
+	// ê²Œì„ íƒ€ì´í‹€
+	system("title í™€ë¦¬ëª°ë¦¬ ì–´ë“œë²¤ì²˜");
 
-	// ½Ãµå ÃÊ±âÈ­
+	// ì‹œë“œ ì´ˆê¸°í™”
 	RandomUtil::Init();
 
-	// ½ÃÀÛ È­¸é
+	// ì‹œì‘ í™”ë©´
 	ConsoleUI::title();
 
-	// ÇÃ·¹ÀÌ¾î ÀÌ¸§ ¹Ş±â
+	// í”Œë ˆì´ì–´ ì´ë¦„ ë°›ê¸°
 	ConsoleUI::getPlayerName();
 	string playerName = gm.getPlayerName();
 
-	// ÇÃ·¹ÀÌ¾î Á÷¾÷ ¹Ş±â
+	// í”Œë ˆì´ì–´ ì§ì—… ë°›ê¸°
 	vector<string> job =
 	{
-		"1. Àü»ç",
-		"2. ÆÈ¶óµò",
-		"3. »óÀÎ"
+		"1. ì „ì‚¬",
+		"2. íŒ”ë¼ë”˜",
+		"3. ìƒì¸"
 	};
 	ConsoleUI::getPlayerJob(job);
 	int playerJob = gm.getPlayerJob();
 
-	// Á÷¾÷, ÀÌ¸§ Ãâ·Â
+	// ì§ì—…, ì´ë¦„ ì¶œë ¥
 	string playerDetail;
 	if (playerJob > job.size() || playerJob <= 0)
 	{
-		playerDetail = "°¡ÁöÁö ¸øÇÑ ÀÚ";
+		playerDetail = "ê°€ì§€ì§€ ëª»í•œ ì";
 	}
 	else
 	{
@@ -41,74 +41,74 @@ void StartGame(GameManager& gm)
 	cout << setfill(' ') << setw(ConsoleUI::consoleWidth) << right << playerDetail << endl;
 	FnSetTextDefault();
 
-	// ÇÃ·¹ÀÌ¾î ÀÎ½ºÅÏ½º ¹Ş¾Æ¿À±â
+	// í”Œë ˆì´ì–´ ì¸ìŠ¤í„´ìŠ¤ ë°›ì•„ì˜¤ê¸°
 	gm.createPlayer(playerName, playerJob);
 
 	Character* gamePlayer = gm.getPlayer();
 	int level = gamePlayer->getLevel();
 
-	// ÇÃ·¹ÀÌ¾î ½ºÅÈ Ãâ·Â
+	// í”Œë ˆì´ì–´ ìŠ¤íƒ¯ ì¶œë ¥
 	gamePlayer->displayStatus();
 
 	ConsoleUI::pressEnter();
 
-	// ¹èÆ²
+	// ë°°í‹€
 	while (level < 10)
 	{
-		// »õ·Î¿î ¸ó½ºÅÍ
+		// ìƒˆë¡œìš´ ëª¬ìŠ¤í„°
 		gm.generateMonster(level);
 		Monster* monster = gm.getMonster();
 
-		// ¹èÆ² ½ÃÀÛ Àü ¾À ÇÃ·¹ÀÌ
+		// ë°°í‹€ ì‹œì‘ ì „ ì”¬ í”Œë ˆì´
 		ConsoleUI::playScene();
 
-		// ¹èÆ² ½ÃÀÛ
+		// ë°°í‹€ ì‹œì‘
 		system("cls");
 		monster->displayMonster();
 		gm.battle();
 		gm.addBattleLog();
 		ConsoleUI::displayBattleResult(gm.getIsPlayerDead(), gamePlayer->getName(), monster->getName(), level);
 
-		// ÇÃ·¹ÀÌ¾î »ç¸Á È®ÀÎ
+		// í”Œë ˆì´ì–´ ì‚¬ë§ í™•ì¸
 		if (gm.getIsPlayerDead())
 		{
 			break;
 		}
 
-		// °æÇèÄ¡++ ·¹º§ ¾÷
+		// ê²½í—˜ì¹˜++ ë ˆë²¨ ì—…
 		gm.addPlayerExperience();
 		level = gamePlayer->getLevel();
 		gm.setLevel(level);
 
-		// ¸ó½ºÅÍº° °ñµå È¹µæ 
+		// ëª¬ìŠ¤í„°ë³„ ê³¨ë“œ íšë“ 
 		gm.addPlayerGold(monster->dropGold());
-		cout << monster->getName() << "¿¡°Ô " << monster->dropGold() << " °ñµå¸¦ ¾ò¾ú½À´Ï´Ù." << endl;
+		cout << monster->getName() << "ì—ê²Œ " << monster->dropGold() << " ê³¨ë“œë¥¼ ì–»ì—ˆìŠµë‹ˆë‹¤." << endl;
 
-		// ¸ó½ºÅÍ ¾ÆÀÌÅÛ µå¶ø
-		// ¼öÁ¤ °í·Á»çÇ×) 0~3¹ø ·£´ıÇÏ°Ô ¹İº¹ÇÏµµ·Ï
+		// ëª¬ìŠ¤í„° ì•„ì´í…œ ë“œë
+		// ìˆ˜ì • ê³ ë ¤ì‚¬í•­) 0~3ë²ˆ ëœë¤í•˜ê²Œ ë°˜ë³µí•˜ë„ë¡
 		int randCount = RandomUtil::GetRandomInt(0, 3);
-		for (int i = 0; i < randCount; i++) 
+		for (int i = 0; i < randCount; i++)
 		{
 			Item* item = monster->dropItem();
 			if (item != nullptr)
-			{							
-				cout << monster->getName() << "¿¡°Ô " << item->getName() << "À»(¸¦) ¾ò¾ú½À´Ï´Ù." << endl;
+			{
+				cout << monster->getName() << "ì—ê²Œ " << item->getName() << "ì„(ë¥¼) ì–»ì—ˆìŠµë‹ˆë‹¤." << endl;
 				gamePlayer->addItem(item);
 			}
-		}		
+		}
 
-		// »óÁ¡ ¹æ¹®
+		// ìƒì  ë°©ë¬¸
 		gm.visitShop();
 	}
 
 
 
-	// º¸½º ¸ó½ºÅÍ
+	// ë³´ìŠ¤ ëª¬ìŠ¤í„°
 	if (!gm.getIsPlayerDead() && level >= 10)
 	{
 		gm.generateBossMonster(level);
 		Monster* monster = gm.getMonster();
-		// ¹èÆ² ½ÃÀÛ Àü ¾À ÇÃ·¹ÀÌ
+		// ë°°í‹€ ì‹œì‘ ì „ ì”¬ í”Œë ˆì´
 		ConsoleUI::playScene();
 		system("cls");
 		monster->displayMonster();
@@ -117,21 +117,33 @@ void StartGame(GameManager& gm)
 		ConsoleUI::displayBattleResult(gm.getIsPlayerDead(), gamePlayer->getName(), monster->getName(), level);
 	}
 
-	// °ÔÀÓ Á¾·á ui Ãâ·Â
-	if (gm.getIsPlayerDead()) 
+	// ì‚¬ìš´ë“œ ì ìš©ìƒ ì¶”ê°€. ìˆœì„œ ì¤‘ìš”. ë¡œê·¸ ì¶œë ¥ ì´í›„ë¡œ íš¨ê³¼ìŒ ì •ì§€í•˜ê¸° ìœ„í•¨.
+	bool isClear = false;
+
+	// ê²Œì„ ì¢…ë£Œ ui ì¶œë ¥
+	if (gm.getIsPlayerDead())
 	{
 		ConsoleUI::pressEnter();
 		ConsoleUI::gameOver();
 	}
-	else 
+	else
 	{
 		ConsoleUI::pressEnter();
 		ConsoleUI::gameClear();
+		isClear = true;
 	}
-	// ÇÃ·¹ÀÌ ·Î±× Ãâ·Â
+	// í”Œë ˆì´ ë¡œê·¸ ì¶œë ¥
 	//gm.displayPlayLog();
 	ConsoleUI::displayPlayLog(
 		gm.getPlayLog(), gm.getMonsterCount(), gamePlayer->getLevel(), gamePlayer->getGold());
 
+	if (isClear)
+	{
+		FnStopSFX_GameClear(); // íš¨ê³¼ìŒ ì •ì§€
+	}
+	else
+	{
+		FnStopSFX_GameOver(); // íš¨ê³¼ìŒ ì •ì§€
+	}
 
 }

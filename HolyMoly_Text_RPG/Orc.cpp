@@ -1,23 +1,24 @@
-#include "Orc.h"
+﻿#include "Orc.h"
 
 Orc::Orc(int level) : Monster(level) {
-	name = "Orc Mage";
-	gold = RandomUtil::GetRandomInt(7, 15);
-    skills = { { "���� źȯ" , 1.0f }, { "ȥ�� ����", 1.5f} };
+    name = "Orc Mage";
+    gold = RandomUtil::GetRandomInt(7, 15);
+    skills = { { "마력 탄환" , 1.0f }, { "혼돈 폭발", 1.5f} };
 }
 
 Item* Orc::dropItem()
 {
-	return pickItem();
+    return pickItem();
 }
 
 
 int Orc::dropGold()
 {
-	return gold;
+    return gold;
 }
 
 void Orc::displayMonster() {
+    FnPlaySFX_MonsterOrc(); // 효과음 재생
     vector<string> MonsterAsciiArt = {
     "  ,    ,    /\\   /\\",
     "  /( /\\ )\\  _\\ \\_/ /_",
@@ -44,4 +45,5 @@ void Orc::displayMonster() {
 
     cout << endl;
     FnSetTextDefault();
+    FnStopSFX_MonsterOrc(); // 효과음 정지
 }

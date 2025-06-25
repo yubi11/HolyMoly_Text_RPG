@@ -9,5 +9,6 @@ void ConsoleUI::pressEnter()
 	cout << "Press Enter to Continue";
 	FnSetTextDefault();
 	cin.get();
+
 	FnStopSFX_GetPlayerJob(); // 효과음 정지
 }
