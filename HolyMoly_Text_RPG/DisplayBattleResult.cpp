@@ -15,7 +15,7 @@ void ConsoleUI::displayBattleResult(bool isPlayerDead, string p_name, string m_n
 	}
 	else
 	{
-		result = "축하합니다! " + m_name + "을(를) 처치하고 레벨" + to_string(level) + "을 클리어했습니다.";
+		result = m_name+"(level: " + to_string(level)+")을(를) 처치했습니다!";
 		FnSetTextColor(EColors::GREEN);
 	}
 	cout << endl << endl;

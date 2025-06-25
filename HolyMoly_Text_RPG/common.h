@@ -23,6 +23,8 @@
 
 #include <memory>
 
+#include <iomanip>  //setw
+
 using namespace std;
 
 /*
@@ -244,6 +246,7 @@ namespace COMMON
     // 플레이어와 적의 HP 상태 표시
     inline void FnPrintHpStatusBar(int _playerHp, int _playerMaxHp, int _enemyHp, int _enemyMaxHp, const string& _playerName, const string& _enemyName, int _space = 35)
     {
+        const int consoleWidth = 90;
         // (Way 2) HP 표시 방식 : 배경색, 적용하는 경우 필요함.
         //EnableANSIColors();
 
@@ -274,10 +277,14 @@ namespace COMMON
         strPlayerStatus += to_string(_playerMaxHp);                  // 플레이어의 최대 HP
         FnSetTextColor(EColors::YELLOW); cout << strPlayerStatus;
 
+        //// 수정중
         // 여백 조정
         int spaceValue = 0;
         const int MAX_SIZE_NAME = 7; // ex) string BOSS_NAME = "BossMonster"; // 11글자
-        spaceValue = (MAX_SIZE_NAME <= _enemyName.size()) ? (25 - _playerName.length()) : (35 - _playerName.length());
+        //spaceValue = (MAX_SIZE_NAME <= _enemyName.size()) ? (25 - _playerName.length()) : (35 - _playerName.length());
+        spaceValue = consoleWidth - 1
+            - 22 - to_string(_enemyHp).size() - to_string(_enemyMaxHp).size()
+            - 22 - _enemyName.size() - to_string(_playerHp).size() - to_string(_playerMaxHp).size();
         cout << string(spaceValue, ' ');
 
         // 적 상태 표시
@@ -293,6 +300,7 @@ namespace COMMON
         strEnemyStatus.clear();
         strEnemyStatus += FnGetHealthBar(_enemyHp, _enemyMaxHp);  // 적의 HP 바
         FnSetTextColor(EColors::RED); cout << strEnemyStatus;
+
 
         // (Way 2) HP 표시 방식 : 배경색
         //strEnemyStatus.clear();

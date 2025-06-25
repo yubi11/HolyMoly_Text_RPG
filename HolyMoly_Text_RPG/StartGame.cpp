@@ -99,7 +99,7 @@ void StartGame(GameManager& gm)
 
 
 	// 보스 몬스터
-	if (!gm.getIsPlayerDead() && level == 10)
+	if (!gm.getIsPlayerDead() && level >= 10)
 	{
 		gm.generateBossMonster(level);
 		Monster* monster = gm.getMonster();

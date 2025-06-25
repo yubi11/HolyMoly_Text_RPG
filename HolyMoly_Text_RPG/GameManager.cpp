@@ -148,8 +148,7 @@ void GameManager::battle()
 			break;
 		}
 
-		//몬스터가 플레이어 공격
-		player->takeDamage(monster->getAttack());
+
 
 		// 공격 메시지
 		string skill = monster->getSkill();
@@ -162,16 +161,12 @@ void GameManager::battle()
 		cout << setfill(' ') << right << "!!!" << endl;
 		FnSetTextDefault();
 
-		// 받은 피해 메시지
-		battleLog = playerName + "이(가) " + to_string(monster->getAttack()) + "의 피해를 입었습니다.";
-		cout << battleLog << endl;
+		//몬스터가 플레이어 공격
+		player->takeDamage(monster->getDamage());
 
-		// 플레이어 생존 여부 확인
-		if (player->getHealth() <= 0)
-		{
-			isPlayerDead = true;
-			break;
-		}
+		// 받은 피해 메시지
+		battleLog = playerName + "이(가) " + to_string(monster->getDamage()) + "의 피해를 입었습니다.";
+		cout << battleLog << endl;
 
 		// HP 상태 표시
 		FnPrintHpStatusBar(player->getHealth(), PLAYER_MAX_HP, monster->getHealth(), MONSTER_MAX_HP, playerName, monsterName);
@@ -181,6 +176,13 @@ void GameManager::battle()
 		cout << RandomUtil::fillSides("", consoleWidth, '-') << endl;
 		FnSetTextDefault();
 		FnSleep(300);
+
+		// 플레이어 생존 여부 확인
+		if (player->getHealth() <= 0)
+		{
+			isPlayerDead = true;
+			break;
+		}
 
 		// 아이템 랜덤 사용 
 		int randNum = RandomUtil::GetRandomInt(1, 100);	// 아이템 사용 확률
