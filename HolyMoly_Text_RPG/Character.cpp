@@ -80,7 +80,7 @@ void Character::displayStatus() {
 void Character::levelUp() {
     if (experience >= 100 && level < 10) {
         level++;
-        maxHealth += level * 10;
+        maxHealth += level * 8;
         attack += level * 2;
         health = maxHealth;
         experience -= 100;
@@ -176,7 +176,9 @@ void Character::setMaxHealth(int mh) { maxHealth = mh; }
 void Character::addExperience(int exp) {
     experience += exp;
     cout << exp << " °æÇèÄ¡¸¦ È¹µæÇß½À´Ï´Ù!" << endl;
-    if (experience >= 100) {
-        levelUp();
+    while (experience < 100) {
+        if (experience >= 100) {
+            levelUp();
+        }
     }
 }
