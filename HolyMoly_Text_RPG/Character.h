@@ -70,14 +70,6 @@ public:
     void addItem(Item* item, int quantity = 1);
     void removeItem(const string&, int quantity = 1);
     void takeDamage(int damage);
-
-
-    // TODO : 메모리 누수 : 싱글톤 인스턴스 파괴 메서드
-    static void destroyInstance()
-    {
-        delete instance;
-        instance = nullptr;
-    }
 };
 
 #endif
