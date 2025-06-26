@@ -134,6 +134,10 @@ void StartGame(GameManager& gm)
 	}
 	// 플레이 로그 출력
 	//gm.displayPlayLog();
+	FnSetTextColor(EColors::YELLOW);
+	cout << endl << endl;
+	cout << setfill(' ') << setw((ConsoleUI::consoleWidth - playerDetail.size()) / 2 + playerDetail.size()) << playerDetail << endl;
+	FnSetTextDefault();
 	ConsoleUI::displayPlayLog(
 		gm.getPlayLog(), gm.getMonsterCount(), gamePlayer->getLevel(), gamePlayer->getGold());
 
