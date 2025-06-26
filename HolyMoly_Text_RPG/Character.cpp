@@ -29,7 +29,7 @@ experience(0), gold(0) {
         attack = 20;
         maxHealth = 150;
         health = 150;
-        gold = 150;
+        gold = 200;
         break;
     default:
         job = "가지지 못한 자";
@@ -88,12 +88,12 @@ void Character::displayStatus() {
 void Character::levelUp() {
     if (experience >= 100 && level < 10) {
         level++;
-        maxHealth += level * 10;
-        attack += level * 3;
-        health += level * 10;
+        maxHealth += level * 15;
+        attack += level * 4;
+        health += level * 15;
         experience -= 100;
         cout << "레벨업! 현재 레벨: " << level << endl;
-        displayStatus();
+        //displayStatus();
     }
 }
 

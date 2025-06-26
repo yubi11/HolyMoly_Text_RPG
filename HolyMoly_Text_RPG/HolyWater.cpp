@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-HolyWater::HolyWater() : name("Holy Water"), price(80), value(200) {}
+HolyWater::HolyWater() : name("Holy Water"), price(100), value(200) {}
 
 string HolyWater::getName() const { return name; }
 int HolyWater::getPrice() const { return price; }
