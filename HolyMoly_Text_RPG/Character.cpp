@@ -93,6 +93,7 @@ void Character::levelUp() {
         health += level * 10;
         experience -= 100;
         cout << "레벨업! 현재 레벨: " << level << endl;
+        displayStatus();
     }
 }
 
@@ -187,4 +188,5 @@ void Character::addExperience(int exp) {
     while (experience >= 100 && level < 10) {
         levelUp();
     }
+
 }
