@@ -13,7 +13,7 @@ void HolyWater::use(Character* character) {
     int currentAttack = character->getAttack();
     character->setHealth(currentHealth + value);
     character->setAttack(currentAttack + (value/5));
-    cout << character->getName() << "이(가) " << name << "을(를) 사용하여 축복을 받았습니다.(체력: " << value <<", 공격력: " << value/5 << " 상승)" << endl;
+    cout << character->getName() << "이(가) " << name << "을(를) 사용하여 축복을 받았습니다.(체력: " << value <<", 공격력: " << value/5 << "상승" << endl;
 }
 
 void HolyWater::display() const {
