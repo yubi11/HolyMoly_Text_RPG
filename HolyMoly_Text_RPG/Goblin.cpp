@@ -3,7 +3,7 @@
 Goblin::Goblin(int level) : Monster(level)
 {
     name = "Goblin";
-    gold = RandomUtil::GetRandomInt(5, 10);
+    gold = RandomUtil::GetRandomInt(10, 20);
     skills = { { "몸통 박치기" , 1.0f }, { "마구 할퀴기", 1.5f} };
 
     InitItemPool();

@@ -2,7 +2,7 @@
 
 Orc::Orc(int level) : Monster(level) {
     name = "Orc Mage";
-    gold = RandomUtil::GetRandomInt(7, 15);
+    gold = RandomUtil::GetRandomInt(15, 30);
     skills = { { "마력 탄환" , 1.0f }, { "혼돈 폭발", 1.5f} };
 }
 

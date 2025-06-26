@@ -2,7 +2,7 @@
 
 Troll::Troll(int level) : Monster(level) {
     name = "Troll";
-    gold = RandomUtil::GetRandomInt(5, 15);
+    gold = RandomUtil::GetRandomInt(10, 30);
     skills = { { "몸통 박치기" , 1.0f }, { "물어 뜯기", 1.5f} };
 }
 

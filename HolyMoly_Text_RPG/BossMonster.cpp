@@ -2,7 +2,7 @@
 
 BossMonster::BossMonster(int level) : Monster(level) {
     name = "BossMonster";
-    gold = RandomUtil::GetRandomInt(25, 50);
+    gold = RandomUtil::GetRandomInt(50, 200);
     skills = { { "파이어 브레스" , 2.0f }, { "꼬리 휘두르기", 1.5f}, { "꼬리 휘두르기", 1.5f} };
 
     health *= power;
