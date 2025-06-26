@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-rottenMeat::rottenMeat() : name("rotten Meat"), price(5), value(10) {}
+rottenMeat::rottenMeat() : name("rotten Meat"), price(5), value(20) {}
 
 string rottenMeat::getName() const { return name; }
 int rottenMeat::getPrice() const { return price; }

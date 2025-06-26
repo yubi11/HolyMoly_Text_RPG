@@ -4,15 +4,15 @@
 #include "RandomUtil.h"
 using namespace std;
 
-ChaosOrb::ChaosOrb() : name("Chaos Orb"), price(50), value(0) {}
+ChaosOrb::ChaosOrb() : name("Chaos Orb"), price(44), value(0) {}
 
 string ChaosOrb::getName() const { return name; }
 int ChaosOrb::getPrice() const { return price; }
 int ChaosOrb::getItemValue() const { return value; }
 void ChaosOrb::use(Character* character) {
-    int MaxHealth = RandomUtil::GetRandomInt(10, 400);
-    int Health = RandomUtil::GetRandomInt(1, 400);
-    int Attack = RandomUtil::GetRandomInt(1, 100);
+    int MaxHealth = RandomUtil::GetRandomInt(10, 1000);
+    int Health = MaxHealth;
+    int Attack = RandomUtil::GetRandomInt(10, 100);
     int Gold = RandomUtil::GetRandomInt(0, 300);
     //int Level = RandomUtil::GetRandomInt(1, 9);
     character->setMaxHealth(MaxHealth);
