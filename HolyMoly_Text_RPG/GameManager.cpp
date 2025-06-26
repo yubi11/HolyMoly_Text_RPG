@@ -137,7 +137,6 @@ void GameManager::battle()
 		{
 			int randIdx = RandomUtil::GetRandomInt(0, playerInventory.size() - 1);	// 사용할 아이템 인덱스 
 			player->useItem(next(playerInventory.begin(), randIdx)->first);
-			cout << endl;
 		}
 
 		string battleLog;
