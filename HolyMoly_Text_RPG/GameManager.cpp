@@ -118,6 +118,27 @@ void GameManager::battle()
 
 	while (1)
 	{
+		// 아이템 랜덤 사용 
+		int randNum = RandomUtil::GetRandomInt(1, 100);	// 아이템 사용 확률
+
+		map<string, pair<Item*, int>> playerInventory = player->getInventory();
+
+		// 플레이어 체력이 1/3이하로 떨어지면 아이템 사용 확률 두배로 올림
+		int eventNum = eventProbability;
+		if (player->getHealth() <= player->getMaxHealth() / 3)
+		{
+			FnSetTextColor(EColors::DARK_GRAY);
+			cout << playerName + "의 생존 본능이 깨어납니다. 아이템을 쓸지 망설입니다." << endl;
+			FnSetTextDefault();
+			eventNum *= 2;
+		}
+
+		if (playerInventory.size() > 0 && randNum < eventNum)
+		{
+			int randIdx = RandomUtil::GetRandomInt(0, playerInventory.size() - 1);	// 사용할 아이템 인덱스 
+			player->useItem(next(playerInventory.begin(), randIdx)->first);
+		}
+
 		string battleLog;
 		//플레이어가 몬스터 공격
 		monster->takeDamage(player->getAttack());
@@ -183,26 +204,7 @@ void GameManager::battle()
 			break;
 		}
 
-		// 아이템 랜덤 사용 
-		int randNum = RandomUtil::GetRandomInt(1, 100);	// 아이템 사용 확률
 
-		map<string, pair<Item*, int>> playerInventory = player->getInventory();
-
-		// 플레이어 체력이 1/3이하로 떨어지면 아이템 사용 확률 두배로 올림
-		int eventNum = eventProbability;
-		if (player->getHealth() <= player->getMaxHealth() / 3)
-		{
-			FnSetTextColor(EColors::DARK_GRAY);
-			cout << playerName + "의 생존 본능이 깨어납니다. 아이템을 쓸지 망설입니다." << endl;
-			FnSetTextDefault();
-			eventNum *= 2;
-		}
-
-		if (playerInventory.size() > 0 && randNum < eventNum)
-		{
-			int randIdx = RandomUtil::GetRandomInt(0, playerInventory.size() - 1);	// 사용할 아이템 인덱스 
-			player->useItem(next(playerInventory.begin(), randIdx)->first);
-		}
 	}
 }
 // 플레이어 경험치 추가
