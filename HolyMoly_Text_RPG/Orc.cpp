@@ -1,4 +1,4 @@
-#include "Orc.h"
+﻿#include "Orc.h"
 
 Orc::Orc(int level) : Monster(level) {
     name = "Orc Mage";
