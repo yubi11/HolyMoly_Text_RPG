@@ -84,6 +84,9 @@ void StartGame(GameManager& gm)
 		gm.addPlayerGold(monster->dropGold());
 		cout << monster->getName() << "에게 " << monster->dropGold() << " 골드를 얻었습니다." << endl;
 
+		// 현재 플레이어 스탯 출력
+		gamePlayer->displayStatus();
+
 		// 몬스터 아이템 드랍
 		// 수정 고려사항) 0~3번 랜덤하게 반복하도록
 		int randCount = RandomUtil::GetRandomInt(0, 3);
