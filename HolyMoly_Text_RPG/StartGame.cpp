@@ -82,7 +82,7 @@ void StartGame(GameManager& gm)
 
 		// 몬스터별 골드 획득 
 		gm.addPlayerGold(monster->dropGold());
-		cout << monster->getName() << "에게 " << monster->dropGold() << " 골드를 얻었습니다." << endl;
+		cout << endl << monster->getName() << "에게 " << monster->dropGold() << " 골드를 얻었습니다." << endl;
 
 		// 현재 플레이어 스탯 출력
 		gamePlayer->displayStatus();
