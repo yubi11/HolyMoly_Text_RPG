@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
@@ -11,7 +11,7 @@ using namespace std;
 
 class Character {
 private:
-    static Character* instance; // ì‹±ê¸€í†¤ì„ ìœ„í•œ ìºë¦­í„° ê°ì±„ ì¸ìŠ¤í„´ìŠ¤
+    static Character* instance; // ½Ì±ÛÅæÀ» À§ÇÑ Ä³¸¯ÅÍ °´Ã¤ ÀÎ½ºÅÏ½º
     string name;
     string job;
     int level;
@@ -24,30 +24,31 @@ private:
 
 
 
-    map<string, pair<Item*, int>> inventory; //ì•„ì´í…œì˜ ì´ë¦„(string)ì„ í‚¤ ê°’ìœ¼ë¡œ ë°›ê³  <ì•„ì´í…œ ê°ì²´ì˜ í¬ì¸í„°, ìˆ˜ëŸ‰(int)>ë¥¼ ê°–ëŠ” ë§µì„ ì¸ë²¤í† ë¦¬ë¡œ ì‚¬ìš©.
+    map<string, pair<Item*, int>> inventory; //¾ÆÀÌÅÛÀÇ ÀÌ¸§(string)À» Å° °ªÀ¸·Î ¹Ş°í <¾ÆÀÌÅÛ °´Ã¼ÀÇ Æ÷ÀÎÅÍ, ¼ö·®(int)>¸¦ °®´Â ¸ÊÀ» ÀÎº¥Åä¸®·Î »ç¿ë.
 
 
 
-    // Item ê°ì²´ë¥¼ ì‚¬ìš©í•˜ëŠ” í•¨ìˆ˜
+    // Item °´Ã¼¸¦ »ç¿ëÇÏ´Â ÇÔ¼ö
     void useItemObject(Item* item);
 
     Character(string name, int jobNum);
     ~Character();
-    // ë³µì‚¬ ìƒì„±ìì™€ ëŒ€ì… ì—°ì‚°ìë¥¼ ì‚­ì œí•˜ì—¬ ë³µì‚¬ ë°©ì§€ => ì‹±ê¸€í†¤ ë””ìì¸íŒ¨í„´ ì‚¬ìš©
-    Character(const Character&) = delete; //ë³µì‚¬ ê¸ˆì§€
-    Character& operator=(const Character&) = delete; // ëŒ€ì… ê¸ˆì§€
+    // º¹»ç »ı¼ºÀÚ¿Í ´ëÀÔ ¿¬»êÀÚ¸¦ »èÁ¦ÇÏ¿© º¹»ç ¹æÁö => ½Ì±ÛÅæ µğÀÚÀÎÆĞÅÏ »ç¿ë
+    Character(const Character&) = delete; //º¹»ç ±İÁö
+    Character& operator=(const Character&) = delete; // ´ëÀÔ ±İÁö
 
 public:
-    //ì •ì  ë©”ì„œë“œ: ìœ ì¼í•œ ìºë¦­í„° ì¸ìŠ¤í„´ìŠ¤ ë°˜í™˜ => ì‹±ê¸€í†¤ì— ë”°ë¼ ìºë¦­í„° ê°ì²´ëŠ” ë°˜ë“œì‹œ í•˜ë‚˜ë§Œ ì¡´ì¬í•¨.
+    //Á¤Àû ¸Ş¼­µå: À¯ÀÏÇÑ Ä³¸¯ÅÍ ÀÎ½ºÅÏ½º ¹İÈ¯ => ½Ì±ÛÅæ¿¡ µû¶ó Ä³¸¯ÅÍ °´Ã¼´Â ¹İµå½Ã ÇÏ³ª¸¸ Á¸ÀçÇÔ.
     static Character* getInstance(string name = "", int jobNum = 1);
     static string getInstanceName();
+    static void destroyInstance();
 
     void displayStatus();
     void levelUp();
     void useItem(const string& item, int quantity = 1);
     void visitShop();
 
-    // Getter í•¨ìˆ˜
+    // Getter ÇÔ¼ö
     string getName() const;
     int getLevel() const;
     int getHealth() const;
@@ -59,7 +60,7 @@ public:
     //vector<Item>& getInventory();
     map<string, pair<Item*, int>>& getInventory();
 
-    // Setter í•¨ìˆ˜
+    // Setter ÇÔ¼ö
     void setHealth(int h);
     void setMaxHealth(int mh);
     void setAttack(int a);
@@ -71,7 +72,7 @@ public:
     void takeDamage(int damage);
 
 
-    // TODO : ë©”ëª¨ë¦¬ ëˆ„ìˆ˜ : ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ íŒŒê´´ ë©”ì„œë“œ
+    // TODO : ¸Ş¸ğ¸® ´©¼ö : ½Ì±ÛÅæ ÀÎ½ºÅÏ½º ÆÄ±« ¸Ş¼­µå
     static void destroyInstance()
     {
         delete instance;

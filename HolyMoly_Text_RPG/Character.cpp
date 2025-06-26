@@ -51,6 +51,14 @@ Character* Character::getInstance(string name, int jobNum) {
     }
     return instance;
 }
+
+void Character::destroyInstance() {
+    if (instance) {
+        delete instance;
+        instance = nullptr;
+    }
+}
+
 Character::~Character() {
     for (auto& item : inventory) {
         delete item.second.first;
